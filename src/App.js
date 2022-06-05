@@ -1,9 +1,10 @@
 import './App.css';
-import { AccountCircle } from './components/icon/Icon';
+import { Header } from './components/header/Header';
 
 function App() {
   return (
     <div className="App">
+      <Header />
     </div>
   );
 }
