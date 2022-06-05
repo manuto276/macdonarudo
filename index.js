@@ -6,7 +6,7 @@ const host = 'localhost'
 
 app.get('/',(req,res) => {
     console.log(`GET from ${req.ip}`);
-    res.send('Welcome to Mac Donarudo');
+    res.send(`Welcome to Mac Donarudo.`);
 });
 
 app.listen(port, host, () => {
