@@ -1,6 +1,5 @@
 import './Home.css';
 
-import { useMediaQuery } from 'react-responsive';
 import { Facebook, Instagram, Twitter } from "../../icon/Icon";
 
 function Home(props) {

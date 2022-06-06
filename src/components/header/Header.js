@@ -1,14 +1,12 @@
 import './Header.css';
 
-import MediaQuery from 'react-responsive'
-
 import logo from '../../resources/logo.svg';
 import { Menu, ShoppingCart, AccountCircle } from '../icon/Icon';
 
 export function Header(props) {
     return (
         <header>
-            <Menu className='DrawerIcon' color='white' />
+            <Menu className='DrawerIcon' color='white' onClick={props.onMenuClick} />
             <div className='LogoContainer'>
                 <img className='Logo' src={logo} />
             </div>
