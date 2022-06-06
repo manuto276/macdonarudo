@@ -1,0 +1,33 @@
+#Home
+h4 {
+    font-family: 'Phosphate';
+    margin-left: 4px;
+    margin-bottom: 16px;
+}
+
+#Home
+.SocialIcons {
+    display: flex;
+    flex-direction: row;
+    column-gap: 32px;
+    margin-left: 4px;
+    margin-top: 32px;
+}
+
+@media screen and (max-width: 1024px) {
+    #Home
+    .LandingTitle {
+        margin: 64px 32px;
+    }
+
+    #Home
+    .LandingImage {
+        width: 100%;
+    }
+
+    #Home
+    .LandingImage
+    img {
+        width: 100%;
+    }
+}

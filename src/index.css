@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Phosphate';
+  src: url('./fonts/PhosphatePro-Inline.otf');
+}
+
 body {
   margin: 0;
   background-color: #212121;
@@ -12,71 +17,76 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
 }
 
+h1 {
+  font-weight: 300;
+  font-size: 6.0625rem;
+  line-height: 7.375rem;
+  letter-spacing: -1.5px;
+}
+
+h2 {
+  font-weight: 300;
+  font-size: 3.8125rem;
+  line-height: 4.625rem;
+  letter-spacing: -0.5px;
+}
+
+h3 {
+  font-weight: 400;
+  font-size: 3rem;
+  line-height: 3.625px;
+}
+
+h4 {
+  font-weight: 500;
+  font-size: 2.125rem;
+  line-height: 2.625rem;
+  letter-spacing: 0.25px;
+}
+
+h5 {
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.8125px;
+}
+
+h6 {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  letter-spacing: 0.15px;
+}
+
 p {
   font-family: 'Roboto';
   margin: 0;
   padding: 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
 }
 
-@font-face {
-  font-family: 'Phosphate';
-  src: url('./fonts/PhosphatePro-Inline.otf');
+@media screen and (max-width: 800px) {
+  :root {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  :root {
+    font-size: 8px;
+  }
 }
 
 @media screen and (min-width: 800px) {
-  h1 {
-    font-family: 'Montserrat';
-    font-weight: 300;
-    font-size: 97px;
-    letter-spacing: -1.5px;
-    line-height: 118px;
+  :root {
+    font-size: 14px;
   }
+}
 
-  h2 {
-    font-family: 'Montserrat';
-    font-weight: 300;
-    font-size: 61px;
-    letter-spacing: -0.5px;
-    line-height: 74px;
-  }
-
-  h3 {
-    font-family: 'Montserrat';
-    font-weight: 400;
-    font-size: 48px;
-    letter-spacing: 0px;
-    line-height: 58px;
-  }
-
-  h4 {
-    font-family: 'Montserrat';
-    font-weight: 500;
-    font-size: 34px;
-    letter-spacing: 0.25px;
-    line-height: 42px;
-  }
-
-  h5 {
-    font-family: 'Montserrat';
-    font-weight: 400;
-    font-size: 24px;
-    letter-spacing: 0px;
-    line-height: 29px;
-  }
-  
-  h6 {
-    font-family: 'Montserrat';
-    font-weight: 500;
-    font-size: 20px;
-    letter-spacing: 0.15px;
-    line-height: 24px;
-  }
-
-  p {
-    font-family: 'Roboto';
-    font-weight: 400;
+@media screen and (min-width: 1366px) {
+  :root {
     font-size: 16px;
-    letter-spacing: 0.5px;
-    line-height: 24px;
   }
 }

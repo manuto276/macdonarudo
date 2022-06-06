@@ -1,4 +1,5 @@
 header {
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -9,7 +10,6 @@ header
     display: flex;
     flex-direction: row;
     justify-content: start;
-    flex: 1;
 }
 
 header
@@ -19,12 +19,22 @@ header
 }
 
 header
+.Tabs {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    flex-direction: row;
+    column-gap: 32px;
+}
+
+header
 .Actions {
     display: flex;
     flex-direction: row;
     column-gap: 32px;
-    justify-content: end;
-    flex: 1;
+    margin-left: auto;
 }
 
 @media screen and (max-width: 1023px) {
@@ -35,8 +45,23 @@ header
     }
 
     header
+    .DrawerIcon {
+        margin-right: 32px;
+    }
+
+    header
     .Logo {
         height: 36px;
+    }
+
+    header
+    .Tabs {
+        display: none;
+    }
+
+    header
+    .AccountIcon {
+        display: none;
     }
 }
 
@@ -48,16 +73,12 @@ header
     }
 
     header
-    .Logo {
-        height: 48px;
+    .DrawerIcon {
+        display: none;
     }
 
     header
-    .Navigation {
-        flex: auto;
-        display: flex;
-        flex-direction: row;
-        column-gap: 64px;
-        justify-content: center;
+    .Logo {
+        height: 48px;
     }
 }
