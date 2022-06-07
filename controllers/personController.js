@@ -7,13 +7,13 @@ exports.createPerson = async function (req,res){
     let order_ids = []
     let username = body.username
     let password = body.password
-    let bdate = Date.parse(body.date)
+    let bdate = Date(body.bdate)
 
     let person = new Person({
         name: name,
         role: role,
         order_ids: order_ids,
-        username: username,
+        _id: username,
         password: password,
         bdate: bdate
     })

@@ -14,7 +14,7 @@ const schema = new mongoose.Schema(
         bdate: Date,
         role: String,
         order_ids: [mongoose.Types.ObjectId],
-        username: String,
+        _id: String,
         password: String
     }
 )
