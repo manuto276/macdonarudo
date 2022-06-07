@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const personController = require('./controllers/personController');
 
 async function main() {
     await mongoose.connect('mongodb://localhost:27017/mac_donarudo_db', {useNewUrlParser: true})
@@ -10,9 +11,6 @@ async function main() {
     const port = 3000
     const host = 'localhost'
 
-    // parse application/x-www-form-urlencoded
-    app.use(bodyParser.urlencoded({ extended: false }))
-
     // parse application/json
     app.use(bodyParser.json())
 
@@ -21,10 +19,9 @@ async function main() {
         res.send(`Welcome to Mac Donarudo.`);
     });
 
-    app.post('/person/create/', (req,res) => {
-        console.log(req.body);
-        res.send(req.body)
-    })
+    app.post('/person/create/', personController.createPerson);
+    
+    app.get('/person/get/', personController.getPersons);
 
     app.listen(port, host, () => {
         console.log(`App listening on ${host}:${port}...`)
