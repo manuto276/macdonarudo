@@ -9,6 +9,12 @@ exports.createPerson = async function (req,res){
     let password = body.password
     let bdate = Date(body.bdate)
 
+    if(username === undefined || password === undefined || name === undefined || role === undefined
+      || bdate === undefined || name === undefined){
+        res.send('invalid_fields_error');
+        return;
+      }
+
     let person = new Person({
         name: name,
         role: role,
@@ -20,14 +26,26 @@ exports.createPerson = async function (req,res){
  
     // save model to database
     await person.save(function (err, person) {
-      if (err) return console.error(err);
-      console.log(person.username + " saved.");
+      if (err)
+      res.send('user_exists_error');
+      res.send(`Saved ${username}`);
     });
 
-    res.send('Ok')
+    
   }
 
 exports.getPersons = async function (req,res){
-  let persons = await Person.find()
-  res.send(persons)
+  let persons = await Person.find();
+  res.send(persons);
+}
+
+exports.deleteAllPersons = async function (req,res){
+  await Person.deleteMany();
+  res.send('Ok');
+}
+
+exports.delete = async function (req,res){
+  let username = req.params.username;
+  await Person.deleteOne({_id: username});
+  res.send(`Deleted ${username}`);
 }

@@ -23,6 +23,10 @@ async function main() {
     
     app.get('/person/get/', personController.getPersons);
 
+    app.delete('/person/deleteall/',personController.deleteAllPersons);
+
+    app.delete('/person/delete/:username', personController.delete);
+
     app.listen(port, host, () => {
         console.log(`App listening on ${host}:${port}...`)
     });
