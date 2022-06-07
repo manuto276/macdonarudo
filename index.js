@@ -1,5 +1,6 @@
 const express = require('express');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 async function main() {
     await mongoose.connect('mongodb://localhost:27017/mac_donarudo_db', {useNewUrlParser: true})
@@ -8,6 +9,12 @@ async function main() {
 
     const port = 3000
     const host = 'localhost'
+
+    // parse application/x-www-form-urlencoded
+    app.use(bodyParser.urlencoded({ extended: false }))
+
+    // parse application/json
+    app.use(bodyParser.json())
 
     app.get('/',(req,res) => {
         console.log(`GET from ${req.ip}`);
