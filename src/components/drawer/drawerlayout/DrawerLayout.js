@@ -1,29 +1,46 @@
-import React from 'react';
 import './DrawerLayout.css';
 
+import React from 'react';
+import { DrawerSection } from '../drawersection/DrawerSection';
+import { BoxLink } from '../../link/Link';
+import { useMediaQuery } from 'react-responsive';
+
 function DrawerLayout(props) {
-    let view = null;
-    let shelf = null;
-
-    React.Children.forEach(props.children, (child) => {
-        // It actually works, but it would've been way better
-        // if those elements were classes instead of function components.
-        if(child.type.name === 'DrawerView')
-            view = child;
-        if(child.type.name === 'DrawerShelf')
-            shelf = child;
-    });
-
     return (
+        useMediaQuery({minWidth: 1024}) ? props.children :
         <div className={'DrawerLayout' + (props.active ? ' Active' : '')}>
-            { shelf }
-            <div className='Slide' onClick={ props.dismiss }>
+            <div className='Shelf'>
+                <DrawerSection>
+                    <div className='DrawerHeader'>
+                        <div className='ProPic'></div>
+                        <h5>Hello there</h5>
+                        <h3>{props.user ?? 'User'}</h3>
+                    </div>
+                </DrawerSection>
+                {props.items.map((section, i1) => {
+                    return <DrawerSection key={i1}>{section.map((item, i2) => {
+                        return <BoxLink key={i2} onClick={() => {
+                            if (props.onDismiss != null)
+                                props.onDismiss();
+                            if (item.onClick != null)
+                                item.onClick();
+                        }}><div className='Button'>{item.title}</div></BoxLink>
+                    })}</DrawerSection>
+                })}
+            </div>
+            <div className='Slide' onClick={ props.active ? props.onDismiss : null }>
                 <div className='Scale' style={{pointerEvents: props.active ? 'none' : 'initial'}}>
-                    { view }
+                    {props.children}
                 </div>
             </div>
         </div>
     );
 }
 
-export { DrawerLayout };
+function DrawerView(props) {
+    return (
+        <div className={'DrawerView ' + props.className} onClick={props.onClick}>{props.children}</div>
+    );
+}
+
+export { DrawerLayout, DrawerView };

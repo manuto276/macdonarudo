@@ -9,7 +9,7 @@ h4 {
 .SocialIcons {
     display: flex;
     flex-direction: row;
-    column-gap: 32px;
+    column-gap: 16px;
     margin-left: 4px;
     margin-top: 32px;
 }

@@ -1,0 +1,22 @@
+.DrawerSection {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    padding: 16px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.DrawerSection:first-child {
+    border-top: none;
+}
+
+.DrawerSection
+.Link {
+    width: 100%;
+}
+
+.DrawerSection
+.Link
+.Box {
+    padding: 15px 24px;
+}

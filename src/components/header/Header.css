@@ -9,7 +9,7 @@ header
 .LogoContainer {
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 header
@@ -19,21 +19,21 @@ header
 }
 
 header
-.Tabs {
+.Navigation {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
 
     display: flex;
     flex-direction: row;
-    column-gap: 32px;
+    column-gap: 64px;
 }
 
 header
 .Actions {
     display: flex;
     flex-direction: row;
-    column-gap: 32px;
+    column-gap: 12px;
     margin-left: auto;
 }
 
@@ -45,8 +45,8 @@ header
     }
 
     header
-    .DrawerIcon {
-        margin-right: 32px;
+    .MenuButton {
+        margin-right: 16px;
     }
 
     header
@@ -55,12 +55,12 @@ header
     }
 
     header
-    .Tabs {
+    .Navigation {
         display: none;
     }
 
     header
-    .AccountIcon {
+    .AccountButton {
         display: none;
     }
 }
@@ -73,7 +73,7 @@ header
     }
 
     header
-    .DrawerIcon {
+    .MenuButton {
         display: none;
     }
 

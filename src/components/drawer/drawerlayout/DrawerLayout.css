@@ -22,6 +22,8 @@
 
 .DrawerLayout
 .Scale {
+    width: 100%;
+    height: 100%;
     background-color: #212121;
     transform-origin: center left;
     transition: all 250ms linear;
@@ -29,11 +31,52 @@
 
 .DrawerLayout.Active
 .Slide {
-    left: 75%;
+    left: min(75%, 420px);
 }
 
 .DrawerLayout.Active
 .Scale {
     transform: scale(0.8);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.32);
+}
+
+.DrawerLayout
+.Shelf {
+    height: 100vh;
+    width: min(75%, 420px);
+    padding-left: 32px;
+    padding-right: 32px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    opacity: 0;
+    transition: opacity 350ms linear;
+}
+
+.DrawerLayout.Active
+.Shelf {
+    opacity: 1;
+}
+
+.DrawerLayout
+.DrawerHeader {
+    display: flex;
+    flex-direction: column;
+    padding: 64px 32px 32px;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.DrawerLayout
+.DrawerHeader
+.ProPic {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 32px;
+    border-radius: 50%;
+    background-color: #424242;
+}
+
+.DrawerHeader
+h3 {
+    margin-top: 16px;
 }
