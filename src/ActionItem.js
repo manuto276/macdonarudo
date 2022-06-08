@@ -1,10 +1,8 @@
 class ActionItem {
-    icon;
     title;
     onClick;
 
-    constructor(icon, title, onClick) {
-        this.icon = icon;
+    constructor(title, onClick) {
         this.title = title;
         this.onClick = onClick;
     }

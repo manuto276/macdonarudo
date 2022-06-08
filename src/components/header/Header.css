@@ -63,6 +63,11 @@ header
     .AccountButton {
         display: none;
     }
+    
+    header
+    .PopupMenu {
+        display: none;
+    }
 }
 
 @media screen and (min-width: 1024px) {
@@ -80,5 +85,12 @@ header
     header
     .Logo {
         height: 48px;
+    }
+
+    header
+    .PopupMenu {
+        position: absolute;
+        top: 88px;
+        right: 64px;
     }
 }

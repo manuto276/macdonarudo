@@ -10,15 +10,15 @@ function App() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const navActionItems = [
-    new ActionItem(null, 'Home', () => null),
-    new ActionItem(null, 'Our menu', () => null),
-    new ActionItem(null, 'About us', () => null)
+    new ActionItem('Home', () => null),
+    new ActionItem('Our menu', () => null),
+    new ActionItem('About us', () => null)
   ];
 
-  const userActionItems = [
-    new ActionItem(null, 'My account', () => null),
-    new ActionItem(null, 'My orders', () => null),
-    new ActionItem(null, 'Log out', () => null)
+  const menuActionItems = [
+    new ActionItem('My account', () => null),
+    new ActionItem('My orders', () => null),
+    new ActionItem('Log out', () => null)
   ]; 
 
   return (
@@ -26,8 +26,8 @@ function App() {
       <DrawerLayout 
         active={isDrawerOpen} 
         onDismiss={() => setDrawerOpen(false)}
-        items={[navActionItems, userActionItems]}>
-          <Header onMenuClick={() => setDrawerOpen(true)} navItems={navActionItems} />
+        items={[navActionItems, menuActionItems]}>
+          <Header onMenuClick={() => setDrawerOpen(true)} navItems={navActionItems} menuItems={menuActionItems} />
           <Home />
       </DrawerLayout>
     </div>
