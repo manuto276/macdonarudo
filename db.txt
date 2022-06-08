@@ -1,0 +1,7 @@
+Persona
+    _id (username)
+    nome
+    bdate
+    password
+    array id ordini (se non è admin)
+    ruolo
