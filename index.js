@@ -16,7 +16,7 @@ async function main() {
 
     app.get('/',(req,res) => {
         console.log(`GET from ${req.ip}`);
-        res.send(`Welcome to Mac Donarudo.`);
+        res.send(`Welcome to Mac Donarudo. Your IP address is ${req.ip}`);
     });
 
     app.post('/person/create/', personController.createPerson);
