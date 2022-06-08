@@ -5,3 +5,9 @@ Persona
     password
     array id ordini (se non è admin)
     ruolo
+
+Ordine
+    _id
+    data
+    prezzo
+    ingredienti
