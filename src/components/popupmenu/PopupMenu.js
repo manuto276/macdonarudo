@@ -13,20 +13,13 @@ function PopupMenu(props) {
         }
     }
 
-    const resizeEvent = (e) => {
-        props.dismiss();
-        return;
-    }
-
     useEffect(() => {
         document.addEventListener('mousedown', pointerEvent);
         document.addEventListener('scroll', pointerEvent);
-        window.addEventListener('resize', resizeEvent);
     
         return () => {
             document.removeEventListener('mousedown', pointerEvent);
             document.removeEventListener('scroll', pointerEvent);
-            window.removeEventListener('resize', resizeEvent);
         }
     }, [node]);
 
@@ -37,7 +30,7 @@ function PopupMenu(props) {
             className={'PopupMenu ' + (props.active ? 'Active ' : '') + (props.className ?? '')}>
             {
                 props.items != null ? props.items.map((item, i) => {
-                    return <Link key={i} className='Button' onClick={() => {props.dismiss(); item.onClick();}}>{item.title}</Link>
+                    return <Link key={i} onClick={() => {props.dismiss(); item.onClick();}}><p>{item.title}</p></Link>
                 }) : null
             }
         </div>

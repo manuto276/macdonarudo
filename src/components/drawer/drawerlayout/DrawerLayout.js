@@ -1,14 +1,27 @@
 import './DrawerLayout.css';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { DrawerSection } from '../drawersection/DrawerSection';
 import { BoxLink } from '../../link/Link';
-import { useMediaQuery } from 'react-responsive';
 
 function DrawerLayout(props) {
+    const node = useRef();
+    
+    const resizeEvent = (e) => {
+        props.onDismiss();
+        return;
+    }
+
+    useEffect(() => {
+        window.addEventListener('resize', resizeEvent);
+    
+        return () => {
+            window.removeEventListener('resize', resizeEvent);
+        }
+    }, [node]);
+
     return (
-        useMediaQuery({minWidth: 1024}) ? props.children :
-        <div className={'DrawerLayout' + (props.active ? ' Active' : '')}>
+        <div ref={node} className={'DrawerLayout' + (props.active ? ' Active' : '')}>
             <div className='Shelf'>
                 <DrawerSection>
                     <div className='DrawerHeader'>
@@ -17,16 +30,11 @@ function DrawerLayout(props) {
                         <h3>{props.user ?? 'User'}</h3>
                     </div>
                 </DrawerSection>
-                {props.items.map((section, i1) => {
-                    return <DrawerSection key={i1}>{section.map((item, i2) => {
-                        return <BoxLink key={i2} onClick={() => {
-                            if (props.onDismiss != null)
-                                props.onDismiss();
-                            if (item.onClick != null)
-                                item.onClick();
-                        }}><div className='Button'>{item.title}</div></BoxLink>
-                    })}</DrawerSection>
-                })}
+                <DrawerSection>
+                <BoxLink to='/' onClick={props.onDismiss ?? null}><div className='Button'>Home</div></BoxLink>
+                <BoxLink to='/menu' onClick={props.onDismiss ?? null}><div className='Button'>Menu</div></BoxLink>
+                <BoxLink to='/about' onClick={props.onDismiss ?? null}><div className='Button'>About us</div></BoxLink>
+                </DrawerSection>
             </div>
             <div className='Slide' onClick={ props.active ? props.onDismiss : null }>
                 <div className='Scale' style={{pointerEvents: props.active ? 'none' : 'initial'}}>

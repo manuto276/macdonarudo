@@ -16,9 +16,9 @@ export function Header(props) {
                 <img className='Logo' src={logo} alt='Mac Donarudo' />
             </div>
             <div className='Navigation'>
-                {props.navItems.map((item, index) => {
-                    return <UnderlineLink key={index} onClick={item.onClick}><div className='Button'>{item.title}</div></UnderlineLink>
-                })}
+                <UnderlineLink to='/'><div className='Button'>Home</div></UnderlineLink>
+                <UnderlineLink to='/menu'><div className='Button'>Our menu</div></UnderlineLink>
+                <UnderlineLink to='/about'><div className='Button'>About us</div></UnderlineLink>
             </div>
             <div className='Actions'>
                 <BoxLink className='CartButton'><ShoppingCart color='white' /></BoxLink>

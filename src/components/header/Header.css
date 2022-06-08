@@ -60,13 +60,10 @@ header
     }
 
     header
-    .AccountButton {
-        display: none;
-    }
-    
-    header
     .PopupMenu {
-        display: none;
+        position: absolute;
+        top: 64px;
+        right: 32px;
     }
 }
 
