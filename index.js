@@ -9,7 +9,7 @@ async function main() {
     const app = express();
 
     const port = 3000
-    const host = 'localhost'
+    const host = '172.104.250.206'
 
     // parse application/json
     app.use(bodyParser.json())
