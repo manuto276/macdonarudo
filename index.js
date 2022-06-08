@@ -2,21 +2,22 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const personController = require('./controllers/personController');
+const path = require('path');
 
 async function main() {
-    await mongoose.connect('mongodb://localhost:27017/mac_donarudo_db', {useNewUrlParser: true})
+    //await mongoose.connect('mongodb://localhost:27017/mac_donarudo_db', {useNewUrlParser: true})
 
     const app = express();
 
     const port = 3000
-    const host = '172.104.250.206'
+    const host = 'localhost'
 
-    // parse application/json
-    app.use(bodyParser.json())
+    app.use(bodyParser.json()); // parse application/json
+    app.use(express.static(path.join(__dirname, 'build')));
 
     app.get('/',(req,res) => {
         console.log(`GET from ${req.ip}`);
-        res.send(`Welcome to Mac Donarudo. Your IP address is ${req.ip}`);
+        res.sendFile(path.join(__dirname,'build','index.html'));
     });
 
     app.post('/person/create/', personController.createPerson);
