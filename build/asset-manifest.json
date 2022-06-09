@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.24ecf9eb.css",
+    "main.js": "/static/js/main.35439b48.js",
+    "static/media/PhosphatePro-Inline.otf": "/static/media/PhosphatePro-Inline.ef894b8ab52c9c259b7b.otf",
+    "static/media/logo.svg": "/static/media/logo.de7cb336782a3966e285fa4b8de876ed.svg",
+    "index.html": "/index.html",
+    "main.24ecf9eb.css.map": "/static/css/main.24ecf9eb.css.map",
+    "main.35439b48.js.map": "/static/js/main.35439b48.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.24ecf9eb.css",
+    "static/js/main.35439b48.js"
+  ]
+}
