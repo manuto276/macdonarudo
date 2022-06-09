@@ -15,7 +15,7 @@ async function main() {
     app.use(bodyParser.json()); // parse application/json
     app.use(express.static(path.join(__dirname, 'build')));
 
-    app.get('/',(req,res) => {
+    app.get('*',(req,res) => {
         console.log(`GET from ${req.ip}`);
         res.sendFile(path.join(__dirname,'build','index.html'));
     });
