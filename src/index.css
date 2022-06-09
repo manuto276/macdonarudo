@@ -73,9 +73,19 @@ p {
   padding: 0;
   font-weight: 500;
   font-size: 14px;
-  line-height: 26px;
+  line-height: 16px;
   letter-spacing: 1.25px;
   text-transform: uppercase;
+}
+
+.Caption {
+  font-family: 'Roboto';
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.4px;
 }
 
 @media screen and (max-width: 1024px) {
@@ -100,4 +110,40 @@ p {
   :root {
     font-size: 16px;
   }
+}
+
+/* Form fields styling */
+label {
+  font-family: 'Roboto';
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 1.25px;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+input {
+  display: block;
+
+  box-sizing: border-box;
+  padding: 15px 16px;
+  border: none;
+  border-bottom: 1px solid white;
+  background: none;
+  outline: none;
+
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: white;
+}
+
+label + input {
+  margin-top: 8px;
+}
+
+label + input:not(:last-child) {
+  margin-bottom: 32px;
 }

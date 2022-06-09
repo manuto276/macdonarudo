@@ -1,7 +1,7 @@
 import './Home.css';
 
 import { Facebook, Instagram, Twitter } from "../../icon/Icon";
-import { Link } from '../../link/Link';
+import { BoxLink } from '../../link/Link';
 
 function Home(props) {
     return (
@@ -10,9 +10,9 @@ function Home(props) {
                 <h4>Mac Donarudo</h4>
                 <h1>Taste The<br/>Experience.</h1>
                 <div className='SocialIcons'>
-                    <Link><Facebook color='white' /></Link>
-                    <Link><Instagram color='white' /></Link>
-                    <Link><Twitter color='white' /></Link>
+                    <BoxLink><Facebook color='white' /></BoxLink>
+                    <BoxLink><Instagram color='white' /></BoxLink>
+                    <BoxLink><Twitter color='white' /></BoxLink>
                 </div>
             </div>
             <div className='LandingImage'>

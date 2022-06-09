@@ -31,9 +31,9 @@ function DrawerLayout(props) {
                     </div>
                 </DrawerSection>
                 <DrawerSection>
-                <BoxLink to='/' onClick={props.onDismiss ?? null}><div className='Button'>Home</div></BoxLink>
-                <BoxLink to='/menu' onClick={props.onDismiss ?? null}><div className='Button'>Menu</div></BoxLink>
-                <BoxLink to='/about' onClick={props.onDismiss ?? null}><div className='Button'>About us</div></BoxLink>
+                    <BoxLink to='/'><div className='Button'>Home</div></BoxLink>
+                    <BoxLink to='/menu'><div className='Button'>Menu</div></BoxLink>
+                    <BoxLink to='/about'><div className='Button'>About us</div></BoxLink>
                 </DrawerSection>
             </div>
             <div className='Slide' onClick={ props.active ? props.onDismiss : null }>

@@ -21,7 +21,7 @@ function PopupMenu(props) {
             document.removeEventListener('mousedown', pointerEvent);
             document.removeEventListener('scroll', pointerEvent);
         }
-    }, [node]);
+    });
 
     return (
         <div 
@@ -30,7 +30,7 @@ function PopupMenu(props) {
             className={'PopupMenu ' + (props.active ? 'Active ' : '') + (props.className ?? '')}>
             {
                 props.items != null ? props.items.map((item, i) => {
-                    return <Link key={i} onClick={() => {props.dismiss(); item.onClick();}}><p>{item.title}</p></Link>
+                    return <Link key={i} to={item.to}><p>{item.name}</p></Link>
                 }) : null
             }
         </div>

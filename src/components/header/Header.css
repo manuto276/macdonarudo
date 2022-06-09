@@ -6,6 +6,11 @@ header {
 }
 
 header
+.MenuButton {
+    margin-right: 16px;
+}
+
+header
 .LogoContainer {
     display: flex;
     flex-direction: row;
@@ -16,17 +21,6 @@ header
 .Logo {
     user-select: none;
     -webkit-user-select: none;
-}
-
-header
-.Navigation {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-
-    display: flex;
-    flex-direction: row;
-    column-gap: 64px;
 }
 
 header
@@ -45,18 +39,8 @@ header
     }
 
     header
-    .MenuButton {
-        margin-right: 16px;
-    }
-
-    header
     .Logo {
         height: 36px;
-    }
-
-    header
-    .Navigation {
-        display: none;
     }
 
     header
@@ -72,11 +56,6 @@ header
         height: 128px;
         padding-left: 64px;
         padding-right: 64px;
-    }
-
-    header
-    .MenuButton {
-        display: none;
     }
 
     header
