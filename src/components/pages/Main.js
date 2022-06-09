@@ -4,6 +4,7 @@ import { DrawerLayout } from '../drawer/drawerlayout/DrawerLayout';
 import { Footer } from '../footer/Footer';
 
 import { Header } from '../header/Header';
+import { About } from './about/About';
 import { Home } from './home/Home';
 
 function Main(props) {
@@ -15,7 +16,7 @@ function Main(props) {
                 <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='menu' element={<div>Menu</div>} />
-                    <Route path='about' element={<div>About us</div>} />
+                    <Route path='about' element={<About />} />
                 </Routes>
             <Footer />
         </DrawerLayout>

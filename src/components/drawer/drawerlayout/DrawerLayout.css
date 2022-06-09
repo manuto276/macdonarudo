@@ -27,6 +27,8 @@
     background-color: #212121;
     transform-origin: center left;
     transition: all 250ms linear;
+
+    overflow: scroll;
 }
 
 .DrawerLayout.Active
