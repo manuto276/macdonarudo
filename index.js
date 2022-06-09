@@ -5,12 +5,12 @@ const personController = require('./controllers/personController');
 const path = require('path');
 
 async function main() {
-    //await mongoose.connect('mongodb://localhost:27017/mac_donarudo_db', {useNewUrlParser: true})
+    await mongoose.connect('mongodb://localhost:27017/mac_donarudo_db', {useNewUrlParser: true})
 
     const app = express();
 
     const port = 3000
-    const host = 'localhost'
+    const host = '172.104.250.206'
 
     app.use(bodyParser.json()); // parse application/json
     app.use(express.static(path.join(__dirname, 'build')));
