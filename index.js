@@ -17,11 +17,6 @@ async function main() {
     app.use(bodyParser.json()); // parse application/json
     app.use(express.static(path.join(__dirname, 'build')));
 
-    app.get('*',(req,res) => {
-        console.log(`GET from ${req.ip}`);
-        res.sendFile(path.join(__dirname,'build','index.html'));
-    });
-
     app.post('/person/create/', personController.createPerson);
     
     app.get('/person/get/', personController.getPersons);
@@ -29,6 +24,12 @@ async function main() {
     app.delete('/person/deleteall/',personController.deleteAllPersons);
 
     app.delete('/person/delete/:username', personController.delete);
+
+    // get * must be at the bottom, otherwise every url will be served the website
+    app.get('*',(req,res) => {
+        console.log(`GET from ${req.ip}`);
+        res.sendFile(path.join(__dirname,'build','index.html'));
+    });
 
     app.listen(port, host, () => {
         console.log(`App listening on ${host}:${port}...`)
