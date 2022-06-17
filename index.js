@@ -1,39 +1,55 @@
 #!/usr/bin/env node
 
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const personController = require('./controllers/personController');
-const path = require('path');
+const dotenv = require('dotenv')
+dotenv.config({path: './.env'})
+
+const express = require('express') 
+const mongoose = require('mongoose') 
+const bodyParser = require('body-parser') 
+const path = require('path') 
+const expressSession = require('express-session')
+const passport = require('passport')
+const expressFlash = require('express-flash')
+const cookieParser = require('cookie-parser')
+const userRouter = require('./routes/userRouter')
+
+
+
+// this function is from passport-config.js
 
 async function main() {
     await mongoose.connect('mongodb://localhost:27017/mac_donarudo_db', {useNewUrlParser: true})
-
-    const app = express();
+    
+    const app = express() 
 
     const port = 3000
-    const host = '172.104.250.206'
+    const host = 'localhost'
 
-    app.use(bodyParser.json()); // parse application/json
-    app.use(express.static(path.join(__dirname, 'build')));
+    // to parse application/json
+    app.use(bodyParser.json())  
+    app.use(bodyParser.urlencoded({extended: true}))
+    app.use(cookieParser())
 
-    app.post('/person/create/', personController.createPerson);
-    
-    app.get('/person/get/', personController.getPersons);
+    app.use(express.static(path.join(__dirname, 'build'))) 
 
-    app.delete('/person/deleteall/',personController.deleteAllPersons);
+    app.use(expressSession({resave: false, saveUninitialized: false, secret: process.env.SESSION_SECRET}))
+    app.use(expressFlash())
+    // initialize passport
+    app.use(passport.initialize())
+    // initialize passport's sessions
+    app.use(passport.session())
 
-    app.delete('/person/delete/:username', personController.delete);
+    app.use('/api/', userRouter)
 
     // get * must be at the bottom, otherwise every url will be served the website
     app.get('*',(req,res) => {
-        console.log(`GET from ${req.ip}`);
-        res.sendFile(path.join(__dirname,'build','index.html'));
-    });
+        console.log(`GET from ${req.ip}`) 
+        res.sendFile(path.join(__dirname,'build','index.html')) 
+    }) 
 
     app.listen(port, host, () => {
         console.log(`App listening on ${host}:${port}...`)
-    });
+    }) 
 }
 
-main();
+main() 
