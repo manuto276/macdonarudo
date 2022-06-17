@@ -1,0 +1,40 @@
+#home {
+    position: relative;
+    display: flex;
+}
+
+#home .Social {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    margin-top: 64px;
+}
+
+@media screen and (min-width: 800px) {
+    #home {
+        padding: 64px 0;
+        flex-direction: row;
+        align-items: center;
+        overflow-x: hidden;
+    }
+    
+    #home hgroup {
+        margin-left: 64px;
+        margin-right: 32px;
+    }
+
+    #home .Hamburger {
+        margin-right: 64px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #home hgroup {
+        margin-left: 128px;
+        margin-right: 64px;
+    }
+
+    #home .Hamburger {
+        margin-right: 128px;
+    }
+}

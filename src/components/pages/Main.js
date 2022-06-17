@@ -14,7 +14,7 @@ function Main(props) {
         <DrawerLayout active={isDrawerOpen} onDismiss={() => setDrawerOpen(false)}>
             <Header onMenuClick={() => setDrawerOpen(true)} />
                 <Routes>
-                    <Route path='/' element={<Home />} />
+                    <Route path='/*' element={<Home />} />
                     <Route path='menu' element={<div>Menu</div>} />
                     <Route path='about' element={<About />} />
                 </Routes>

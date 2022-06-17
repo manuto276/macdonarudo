@@ -1,0 +1,128 @@
+.Hamburger {
+    aspect-ratio: 0.75417/1;
+    position: relative;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+@media screen and (min-width: 375px) and (max-width: 1023px) {
+    .Hamburger {
+        --initial-offset: 16px;
+        height: 420px;
+    }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1919px) {
+    .Hamburger {
+        --initial-offset: 32px;
+        height: 512px;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .Hamburger {
+        --initial-offset: 32px;
+        height: 720px;
+    }
+}
+
+.Hamburger * {
+    position: absolute;
+    animation-fill-mode: both;
+    transform-origin: center;
+}
+
+.Top {
+    height: 39%;
+    top: 0%;
+    right: 6.67%;
+
+    animation: BreadTopAnim 750ms ease-out;
+}
+
+.Egg {
+    height: 24.72%;
+    top: 26.94%;
+    right: 9.72%;
+
+    animation: EggAnim 500ms ease-out;
+}
+
+.Burger {
+    height: 27.08%;
+    top: 41.39%;
+    right: 28.33%;
+
+    animation: BurgerAnim 500ms ease-out;
+}
+
+.Salad {
+    height: 45.55%;
+    bottom: 15%;
+    right: 0%;
+
+    animation: SaladAnim 500ms ease-out;
+}
+
+.Bottom {
+    height: 29.85%;
+    bottom: 0%;
+    right: 6.67%;
+
+    animation: BreadBottomAnim 750ms ease-out;
+}
+
+@keyframes BreadTopAnim {
+    0% {
+        opacity: 0.0;
+        transform: translateY(calc(-1 * var(--initial-offset) * 2)) rotate(-5deg);
+    }
+    100% {
+        opacity: 1.0;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes BreadBottomAnim {
+    0% {
+        opacity: 0.0;
+        transform: translateY(calc(var(--initial-offset) * 2)) rotate(5deg);
+    }
+    100% {
+        opacity: 1.0;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes EggAnim {
+    0% {
+        opacity: 0.0;
+        transform: translateY(calc(-1 * var(--initial-offset)));
+    }
+    100% {
+        opacity: 1.0;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes SaladAnim {
+    0% {
+        opacity: 0.0;
+        transform: translateY(calc(var(--initial-offset)));
+    }
+    100% {
+        opacity: 1.0;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes BurgerAnim {
+    0% {
+        opacity: 0.0;
+        transform: translateY(calc(-1 * var(--initial-offset) * 0.5));
+    }
+    100% {
+        opacity: 1.0;
+        transform: translateY(0px);
+    }
+}

@@ -1,31 +1,26 @@
 import './Header.css';
+import { AccountCircle, ShoppingCart } from '../icon/Icon';
+import Logo from '../../resources/logo.svg';
+import { Link } from '../link/Link';
 
-import logo from '../../resources/logo.svg';
-import { Menu, ShoppingCart, AccountCircle } from '../icon/Icon';
-import { BoxLink, Link } from '../link/Link';
-import { PopupMenu } from '../popupmenu/PopupMenu';
-import { useState } from 'react';
-
-export function Header(props) {
-    const [isMenuVisible, setMenuVisible] = useState(false);
-
-    const defaultItems = 
-        [
-            {'name': 'My Account', 'to': '/'},
-            {'name': 'Sign in', 'to': '/login'}
-        ]
-
+function Header(props) {
     return (
         <header>
-            <BoxLink className='MenuButton' onClick={props.onMenuClick}><Menu color='white' /></BoxLink>
-            <Link className='LogoContainer' to='/'>
-                <img className='Logo' src={logo} alt='Mac Donarudo' />
+            <Link id='logo' >
+                <img src={ Logo } alt='Mc Donarudo' />
             </Link>
-            <div className='Actions'>
-                <BoxLink className='CartButton'><ShoppingCart color='white' /></BoxLink>
-                <BoxLink className='AccountButton' onClick={() => setMenuVisible(true)}><AccountCircle className='AccountIcon' color='white' /></BoxLink>
+            <ul className='Navigation'>
+                <li className='Button'>home</li>
+                <li className='Button'>menu</li>
+                <li className='Button'>about us</li>
+            </ul>
+            <div className='More'>
+                <p>1 800 675 75 75</p>
+                <ShoppingCart id='cart' />
+                <AccountCircle id='account' />
             </div>
-            <PopupMenu active={isMenuVisible} dismiss={() => setMenuVisible(false)} items={defaultItems} />
         </header>
     );
 }
+
+export { Header };

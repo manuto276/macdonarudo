@@ -1,56 +1,8 @@
 .Link {
     cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    height: fit-content;
-    text-decoration: none;
     color: inherit;
 }
 
-.Link:visited {
+.Link:visited, .Link:focus, .Link:active, .Link:hover {
     color: inherit;
-}
-
-.Link
-.Box {
-    display: flex;
-
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    padding: 4px;
-
-    transition: background 150ms linear;
-}
-
-.Link:hover
-.Box {
-    background-color: rgba(255, 255, 255, 0.04);
-}
-
-.Link
-.Underline {
-    position: relative;
-}
-
-.Link
-.Underline::before {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-
-    width: 0%;
-    height: 2px;
-    background-color: white;
-
-    transition: width 150ms linear;
-}
-
-.Link:hover
-.Underline::before {
-    width: 100%;
 }

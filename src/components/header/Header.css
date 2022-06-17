@@ -1,72 +1,79 @@
 header {
-    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    width: 100%;
+}
+
+#logo
+img {
+    height: 100%;
 }
 
 header
-.MenuButton {
-    margin-right: 16px;
-}
-
-header
-.LogoContainer {
+.Navigation {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    list-style: none;
+    margin-left: 32px;
 }
 
 header
-.Logo {
-    user-select: none;
-    -webkit-user-select: none;
+.Navigation li {
+    position: relative;
+    padding-left: 32px;
+    padding-right: 32px;
 }
 
 header
-.Actions {
-    display: flex;
-    flex-direction: row;
-    column-gap: 12px;
+.Navigation li:not(:last-child)::after {
+    position: absolute;
+    right: 0;
+    content: '';
+    width: 1px;
+    height: 16px;
+    background-color: #EFEDDA;
+}
+
+header
+.More {
     margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    column-gap: 32px;
 }
 
-@media screen and (max-width: 1023px) {
-    header {
-        height: 80px;
-        padding-left: 32px;
-        padding-right: 32px;
-    }
-
-    header
-    .Logo {
-        height: 36px;
-    }
-
-    header
-    .PopupMenu {
-        position: absolute;
-        top: 64px;
-        right: 32px;
-    }
-}
-
+/* Desktop */
 @media screen and (min-width: 1024px) {
     header {
-        height: 128px;
-        padding-left: 64px;
-        padding-right: 64px;
+        height: 96px;
+        padding: 0 32px;
     }
 
-    header
-    .Logo {
+    #logo {
+        height: 64px;
+        margin-left: 32px;
+    }
+}
+
+/* Tablet / Mobile */
+@media screen and (max-width: 1023px) {
+    header {
+        position: relative;
+        height: 64px;
+        padding: 0 20px;
+    }
+
+    #logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
         height: 48px;
     }
 
     header
-    .PopupMenu {
-        position: absolute;
-        top: 88px;
-        right: 64px;
+    .Navigation {
+        display: none;
     }
 }
