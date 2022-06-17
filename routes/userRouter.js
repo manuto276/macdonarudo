@@ -46,17 +46,21 @@ router.post('/user/', async (req,res) => {
     
 }) 
 
-router.get('/user/', async (req,res) => {
+router.get('/user/', passport.authenticate('jwt', {session: false}), async (req,res) => {
+    if(req.isUnauthenticated()){
+        res.status(401).send('Unauthorized')
+        return
+    }
     const users = await User.find();
     res.send(users);
 })
 
-router.delete('/user/deleteall/', async (req,res) => {
+router.delete('/user/deleteall/', passport.authenticate('jwt', {session: false}), async (req,res) => {
     await User.deleteMany();
     res.send('Ok');
 })
 
-router.delete('/user/:username/', async (req,res) => {
+router.delete('/user/:username/', passport.authenticate('jwt', {session: false}), async (req,res) => {
   const email = req.params.email;
   await User.deleteOne({_id: email});
   res.send(`Deleted ${email}`);
@@ -71,6 +75,11 @@ router.post('/user/login/', passport.authenticate('local', {session: false}),
         return
     }
 )
+
+router.get('/user/logout/', passport.authenticate('jwt', {session: false}), (req, res) => {
+    res.clearCookie('access_token')
+    res.send('Bye')
+})
 
 router.post('/user/authenticated/', passport.authenticate('jwt', {session: false}),
     (req, res) => {
