@@ -21,8 +21,7 @@ passport.use(new JwtStrategy(
     // this callback verifies if the JWT contains the correct credentials
     // the payload is the data content of the JWT
     async (payload, done) => {
-        console.log(payload.userId);
-        User.findById(payload.userId, (error, user) => {
+        User.findById(payload.sub, (error, user) => {
             if(error){
                 return done(error, false)
             }

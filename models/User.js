@@ -38,7 +38,27 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        date: {
+        bdate: {
+            type: Date,
+            required: true,
+            validate: {
+                validator:
+                    async function(bdate){
+                        console.log(bdate);
+                        const today = new Date(Date.now())
+                        const averageSecondsInAYear = 31557600 // 60*60*24*365.25
+                        const secondsSinceThen = (today.getTime() - bdate.getTime())/1000
+                        // you're underage bro...
+                        if(secondsSinceThen <  averageSecondsInAYear * 18){
+                            return false
+                        }
+                        // you're adult nice
+                        return true
+                    },
+                message: () => 'Underage'
+            }
+        },
+        creationDate: {
             type: Date,
             required: true,
             default: Date.now()
@@ -49,7 +69,11 @@ const userSchema = new mongoose.Schema(
             enum: ['customer', 'admin', 'cook'],
             default: 'customer'
         },
-        order_ids: [mongoose.Types.ObjectId],      
+        order_ids: {
+            type: [mongoose.Types.ObjectId],
+            default: [],
+            ref: 'Order'
+        },      
         password: {
             type: String,
             required: true

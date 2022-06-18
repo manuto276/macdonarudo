@@ -9,7 +9,7 @@ const router = Router()
 const signToken = (userId) => {
     return Jwt.sign(
         {
-            userId: userId // the payload of the Jwt will contain the userId
+            sub: userId, // the payload of the Jwt will contain the userId
         },
         process.env.JWT_SECRET, // secret key
         {expiresIn: '2d'} // expires after 2 days
@@ -20,19 +20,15 @@ router.post('/user/', async (req,res) => {
     const body = req.body
     const name = body.name
     const role = body.role
-    const order_ids = []
     const email = body.email
     const password = body.password
-    const bdate = Date(body.bdate)
-
-    // the password hashing function is in the User.js file
+    const bdate = body.bdate
     const user = new User({
         name: name,
         role: role,
-        order_ids: order_ids,
         email: email,
         password: password,
-        bdate: bdate
+        bdate: new Date(bdate.toString())
     })
  
     // save model to database

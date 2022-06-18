@@ -18,8 +18,9 @@ const userRouter = require('./routes/userRouter')
 // this function is from passport-config.js
 
 async function main() {
+    console.log(`Connecting to database ...`);
     await mongoose.connect('mongodb://localhost:27017/mac_donarudo_db', {useNewUrlParser: true})
-    
+    console.log(`Connection to database successful.`);
     const app = express() 
 
     const port = 3000
@@ -42,7 +43,7 @@ async function main() {
     app.use('/api/', userRouter)
 
     // get * must be at the bottom, otherwise every url will be served the website
-    app.get('*',(req,res) => {
+    app.get('*',(req, res, next) => {
         console.log(`GET from ${req.ip}`) 
         res.sendFile(path.join(__dirname,'build','index.html')) 
     }) 
