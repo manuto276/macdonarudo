@@ -1,15 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.24ecf9eb.css",
-    "main.js": "/static/js/main.35439b48.js",
-    "static/media/PhosphatePro-Inline.otf": "/static/media/PhosphatePro-Inline.ef894b8ab52c9c259b7b.otf",
-    "static/media/logo.svg": "/static/media/logo.de7cb336782a3966e285fa4b8de876ed.svg",
+    "main.css": "/static/css/main.62ac4234.css",
+    "main.js": "/static/js/main.d9cb8a8a.js",
+    "static/media/bread-top.png": "/static/media/bread-top.c660ac87e0473668e761.png",
+    "static/media/salad.png": "/static/media/salad.17008fff20e084545323.png",
+    "static/media/bread-bottom.png": "/static/media/bread-bottom.a49ee2e4f8622fbc394d.png",
+    "static/media/burger.png": "/static/media/burger.1a760da58462367fddd1.png",
+    "static/media/egg.png": "/static/media/egg.c13e350e8240be7011f3.png",
+    "static/media/logo.svg": "/static/media/logo.0b9d14d0965e2b0c168013ce2f520879.svg",
     "index.html": "/index.html",
-    "main.24ecf9eb.css.map": "/static/css/main.24ecf9eb.css.map",
-    "main.35439b48.js.map": "/static/js/main.35439b48.js.map"
+    "main.62ac4234.css.map": "/static/css/main.62ac4234.css.map",
+    "main.d9cb8a8a.js.map": "/static/js/main.d9cb8a8a.js.map"
   },
   "entrypoints": [
-    "static/css/main.24ecf9eb.css",
-    "static/js/main.35439b48.js"
+    "static/css/main.62ac4234.css",
+    "static/js/main.d9cb8a8a.js"
   ]
 }

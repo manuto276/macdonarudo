@@ -48,7 +48,7 @@ async function main() {
     }) 
 
     app.listen(port, host, () => {
-        console.log(`App listening on ${host}:${port}...`)
+        console.log(`App listening on http://${host}:${port}/ ...`)
     }) 
 }
 
