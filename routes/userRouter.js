@@ -32,11 +32,14 @@ router.post('/user/', async (req,res) => {
     })
  
     // save model to database
-    await user.save((err, user) => {
-      if (err)
-      res.send(err);
-      else
-      res.send(`Saved ${email}`);
+    await user.save((error, user) => {
+        if (error){
+            res.send(error);
+      }
+        else{
+            res.send(`Saved ${email}`);
+      }
+      
     });
 
     

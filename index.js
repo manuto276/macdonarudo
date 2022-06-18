@@ -12,6 +12,7 @@ const passport = require('passport')
 const expressFlash = require('express-flash')
 const cookieParser = require('cookie-parser')
 const userRouter = require('./routes/userRouter')
+const orderRouter = require('./routes/orderRouter')
 
 
 
@@ -41,6 +42,7 @@ async function main() {
     app.use(passport.session())
 
     app.use('/api/', userRouter)
+    app.use('/api/', orderRouter)
 
     // get * must be at the bottom, otherwise every url will be served the website
     app.get('*',(req, res, next) => {

@@ -10,12 +10,26 @@ router.post('/order/', passport.authenticate('jwt', {session: false}), async (re
     const body = req.body
     const totalAmount = body.totalAmount
     const clientId = req.user.id
-    const productIds = body.productIds
+    const products = body.products
 
     const order = new Order({
             totalAmount: totalAmount, 
             clientId: clientId,
-            productIds: productIds
+            products: products
         })
-    await order.save
+
+    await order.save((error, order) => {
+        if(error){
+            res.send(error)
+        }else{
+            res.send(`Saved order ${order.id}`)
+        }
+    })
 })
+
+router.get('/order/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    const orders = await Order.find({clientId: req.user.id})
+    res.send(orders)
+})
+
+module.exports = router

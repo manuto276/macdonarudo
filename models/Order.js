@@ -22,10 +22,16 @@ const orderSchema = new mongoose.Schema(
             type: mongoose.Types.ObjectId,
             required: true,
         },
-        productIds: {
-            type: {productId: mongoose.Types.ObjectId, amount: Number},
+        products: [{
+            type: {productId: {
+                type: String, // it will be ObjectId
+                required: true
+            }, amount: {
+                type: Number,
+                required: true
+            }},
             required: true
-        }
+        }]
     }
 )
 
