@@ -13,10 +13,20 @@ const orderSchema = new mongoose.Schema(
         date: {
             type: String,
             required: true,
-            default: Date.now
+            default: Date.now()
         },
         totalAmount: {
-            type: Int32Array
+            type: Number
+        },
+        clientId: {
+            type: mongoose.Types.ObjectId,
+            required: true,
+        },
+        productIds: {
+            type: {productId: mongoose.Types.ObjectId, amount: Number},
+            required: true
         }
     }
 )
+
+module.exports = mongoose.model('Order', orderSchema)
