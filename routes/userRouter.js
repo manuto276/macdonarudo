@@ -4,6 +4,7 @@ const passport = require('passport')
 const Jwt = require('jsonwebtoken')
 const localStrategyConfig = require('../auth/local-strategy')
 
+
 const router = Router()
 
 const signToken = (userId) => {
