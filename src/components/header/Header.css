@@ -1,14 +1,15 @@
 header {
     display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+header .Main {
+    display: flex;
     flex-direction: row;
     align-items: center;
 
     width: 100%;
-}
-
-#logo
-img {
-    height: 100%;
 }
 
 header
@@ -31,7 +32,7 @@ nav .Link:not(:last-child):after {
     right: 0;
     top: 0;
     content: '';
-    width: 1px;
+    width: 0.5px;
     height: 16px;
     background-color: #EFEDDA;
 }
@@ -46,34 +47,36 @@ header
 
 /* Desktop */
 @media screen and (min-width: 1024px) {
-    header {
+    header .Main {
         height: 96px;
         padding: 0 32px;
-    }
-
-    #logo {
-        height: 64px;
-        margin-left: 32px;
     }
 }
 
 /* Tablet / Mobile */
 @media screen and (max-width: 1023px) {
-    header {
+    header .Main {
         position: relative;
         height: 64px;
         padding: 0 20px;
     }
 
-    #logo {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        height: 48px;
-    }
-
     header
     .Navigation {
         display: none;
+    }
+}
+
+/* Desktop */
+@media screen and (min-width: 1024px) {
+    .Logo {
+        height: 64px;
+    }
+}
+
+/* Tablet / Mobile */
+@media screen and (max-width: 1023px) {
+    .Logo {
+        height: 48px;
     }
 }

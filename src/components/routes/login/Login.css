@@ -1,3 +1,7 @@
+.Logo {
+    height: 64px;
+}
+
 #login h2, #login p {
     text-align: center;
 }

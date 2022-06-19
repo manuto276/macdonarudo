@@ -54,6 +54,10 @@
         margin-right: 32px;
     }
 
+    #home hgroup h4 {
+        margin-bottom: 16px;
+    }
+
     #home .Hamburger {
         margin-right: 64px;
     }

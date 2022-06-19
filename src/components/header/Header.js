@@ -6,8 +6,23 @@ import { Link, SlideEffect } from '../link/Link';
 function Header(props) {
     return (
         <header>
-            <Logo />
-            <nav>
+            <div className='Main'>
+                <Logo />
+                <div className='More'>
+                    <p id='phone-number'>1 800 675 75 75</p>
+                    <Link>
+                        <SlideEffect height='24px'>
+                            <ShoppingCart id='cart' />
+                        </SlideEffect>
+                    </Link>
+                    <Link>
+                        <SlideEffect height='24px'>
+                            <AccountCircle id='account' />
+                        </SlideEffect>
+                    </Link>
+                </div>
+            </div>
+            <nav className='Navigation'>
                 <Link>
                     <SlideEffect height='16px'>
                         <p className='btn'>Home</p>
@@ -24,19 +39,6 @@ function Header(props) {
                     </SlideEffect>
                 </Link>
             </nav>
-            <div className='More'>
-                <p id='phone-number'>1 800 675 75 75</p>
-                <Link>
-                    <SlideEffect height='24px'>
-                        <ShoppingCart id='cart' />
-                    </SlideEffect>
-                </Link>
-                <Link>
-                    <SlideEffect height='24px'>
-                        <AccountCircle id='account' />
-                    </SlideEffect>
-                </Link>
-            </div>
         </header>
     );
 }
