@@ -16,7 +16,7 @@ router.post('/order/', passport.authenticate('jwt', {session: false}), async (re
     // check if products exists and if they do add the retrieved data to array and use it
     // to calculate the total amount
     for(i=0; i<productsObjs.length; i++){
-        const product = await Product.findById(productsObjs[i].id)
+        const product = await Product.findById(productsObjs[i]._id)
         if(product === null){
             valid = false
             break
@@ -31,15 +31,13 @@ router.post('/order/', passport.authenticate('jwt', {session: false}), async (re
 
     let totalAmount = 0
     for(i=0;i<products.length;i++){
-        console.log(products[i].price);
-        console.log(productsObjs[i].amount);
         totalAmount += products[i].price * productsObjs[i].amount
     }
 
     const order = new Order({
             totalAmount: totalAmount, 
             clientId: clientId,
-            products: products,
+            products: productsObjs,
             date: Date.now()
         })
 

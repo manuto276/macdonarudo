@@ -25,9 +25,10 @@ const orderSchema = new mongoose.Schema(
         },
         products: [{
             type: {
-                id: {
+                _id: {
                     type: String,
-                    required: true
+                    required: true,
+                    ref: Product
                 }, 
                 amount: {
                     type: Number,
