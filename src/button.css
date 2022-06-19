@@ -1,27 +1,39 @@
-.Button {
+button {
+    cursor: pointer;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     height: 56px;
-    border-radius: 28px;
     padding-left: 24px;
     padding-right: 24px;
+
+    border: none;
+    border-radius: 28px;
+    background-color: #EFEDDA;
+    
     transition: all 350ms ease;
 }
 
-.Button.Primary {
-    background-color: #EFEDDA;
-}
-
-.Button.Primary:hover {
+button:hover {
     background-color: #FFAB00;
 }
 
-.Button.Primary * {
+button * {
     color: #212121;
     fill: #212121;
 }
 
-.Button.Secondary:hover {
+button.Secondary {
+    background: none;
+}
+
+button.Secondary * {
+    color: #EFEDDA;
+    fill: #EFEDDA;
+}
+
+button.Secondary:hover {
     background-color: rgba(255, 255, 255, 0.04);
 }

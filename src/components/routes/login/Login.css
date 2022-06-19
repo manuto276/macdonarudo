@@ -1,5 +1,17 @@
+#login {
+    min-height: 100vh;
+}
+
 .Logo {
     height: 64px;
+}
+
+#login hgroup {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    margin-top: 32px;
+    margin-bottom: 64px;
 }
 
 #login h2, #login p {
@@ -13,16 +25,27 @@
     width: 100%;
 }
 
-#login .ButtonContainer {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    row-gap: 16px;
-    margin-top: 64px;
+#sign-in-button {
+    margin-top: 48px;
 }
 
-#login .Button {
-    width: 100%;
+@media screen and (max-width: 483px) {
+    #login {
+        padding: 64px 32px;
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .FormContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin: 0 auto;
+    }
 }
 
 @media screen and (min-width: 484px) {
@@ -30,17 +53,10 @@
         width: 100vw;
         padding-top: 64px;
         padding-bottom: 64px;
+
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    #login hgroup {
-        display: flex;
-        flex-direction: column;
-        row-gap: 16px;
-        margin-top: 32px;
-        margin-bottom: 64px;
     }
 
     .FormContainer {

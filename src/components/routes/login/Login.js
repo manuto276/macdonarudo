@@ -1,7 +1,5 @@
 import './Login.css';
 import { Logo } from '../../logo/Logo';
-import { Button } from '../../button/Button';
-import { Link } from '../../link/Link';
 
 function Login(props) {
     return (
@@ -10,20 +8,14 @@ function Login(props) {
                 <Logo />
                 <hgroup>
                     <h2>Hello Again!</h2>
-                    <p>Welcome back to McDonarudo! Please fill the form below to sign into the site.</p>
+                    <p>It's nice to have you back to McDonarudo&#174;.<br/>Please fill the form below to sign into the site.</p>
                 </hgroup>
-                <form>
+                <form id='login-form'>
                     <input type='email' placeholder='E-mail' />
                     <input type='password' placeholder='Password' />
+                    <button id='sign-in-button' type='submit' form='login-form' value='Login'><p className='btn'>Sign in</p></button>
+                    <button className='Secondary' type='submit' form='login-form' value='Login'><p className='btn'>Don't have an account? Sign up</p></button>
                 </form>
-                <div className='ButtonContainer'>
-                    <Link>
-                        <Button><p className='btn'>Sign in</p></Button>
-                    </Link>
-                    <Link>
-                        <Button type='secondary'><p className='btn'>Don't have an account? Sign up</p></Button>
-                    </Link>
-                </div>
             </div>
         </section>
     );
