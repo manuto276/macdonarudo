@@ -2,8 +2,17 @@ import './Header.css';
 import { AccountCircle, ShoppingCart } from '../icon/Icon';
 import { Logo } from '../logo/Logo'
 import { Link, SlideEffect } from '../link/Link';
+import { useEffect } from 'react';
+import axios from 'axios'
 
 function Header(props) {
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/user/authenticated').then(
+            (response) => {
+                console.log(response)
+            }
+        )
+    }, [])
     return (
         <header>
             <div className='Main'>
