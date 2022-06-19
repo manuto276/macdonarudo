@@ -23,21 +23,27 @@ function Header(props) {
                 </div>
             </div>
             <nav className='Navigation'>
-                <Link>
-                    <SlideEffect height='16px'>
-                        <p className='btn'>Home</p>
-                    </SlideEffect>
-                </Link>
-                <Link>
-                    <SlideEffect height='16px'>
-                        <p className='btn'>Menu</p>
-                    </SlideEffect>
-                </Link>
-                <Link>
-                    <SlideEffect height='16px'>
-                        <p className='btn'>About us</p>
-                    </SlideEffect>
-                </Link>
+                <div className='NavItem'>
+                    <Link>
+                        <SlideEffect height='16px'>
+                            <p className='btn'>Home</p>
+                        </SlideEffect>
+                    </Link>
+                </div>
+                <div className='NavItem'>
+                    <Link>
+                        <SlideEffect height='16px'>
+                            <p className='btn'>Menu</p>
+                        </SlideEffect>
+                    </Link>
+                </div>
+                <div className='NavItem'>
+                    <Link>
+                        <SlideEffect height='16px'>
+                            <p className='btn'>About us</p>
+                        </SlideEffect>
+                    </Link>
+                </div>
             </nav>
         </header>
     );

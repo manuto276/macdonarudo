@@ -1,4 +1,5 @@
 header {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -13,31 +14,6 @@ header .Main {
 }
 
 header
-nav {
-    display: flex;
-    flex-direction: row;
-    margin-left: 32px;
-}
-
-header
-nav .Link {
-    position: relative;
-    padding-left: 32px;
-    padding-right: 32px;
-}
-
-header
-nav .Link:not(:last-child):after {
-    position: absolute;
-    right: 0;
-    top: 0;
-    content: '';
-    width: 0.5px;
-    height: 16px;
-    background-color: #EFEDDA;
-}
-
-header
 .More {
     margin-left: auto;
     display: flex;
@@ -47,36 +23,118 @@ header
 
 /* Desktop */
 @media screen and (min-width: 1024px) {
+    header {
+        --header-hor-padding: 32px;
+    }
+
     header .Main {
         height: 96px;
-        padding: 0 32px;
+        padding: 0 var(--header-hor-padding);
+    }
+
+    .Logo {
+        height: 64px !important;
     }
 }
 
 /* Tablet / Mobile */
 @media screen and (max-width: 1023px) {
+    header {
+        --header-hor-padding: 20px;
+    }
+
     header .Main {
         position: relative;
         height: 64px;
-        padding: 0 20px;
+        padding: 0 var(--header-hor-padding);
+    }
+
+    .Logo {
+        height: 48px !important;
+    }
+}
+
+@media screen and (max-width: 799px) {
+    header
+    #phone-number {
+        display: none;
     }
 
     header
     .Navigation {
-        display: none;
+        margin-top: 16px;
+        display: flex;
+        flex-direction: row;
     }
-}
 
-/* Desktop */
-@media screen and (min-width: 1024px) {
-    .Logo {
-        height: 64px;
-    }
-}
-
-/* Tablet / Mobile */
-@media screen and (max-width: 1023px) {
-    .Logo {
+    header
+    .NavItem {
+        position: relative;
         height: 48px;
+        flex: 1;
+    }
+
+    header
+    .NavItem::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 16px;
+        width: 0%;
+        height: 2px;
+        background-color: #EFEDDA;
+        transition: all 350ms ease;
+    }
+
+    header
+    .NavItem:hover::after {
+        width: calc(100% - 32px);
+    }
+
+    header
+    .NavItem .Link {
+        height: 100%;
+        width: 100%;
+    }
+
+    header
+    .NavItem .SlideEffect * {
+        transition: none !important;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    header .Navigation {
+        position: absolute;
+        top: 50%;
+        left: calc(106px + 32px + var(--header-hor-padding)); /* 32px * 2 + 106px */
+        transform: translateY(-50%);
+
+        display: flex;
+        flex-direction: row;
+    }
+
+    header
+    .NavItem {
+        position: relative;
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+
+    header
+    .NavItem:not(:last-child):after {
+        position: absolute;
+        right: 0;
+        top: 0;
+        content: '';
+        width: 0.5px;
+        height: 16px;
+        background-color: #EFEDDA;
+    }
+
+    @media screen and (max-width: 1023px) {
+        header .Navigation {
+            left: calc(80px + 32px + var(--header-hor-padding)); /* 32px * 2 + 106px */
+        }
     }
 }
