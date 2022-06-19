@@ -2,8 +2,17 @@ import './Header.css';
 import { AccountCircle, ShoppingCart } from '../icon/Icon';
 import { Logo } from '../logo/Logo'
 import { Link, SlideEffect } from '../link/Link';
+import { useEffect } from 'react';
+import axios from 'axios'
 
 function Header(props) {
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/user/authenticated').then(
+            (response) => {
+                console.log(response)
+            }
+        )
+    }, [])
     return (
         <header>
             <Logo />
@@ -31,7 +40,7 @@ function Header(props) {
                         <ShoppingCart id='cart' />
                     </SlideEffect>
                 </Link>
-                <Link>
+                <Link to='login'>
                     <SlideEffect height='24px'>
                         <AccountCircle id='account' />
                     </SlideEffect>
