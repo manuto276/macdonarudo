@@ -1,5 +1,3 @@
-import './Logo.css';
-
 import Image from '../../resources/logo.svg';
 import { Link } from '../link/Link';
 
