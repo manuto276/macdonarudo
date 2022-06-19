@@ -9,3 +9,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #EFEDDA;
 }
+
+input {
+  height: 56px;
+  padding: 0 32px;
+
+  background: none;
+  border: 0.5px solid #EFEDDA;
+  border-radius: 28px;
+
+  color: #EFEDDA;
+
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+input:focus {
+  outline: none;
+}

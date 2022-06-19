@@ -12,6 +12,31 @@ img {
 }
 
 header
+nav {
+    display: flex;
+    flex-direction: row;
+    margin-left: 32px;
+}
+
+header
+nav .Link {
+    position: relative;
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+header
+nav .Link:not(:last-child):after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    content: '';
+    width: 1px;
+    height: 16px;
+    background-color: #EFEDDA;
+}
+
+header
 .More {
     margin-left: auto;
     display: flex;

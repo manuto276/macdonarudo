@@ -1,4 +1,5 @@
 import './Link.css';
+import './SlideEffect.css';
 
 function Link(props) {
     return (
@@ -8,4 +9,13 @@ function Link(props) {
     );
 }
 
-export { Link };
+function SlideEffect(props) {
+    return (
+        <div className='SlideEffect' style={{height: props.height ?? 'fit-content'}}>
+            <div>{props.children}</div>
+            <div>{props.children}</div>
+        </div>
+    );
+}
+
+export { Link, SlideEffect };

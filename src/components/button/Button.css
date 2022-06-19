@@ -1,0 +1,27 @@
+.Button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+    border-radius: 28px;
+    padding-left: 24px;
+    padding-right: 24px;
+    transition: all 350ms ease;
+}
+
+.Button.Primary {
+    background-color: #EFEDDA;
+}
+
+.Button.Primary:hover {
+    background-color: #FFAB00;
+}
+
+.Button.Primary * {
+    color: #212121;
+    fill: #212121;
+}
+
+.Button.Secondary:hover {
+    background-color: rgba(255, 255, 255, 0.04);
+}

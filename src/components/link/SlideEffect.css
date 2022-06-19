@@ -1,0 +1,24 @@
+.SlideEffect {
+    position: relative;
+    width: fit-content;
+    overflow: hidden;
+}
+
+.SlideEffect > div:first-child {
+    transform-origin: right center;
+    transition: transform 300ms ease;
+}
+
+.SlideEffect > div:last-child {
+    transform-origin: left center;
+    transform: rotate(20deg);
+    transition: transform 300ms ease;
+}
+
+.SlideEffect:hover > div:first-child {
+    transform: translateY(-100%) rotate(20deg);
+}
+
+.SlideEffect:hover > div:last-child {
+    transform: translateY(-100%) rotate(0deg);
+}

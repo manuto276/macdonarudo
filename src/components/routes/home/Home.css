@@ -1,17 +1,48 @@
 #home {
     position: relative;
+    min-height: max(768px, 100vh);
+    overflow: hidden;
+}
+
+#home .Background {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+#home .Background .Circle {
+    position: absolute;
+    top: -40%;
+    left: 55%;
+    width: 130vh;
+    height: 130vh;
+    border-radius: 50%;
+    background-color: #FFF3E0;
+}
+
+#home .Content {
     display: flex;
 }
 
-#home .Social {
-    display: flex;
-    flex-direction: row;
-    gap: 32px;
+#home .SocialRow {
     margin-top: 64px;
 }
 
 @media screen and (min-width: 800px) {
-    #home {
+    #home .Background {
+        display: initial;
+    }
+
+    #home .Background .Circle {
+        top: 96px;
+        left: 60%;
+        width: 512px;
+        height: 512px;
+    }
+
+    #home .Content  {
         padding: 64px 0;
         flex-direction: row;
         align-items: center;
@@ -29,6 +60,20 @@
 }
 
 @media screen and (min-width: 1024px) {
+    #home .Background .Circle {
+        top: -40%;
+        left: 55%;
+        width: 130vh;
+        height: 130vh;
+    }
+
+    #home header #phone-number,
+    #home header #cart, 
+    #home header #account {
+        color: #212121 !important;
+        fill: #212121 !important;
+    }
+
     #home hgroup {
         margin-left: 128px;
         margin-right: 64px;
