@@ -44,7 +44,6 @@ const userSchema = new mongoose.Schema(
             validate: {
                 validator:
                     async function(bdate){
-                        console.log(bdate);
                         const today = new Date(Date.now())
                         const averageSecondsInAYear = 31557600 // 60*60*24*365.25
                         const secondsSinceThen = (today.getTime() - bdate.getTime())/1000
