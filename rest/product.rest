@@ -1,0 +1,11 @@
+POST http://localhost:3000/api/product/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "_id": "mc-chicken",
+    "price": 6.99
+}
+
+###
+
+GET http://localhost:3000/api/product/ HTTP/1.1

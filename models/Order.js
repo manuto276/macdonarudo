@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const Product = require('../models/Product')
+const Product = require('./Product')
+const User = require('./User')
 
 /*
     ID
@@ -22,13 +23,19 @@ const orderSchema = new mongoose.Schema(
         clientId: {
             type: mongoose.Types.ObjectId,
             required: true,
+            ref: 'User'
+        },
+        status: {
+            type: String,
+            enum: ['sent', 'preparation', 'ready', 'canceled'],
+            required: true
         },
         products: [{
             type: {
                 _id: {
                     type: String,
                     required: true,
-                    ref: Product
+                    ref: 'Product'
                 }, 
                 amount: {
                     type: Number,

@@ -46,11 +46,7 @@ router.post('/user/', async (req,res) => {
     
 }) 
 
-router.get('/user/', passport.authenticate('jwt', {session: false}), async (req,res) => {
-    if(req.isUnauthenticated()){
-        res.status(401).send('Unauthorized')
-        return
-    }
+router.get('/user/', async (req,res) => {
     const users = await User.find();
     res.send(users);
 })

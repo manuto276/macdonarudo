@@ -11,6 +11,11 @@ router.post('/order/', passport.authenticate('jwt', {session: false}), async (re
     const clientId = req.user.id
     const productsObjs = body.products
 
+    if(productsObjs === undefined){
+        res.status(409).send('Bad syntax')
+        return
+    }
+
     let products = []
     let valid = true
     // check if products exists and if they do add the retrieved data to array and use it
@@ -30,7 +35,7 @@ router.post('/order/', passport.authenticate('jwt', {session: false}), async (re
     }
 
     let totalAmount = 0
-    for(i=0;i<products.length;i++){
+    for(i=0; i<products.length; i++){
         totalAmount += products[i].price * productsObjs[i].amount
     }
 
@@ -38,7 +43,8 @@ router.post('/order/', passport.authenticate('jwt', {session: false}), async (re
             totalAmount: totalAmount, 
             clientId: clientId,
             products: productsObjs,
-            date: Date.now()
+            date: Date.now(),
+            status: 'sent'
         })
 
     await order.save((error, order) => {
