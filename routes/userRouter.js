@@ -18,32 +18,33 @@ const signToken = (userId) => {
 }
 
 router.post('/user/', async (req,res) => {
-    const body = req.body
-    const name = body.name
-    const role = body.role
-    const email = body.email
-    const password = body.password
-    const bdate = body.bdate
-    const user = new User({
-        name: name,
-        role: role,
-        email: email,
-        password: password,
-        bdate: new Date(bdate.toString())
-    })
- 
-    // save model to database
-    await user.save((error, user) => {
-        if (error){
-            res.send(error);
-      }
-        else{
-            res.send(`Saved ${email}`);
-      }
-      
-    });
+    try{
+        const body = req.body
+        const name = body.name
 
-    
+        // the role will be later be impossible to set,
+        // since it will be manually set by the admin
+        const role = body.role
+        const email = body.email
+        const password = body.password
+        const bdate = body.bdate
+        const user = new User({
+            name: name,
+            role: role,
+            email: email,
+            password: password,
+            bdate: new Date(bdate.toString())
+        })
+     
+        // save model to database
+        await user.save((error, user) => {
+            if (error){
+                res.send(error);
+          }
+        });
+    }catch(error){
+        res.send(error)
+    }
 }) 
 
 router.get('/user/', async (req,res) => {
@@ -57,9 +58,13 @@ router.delete('/user/deleteall/', passport.authenticate('jwt', {session: false})
 })
 
 router.delete('/user/:username/', passport.authenticate('jwt', {session: false}), async (req,res) => {
-  const email = req.params.email;
-  await User.deleteOne({_id: email});
-  res.send(`Deleted ${email}`);
+  try{
+        const email = req.params.email;
+        await User.deleteOne({_id: email});
+        res.send(`Deleted ${email}`);
+  }catch(error){
+        res.send(error)
+  }
 }) 
 
 router.post('/user/login/', passport.authenticate('local', {session: false}),
@@ -75,6 +80,10 @@ router.post('/user/login/', passport.authenticate('local', {session: false}),
 router.get('/user/logout/', passport.authenticate('jwt', {session: false}), (req, res) => {
     res.clearCookie('access_token')
     res.send('Bye')
+})
+
+router.get('/user/authenticated/', passport.authenticate('jwt', {session: false}), async (req ,res) => {
+    res.status(200).send(`${req.user.email} is authenticated`)
 })
 
 router.post('/user/authenticated/', passport.authenticate('jwt', {session: false}),

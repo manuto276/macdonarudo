@@ -26,8 +26,9 @@ const orderSchema = new mongoose.Schema(
             ref: 'User'
         },
         status: {
-            type: String,
-            enum: ['sent', 'preparation', 'ready', 'canceled'],
+            type: Number,
+            // sent, preparation, ready, canceled
+            enum: [0, 1, 2, 3],
             required: true
         },
         products: [{

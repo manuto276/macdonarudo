@@ -7,24 +7,28 @@ const { reset } = require('nodemon')
 const router = Router()
 
 router.post('/product/', async (req, res) => {
-    const body = req.body
-    const id = body._id
-    const price = body.price
-
-    const product = new Product(
-        {
-            _id: id,
-            price: price
-        }
-    )
-
-    await product.save((error, product) => {
-        if(error){
-            res.status(409).send(error)
-            return
-        }
-        res.send(`Saved ${product.id}`)
-    })
+    try{
+        const body = req.body
+        const id = body._id
+        const price = body.price
+    
+        const product = new Product(
+            {
+                _id: id,
+                price: price
+            }
+        )
+    
+        await product.save((error, product) => {
+            if(error){
+                res.status(409).send(error)
+                return
+            }
+            res.send(`Saved ${product.id}`)
+        })
+    }catch(error){
+        res.send(error)
+    }
 })
 
 router.get('/product/', async (req, res) => {

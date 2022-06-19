@@ -11,7 +11,7 @@ const expressSession = require('express-session')
 const passport = require('passport')
 const expressFlash = require('express-flash')
 const cookieParser = require('cookie-parser')
-
+const cors = require('cors')
 const userRouter = require('./routes/userRouter')
 const orderRouter = require('./routes/orderRouter')
 const productRouter = require('./routes/productRouter')
@@ -26,8 +26,10 @@ async function main() {
     console.log(`Connection to database successful.`);
     const app = express() 
 
-    const port = 3000
+    const port = 3001
     const host = 'localhost'
+
+    app.use(cors())
 
     // to parse application/json
     app.use(bodyParser.json())  
