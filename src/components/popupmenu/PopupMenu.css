@@ -13,10 +13,15 @@
     min-width: 172px;
     padding-top: 8px;
     padding-bottom: 8px;
+
+    animation: hide-menu-anim 350ms ease;
+    animation-fill-mode: both;
+    transition: visibility 350ms ease;
 }
 
 .PopupMenu.Show {
     visibility: visible;
+    animation: show-menu-anim 350ms ease;
 }
 
 .PopupMenu .Item {
@@ -38,4 +43,26 @@
 
 .PopupMenu .SlideEffect {
     justify-content: start;
+}
+
+@keyframes hide-menu-anim {
+    0% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-32px);
+    }
+}
+
+@keyframes show-menu-anim {
+    0% {
+        opacity: 0;
+        transform: translateY(-32px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
