@@ -4,7 +4,8 @@ import './SlideEffect.css';
 function Link(props) {
     return (
         <a id={props.id} 
-           className={'Link' + (props.className ? ' ' + props.className : '')} 
+           className={'Link' + (props.className ? ' ' + props.className : '')}
+           onClick={props.onClick ?? null}
            href={props.to}>{props.children}</a>
     );
 }

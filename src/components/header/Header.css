@@ -101,6 +101,11 @@ header
     .NavItem .SlideEffect * {
         transition: none !important;
     }
+
+    header .PopupMenu {
+        right: 20px;
+        top: 60px;
+    }
 }
 
 @media screen and (min-width: 800px) {
@@ -132,9 +137,19 @@ header
         background-color: var(--pale-silver);
     }
 
+    header .PopupMenu {
+        right: 32px;
+        top: 76px;
+    }
+
     @media screen and (max-width: 1023px) {
         header .Navigation {
             left: calc(80px + 32px + var(--header-hor-padding)); /* 32px * 2 + 106px */
+        }
+
+        header .PopupMenu {
+            right: 20px;
+            top: 60px;
         }
     }
 }

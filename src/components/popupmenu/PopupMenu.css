@@ -1,0 +1,41 @@
+.PopupMenu {
+    visibility: hidden;
+    position: absolute;
+    z-index: 99;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+    background-color: var(--black-olive);
+    
+    min-width: 172px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.PopupMenu.Show {
+    visibility: visible;
+}
+
+.PopupMenu .Item {
+    cursor: pointer;
+    
+    display: flex;
+    flex-direction: column;
+
+    height: 48px;
+    padding-left: 24px;
+    padding-right: 24px;
+
+    transition: background 350ms ease;
+}
+
+.PopupMenu .Item:hover{
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+.PopupMenu .SlideEffect {
+    justify-content: start;
+}

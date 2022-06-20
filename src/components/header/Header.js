@@ -2,17 +2,27 @@ import './Header.css';
 import { AccountCircle, ShoppingCart } from '../icon/Icon';
 import { Logo } from '../logo/Logo';
 import { Link, SlideEffect } from '../link/Link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { PopupMenu } from '../popupmenu/PopupMenu';
 
 function Header(props) {
+    const [showPopupMenu, setShowPopupMenu] = useState(false);
+
     useEffect(() => {
         axios.get('http://localhost:3001/api/user/authenticated').then(
             (response) => {
                 console.log(response)
             }
-        )
-    }, [])
+        ).catch((reason) => null);
+    }, []);
+
+    const defaultItems = [
+        { 'title': 'My Account', 'onClick': null },
+        { 'title': 'My Orders', 'onClick': null },
+        { 'title': 'Logout', 'onClick': null }
+    ]
+
     return (
         <header>
             <div className='Main'>
@@ -24,7 +34,10 @@ function Header(props) {
                             <ShoppingCart id='cart' />
                         </SlideEffect>
                     </Link>
-                    <Link>
+                    <Link onClick={() => {
+                        console.log('Showing menu')
+                        setShowPopupMenu(true)
+                        }}>
                         <SlideEffect height='24px'>
                             <AccountCircle id='account' />
                         </SlideEffect>
@@ -54,6 +67,7 @@ function Header(props) {
                     </Link>
                 </div>
             </nav>
+            <PopupMenu isVisible={showPopupMenu} onDismiss={() => setShowPopupMenu(false)} menuItems={defaultItems} />
         </header>
     );
 }
