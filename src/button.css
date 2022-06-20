@@ -11,27 +11,18 @@ button {
 
     border: none;
     border-radius: 28px;
-    background-color: #EFEDDA;
+    background-color: var(--flame);
     
     transition: all 350ms ease;
 }
 
-button:hover {
-    background-color: #FFAB00;
-}
-
 button * {
-    color: #212121;
-    fill: #212121;
+    color: var(--floral-white);
+    fill: var(--floral-white);
 }
 
 button.Secondary {
     background: none;
-}
-
-button.Secondary * {
-    color: #EFEDDA;
-    fill: #EFEDDA;
 }
 
 button.Secondary:hover {

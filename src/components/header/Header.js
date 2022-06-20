@@ -1,9 +1,9 @@
 import './Header.css';
 import { AccountCircle, ShoppingCart } from '../icon/Icon';
-import { Logo } from '../logo/Logo'
+import { Logo } from '../logo/Logo';
 import { Link, SlideEffect } from '../link/Link';
 import { useEffect } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 
 function Header(props) {
     useEffect(() => {

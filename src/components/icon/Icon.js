@@ -21,7 +21,7 @@ export class Icon extends React.Component {
 
     viewBox = () => '0 0 48 48';
 
-    render = () => <svg id={this.id} className={this.className} style={{fill: this.color ?? '#EFEDDA'}} width={this.size} height={this.size} viewBox={this.viewBox()} onClick={this.onClick}>{this.path()}</svg>;
+    render = () => <svg id={this.id} className={this.className} style={{fill: this.color ?? 'var(--floral-white)'}} width={this.size} height={this.size} viewBox={this.viewBox()} onClick={this.onClick}>{this.path()}</svg>;
 }
 
 export class AccountCircle extends Icon {

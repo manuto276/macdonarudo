@@ -19,7 +19,7 @@
     width: 130vh;
     height: 130vh;
     border-radius: 50%;
-    background-color: #FFF3E0;
+    background-color: var(--pale-silver);
 }
 
 #home .Content {
@@ -74,8 +74,8 @@
     #home header #phone-number,
     #home header #cart, 
     #home header #account {
-        color: #212121 !important;
-        fill: #212121 !important;
+        color: var(--eerie-black) !important;
+        fill: var(--eerie-black) !important;
     }
 
     #home hgroup {

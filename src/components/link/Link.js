@@ -11,9 +11,11 @@ function Link(props) {
 
 function SlideEffect(props) {
     return (
-        <div className='SlideEffect' style={{height: props.height ?? 'fit-content'}}>
-            <div>{props.children}</div>
-            <div>{props.children}</div>
+        <div className='SlideEffect'>
+            <div className='Mask' style={{height: props.height ?? 'initial'}}>
+                <div>{props.children}</div>
+                <div>{props.children}</div>
+            </div>
         </div>
     );
 }

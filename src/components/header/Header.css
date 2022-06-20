@@ -82,7 +82,7 @@ header
         left: 16px;
         width: 0%;
         height: 2px;
-        background-color: #EFEDDA;
+        background-color: var(--pale-silver);
         transition: all 350ms ease;
     }
 
@@ -129,7 +129,7 @@ header
         content: '';
         width: 0.5px;
         height: 16px;
-        background-color: #EFEDDA;
+        background-color: var(--pale-silver);
     }
 
     @media screen and (max-width: 1023px) {

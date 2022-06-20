@@ -1,13 +1,23 @@
+:root {
+  --floral-white: #FFFCF2;
+  --pale-silver: #CCC5B9;
+  --black-olive: #403D39;
+  --eerie-black: #252422;
+  --flame: #EB5E28;
+}
+
 * {
   box-sizing: border-box;
 }
 
+html {
+  background-color: var(--eerie-black);
+}
+
 body {
   margin: 0;
-  background-color: #212121;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #EFEDDA;
 }
 
 input {
@@ -15,10 +25,10 @@ input {
   padding: 0 32px;
 
   background: none;
-  border: 0.5px solid #EFEDDA;
+  border: 0.5px solid var(--pale-silver);
   border-radius: 28px;
 
-  color: #EFEDDA;
+  color: var(--floral-white);
 
   font-family: 'Roboto';
   font-weight: 400;
