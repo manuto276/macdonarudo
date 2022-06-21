@@ -2,24 +2,29 @@ import './Logging.css';
 import './Login.css';
 import './Signup.css';
 import { Logo } from '../../logo/Logo';
-
 import { useState } from 'react';
-import axios from 'axios';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SlideEffect } from '../../link/Link';
+import axios from 'axios';
 
 function Login(props) {
-    const login = async () => {
-        const response = await axios.post('http://localhost:3001/api/user/login/', {
-            'email': email,
-            'password': password
-        })
-        console.log(response)
-        navigate('/',{replace: true})
-    }
-    const navigate = useNavigate()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const login = (event) => {
+        // preventDefault to prevent automatic page reload due to submit button!
+        event.preventDefault();
+        const response =axios.post('http://localhost:3001/api/user/login/', {
+            email: email,
+            password: password,
+        }, {withCredentials: true}).then((response) => {
+            console.log(response);
+            navigate('/');
+        }).catch((error) => console.log(error))
+    };
+    
 
     return (
         <section id='login' className='LoggingPage'>

@@ -10,19 +10,37 @@ import { ShoppingCartView } from '../shoppingcartview/ShoppingCartView';
 function Header(props) {
     const [showPopupMenu, setShowPopupMenu] = useState(false);
     const [showShoppingCart, setShowShoppingCart] = useState(false);
+    const [isUserLogged, setIsUserLogged] = useState(false);
+    const [to, setTo] = useState('/user/login');
 
-    useEffect(() => {
-        axios.get('http://localhost:3001/api/user/authenticated').then(
+    const checkAuthentication = () => {
+        axios.get('http://localhost:3001/api/user/authenticated',{
+            withCredentials: true, 
+        }).then(
             (response) => {
-                console.log(response)
+                if(response.status === 200){
+                    setIsUserLogged(true);
+                    setTo(null)
+                }
             }
-        ).catch((reason) => null);
-    }, []);
+        ).catch((reason) => console.log(reason));
+    }
+
+    const logout = () => {
+        axios.get('http://localhost:3001/api/user/logout/', {withCredentials: true}).then((response) => {
+            if(response.status == 200){
+                setIsUserLogged(false);
+                setTo('/user/login/');
+            }
+        })
+    }
+
+    useEffect(checkAuthentication, []);
 
     const defaultItems = [
         { 'title': 'My Account', 'onClick': null },
         { 'title': 'My Orders', 'onClick': null },
-        { 'title': 'Logout', 'onClick': null }
+        { 'title': 'Logout', 'onClick': logout }
     ]
 
     return (
@@ -39,9 +57,11 @@ function Header(props) {
                                 <ShoppingCart id='cart' />
                             </SlideEffect>
                         </Link>
-                        <Link onClick={() => {
-                            console.log('Showing menu')
-                            setShowPopupMenu(true)
+                        <Link to={to} onClick={() => {
+                            if(isUserLogged){
+                                console.log('Showing menu');
+                                setShowPopupMenu(true);
+                            }
                             }}>
                             <SlideEffect height='24px'>
                                 <AccountCircle id='account' />
