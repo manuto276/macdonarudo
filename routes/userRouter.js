@@ -18,6 +18,7 @@ const signToken = (userId) => {
 }
 
 router.post('/user/', async (req,res) => {
+    console.log(req.ip);
     try{
         const body = req.body
         const name = body.name
