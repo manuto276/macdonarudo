@@ -28,8 +28,21 @@ async function main() {
 
     const port = 3001
     const host = 'localhost'
+    // http://localhost:3000 from the react debug client,
+    // http://localhost:3001 from the express-serverd client
+    const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001', 'http://172.104.250.206:3001']
 
-    app.use(cors())
+    app.use(cors({origin: allowedOrigins, credentials: true}))
+
+    /*app.use(function(req, res, next) {
+        res.header('Content-Type', 'application/json;charset=UTF-8')
+        res.header('Access-Control-Allow-Credentials', true)
+        res.header(
+          'Access-Control-Allow-Headers',
+          'Origin, X-Requested-With, Content-Type, Accept'
+        )
+        next()
+    });*/
 
     // to parse application/json
     app.use(bodyParser.json())  

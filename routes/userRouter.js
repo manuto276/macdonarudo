@@ -49,6 +49,7 @@ router.post('/user/', async (req,res) => {
 }) 
 
 router.get('/user/', async (req,res) => {
+    console.log(`GET from ${req.ip}`);
     const users = await User.find();
     res.send(users);
 })
@@ -70,9 +71,10 @@ router.delete('/user/:username/', passport.authenticate('jwt', {session: false})
 
 router.post('/user/login/', passport.authenticate('local', {session: false}),
     (req, res) => {
+        console.log(`POST from ${req.ip}`);
         const { _id, email, role } = req.user
         const token = signToken(_id)
-        res.cookie('access_token', token, {httpOnly: true, sameSite: true})
+        res.cookie('access_token', token, {httpOnly: true})
         res.status(200).send(`${email} is autenticated`)
         return
     }
@@ -84,6 +86,7 @@ router.get('/user/logout/', passport.authenticate('jwt', {session: false}), (req
 })
 
 router.get('/user/authenticated/', passport.authenticate('jwt', {session: false}), async (req ,res) => {
+    console.log(`GET from ${req.ip}`);
     res.status(200).send(`${req.user.email} is authenticated`)
 })
 
