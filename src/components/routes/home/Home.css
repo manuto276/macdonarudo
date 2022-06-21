@@ -65,10 +65,10 @@
 
 @media screen and (min-width: 1024px) {
     #home .Background .Circle {
-        top: -40%;
+        top: -280px;
         left: 55%;
-        width: 130vh;
-        height: 130vh;
+        width: 920px;
+        height: 920px;
     }
 
     #home header #phone-number,
@@ -85,5 +85,13 @@
 
     #home .Hamburger {
         margin-right: 128px;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    #home .Background .Circle {
+        top: -420px;
+        width: 1280px;
+        height: 1280px;
     }
 }

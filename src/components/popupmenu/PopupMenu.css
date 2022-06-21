@@ -35,6 +35,15 @@
     padding-right: 24px;
 
     transition: background 350ms ease;
+
+
+    color: var(--floral-white);
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1rem;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
 }
 
 .PopupMenu .Item:hover{

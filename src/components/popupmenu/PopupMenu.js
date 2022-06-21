@@ -31,7 +31,7 @@ function PopupMenu(props) {
                         if (item.onClick)
                             item.onClick(); 
                         props.onDismiss()}}>
-                    <SlideEffect height='16px'><p className='btn'>{item.title}</p></SlideEffect>
+                    <SlideEffect height='1rem'>{item.title}</SlideEffect>
                 </div>
             ) }
         </div>

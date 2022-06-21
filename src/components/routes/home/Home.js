@@ -7,9 +7,7 @@ import './Home.css';
 function Home(props) {
     return (
         <section id='home'>
-            <div className='Background'>
-                <div className='Circle'></div>
-            </div>
+            <HomeBackground />
             <Header />
             <div className='Content'>
                 <hgroup>
@@ -20,6 +18,14 @@ function Home(props) {
                 <Hamburger />
             </div>
         </section>
+    );
+}
+
+function HomeBackground() {
+    return (
+        <div className='Background'>
+            <div className='Circle'></div>
+        </div>
     );
 }
 
