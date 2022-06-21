@@ -21,7 +21,9 @@ router.post('/user/', async (req,res) => {
     console.log(req.ip);
     try{
         const body = req.body
-        const name = body.name
+        const firstName = body.firstName
+        const lastName = body.lastName
+        const city = body.city;
 
         // the role will be later be impossible to set,
         // since it will be manually set by the admin
@@ -30,9 +32,11 @@ router.post('/user/', async (req,res) => {
         const password = body.password
         const bdate = body.bdate
         const user = new User({
-            name: name,
+            firstName: firstName,
+            lastName: lastName,
             role: role,
             email: email,
+            city: city,
             password: password,
             bdate: new Date(bdate.toString())
         })
@@ -40,11 +44,22 @@ router.post('/user/', async (req,res) => {
         // save model to database
         await user.save((error, user) => {
             if (error){
-                res.send(error);
+                try{
+                    if(error.errors.email.message === 'email_used'){
+                        res.status(400).send('email_used');
+                        return;
+                    }
+                }catch(error){
+                    res.status(502).send(error);
+                    return;
+                }
+                res.status(400).send(error);
+                return;
           }
+          res.status(200).send('User created');
         });
     }catch(error){
-        res.send(error)
+        res.status(400).send(error)
     }
 }) 
 
@@ -59,10 +74,10 @@ router.delete('/user/deleteall/', passport.authenticate('jwt', {session: false})
     res.send('Ok');
 })
 
-router.delete('/user/:username/', passport.authenticate('jwt', {session: false}), async (req,res) => {
+router.delete('/user/:email/', passport.authenticate('jwt', {session: false}), async (req,res) => {
   try{
         const email = req.params.email;
-        await User.deleteOne({_id: email});
+        await User.deleteOne({email: email});
         res.send(`Deleted ${email}`);
   }catch(error){
         res.send(error)

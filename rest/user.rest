@@ -26,3 +26,6 @@ GET http://localhost:3001/api/user/logout HTTP/1.1
 
 ###
 GET http://localhost:3001/api/user/authenticated HTTP/1.1
+
+###
+DELETE http://localhost:3001/api/user/r HTTP/1.1

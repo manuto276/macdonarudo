@@ -32,10 +32,14 @@ const userSchema = new mongoose.Schema(
                     // if no user is found with this email, it's ok
                     return true
                 },
-                message: () => 'This email is already in use'
+                message: () => 'email_used'
             }
         },
-        name: {
+        firstName: {
+            type: String,
+            required: true
+        },
+        lastName:{
             type: String,
             required: true
         },
@@ -78,6 +82,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        city: {
+            type: String,
+            required: true
+        }
     }
 )
 
