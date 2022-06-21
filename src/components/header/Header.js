@@ -9,23 +9,34 @@ import { PopupMenu } from '../popupmenu/PopupMenu';
 function Header(props) {
     const [showPopupMenu, setShowPopupMenu] = useState(false);
     const [isUserLogged, setIsUserLogged] = useState(false);
-    const [to, setTo] = useState('/user/login')
+    const [to, setTo] = useState('/user/login');
 
-    useEffect(() => {
-        axios.get('http://localhost:3001/api/user/authenticated').then(
+    const checkAuthentication = () => {
+        axios.get('http://localhost:3001/api/user/authenticated',{
+            withCredentials: true, 
+        }).then(
             (response) => {
                 if(response.status === 200){
                     setIsUserLogged(true);
                     setTo(null)
                 }
             }
-        ).catch((reason) => null);
-    }, []);
+        ).catch((reason) => console.log(reason));
+    }
+
+    const logout = () => {
+        axios.get('http://localhost:3001/api/user/logout/', {withCredentials: true}).then((response) => {
+            setIsUserLogged(false);
+            setTo('/user/login/');
+        })
+    }
+
+    useEffect(checkAuthentication, []);
 
     const defaultItems = [
         { 'title': 'My Account', 'onClick': null },
         { 'title': 'My Orders', 'onClick': null },
-        { 'title': 'Logout', 'onClick': null }
+        { 'title': 'Logout', 'onClick': logout }
     ]
 
     return (
@@ -39,8 +50,10 @@ function Header(props) {
                         </SlideEffect>
                     </Link>
                     <Link to={to} onClick={() => {
-                        console.log('Showing menu')
-                        setShowPopupMenu(true)
+                        if(isUserLogged){
+                            console.log('Showing menu');
+                            setShowPopupMenu(true);
+                        }
                         }}>
                         <SlideEffect height='24px'>
                             <AccountCircle id='account' />
