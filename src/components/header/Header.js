@@ -8,11 +8,16 @@ import { PopupMenu } from '../popupmenu/PopupMenu';
 
 function Header(props) {
     const [showPopupMenu, setShowPopupMenu] = useState(false);
+    const [isUserLogged, setIsUserLogged] = useState(false);
+    const [to, setTo] = useState('/user/login')
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/user/authenticated').then(
             (response) => {
-                console.log(response)
+                if(response.status === 200){
+                    setIsUserLogged(true);
+                    setTo(null)
+                }
             }
         ).catch((reason) => null);
     }, []);
@@ -33,7 +38,7 @@ function Header(props) {
                             <ShoppingCart id='cart' />
                         </SlideEffect>
                     </Link>
-                    <Link onClick={() => {
+                    <Link to={to} onClick={() => {
                         console.log('Showing menu')
                         setShowPopupMenu(true)
                         }}>

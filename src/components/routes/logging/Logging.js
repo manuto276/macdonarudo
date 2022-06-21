@@ -9,17 +9,20 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { SlideEffect } from '../../link/Link';
 
 function Login(props) {
+
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     const login = async () => {
         const response = await axios.post('http://localhost:3001/api/user/login/', {
             'email': email,
             'password': password
-        })
-        console.log(response)
-        navigate('/',{replace: true})
-    }
-    const navigate = useNavigate()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+        });
+        console.log(response);
+        navigate('/',{replace: true});
+    };
+    
 
     return (
         <section id='login' className='LoggingPage'>
