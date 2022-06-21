@@ -12,7 +12,13 @@
 
 @media screen and (max-width: 1023px) {
     :root {
-        font-size: 10px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 414px) {
+    :root {
+        font-size: 16px;
     }
 }
 
@@ -66,17 +72,8 @@ p {
     font-family: 'Roboto';
     margin: 0;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 1rem;
+    line-height: 1.5rem;
     letter-spacing: 0.5px;
     color: var(--floral-white);
-}
-
-.btn {
-    font-family: 'Roboto';
-    font-weight: 500;
-    font-size: 14px;
-    letter-spacing: 1.25px;
-    line-height: 16px;
-    text-transform: uppercase;
 }

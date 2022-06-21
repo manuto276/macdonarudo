@@ -14,11 +14,22 @@ header .Main {
 }
 
 header
+.NavItem {
+    color: var(--floral-white);
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1rem;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+}
+
+header
 .More {
     margin-left: auto;
     display: flex;
     flex-direction: row;
-    column-gap: 32px;
+    column-gap: 2rem;
 }
 
 /* Desktop */
@@ -30,10 +41,6 @@ header
     header .Main {
         height: 96px;
         padding: 0 var(--header-hor-padding);
-    }
-
-    .Logo {
-        height: 64px !important;
     }
 }
 
@@ -48,16 +55,12 @@ header
         height: 64px;
         padding: 0 var(--header-hor-padding);
     }
-
-    .Logo {
-        height: 48px !important;
-    }
 }
 
 @media screen and (max-width: 799px) {
     header
-    #phone-number {
-        display: none;
+    .Logo {
+        height: 3rem !important;
     }
 
     header
@@ -79,7 +82,7 @@ header
         content: '';
         position: absolute;
         bottom: 0;
-        left: 16px;
+        left: 1rem;
         width: 0%;
         height: 2px;
         background-color: var(--pale-silver);
@@ -88,7 +91,7 @@ header
 
     header
     .NavItem:hover::after {
-        width: calc(100% - 32px);
+        width: calc(100% - 2rem);
     }
 
     header
@@ -103,12 +106,17 @@ header
     }
 
     header .PopupMenu {
-        right: 20px;
+        right: var(--header-hor-padding);
         top: 60px;
     }
 }
 
 @media screen and (min-width: 800px) {
+    header
+    .Logo {
+        height: 4rem !important;
+    }
+
     header .Navigation {
         position: absolute;
         top: 50%;
@@ -133,12 +141,12 @@ header
         top: 0;
         content: '';
         width: 0.5px;
-        height: 16px;
+        height: 1rem;
         background-color: var(--pale-silver);
     }
 
     header .PopupMenu {
-        right: 32px;
+        right: var(--header-hor-padding);
         top: 76px;
     }
 
@@ -148,7 +156,6 @@ header
         }
 
         header .PopupMenu {
-            right: 20px;
             top: 60px;
         }
     }

@@ -21,19 +21,19 @@ body {
 }
 
 input {
-  height: 56px;
-  padding: 0 32px;
+  height: 3.5rem;
+  padding: 0 2rem;
 
   background: none;
   border: 0.5px solid var(--pale-silver);
-  border-radius: 28px;
+  border-radius: 1.75rem;
 
   color: var(--floral-white);
 
   font-family: 'Roboto';
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
   letter-spacing: 0.5px;
 }
 

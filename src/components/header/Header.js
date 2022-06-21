@@ -28,7 +28,6 @@ function Header(props) {
             <div className='Main'>
                 <Logo />
                 <div className='More'>
-                    <p id='phone-number'>1 800 675 75 75</p>
                     <Link>
                         <SlideEffect height='24px'>
                             <ShoppingCart id='cart' />
@@ -47,23 +46,17 @@ function Header(props) {
             <nav className='Navigation'>
                 <div className='NavItem'>
                     <Link>
-                        <SlideEffect height='16px'>
-                            <p className='btn'>Home</p>
-                        </SlideEffect>
+                        <SlideEffect height='1rem'>Home</SlideEffect>
                     </Link>
                 </div>
                 <div className='NavItem'>
                     <Link>
-                        <SlideEffect height='16px'>
-                            <p className='btn'>Menu</p>
-                        </SlideEffect>
+                        <SlideEffect height='1rem'>Menu</SlideEffect>
                     </Link>
                 </div>
                 <div className='NavItem'>
                     <Link>
-                        <SlideEffect height='16px'>
-                            <p className='btn'>About us</p>
-                        </SlideEffect>
+                        <SlideEffect height='1rem'>About us</SlideEffect>
                     </Link>
                 </div>
             </nav>
