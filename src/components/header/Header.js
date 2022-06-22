@@ -30,6 +30,7 @@ function Header(props) {
     const logout = () => {
         axios.get('http://localhost:3001/api/user/logout/', {withCredentials: true}).then((response) => {
             if(response.status == 200){
+                alert('Logout successful.')
                 setIsUserLogged(false);
                 setTo('/user/login/');
             }
