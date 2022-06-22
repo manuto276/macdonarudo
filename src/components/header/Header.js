@@ -84,12 +84,12 @@ function Header(props) {
                 </div>
                 <nav className='Navigation'>
                     <div className='NavItem'>
-                        <Link>
+                        <Link to='/'>
                             <SlideEffect height='1rem'>Home</SlideEffect>
                         </Link>
                     </div>
                     <div className='NavItem'>
-                        <Link>
+                        <Link to='/menu'>
                             <SlideEffect height='1rem'>Menu</SlideEffect>
                         </Link>
                     </div>

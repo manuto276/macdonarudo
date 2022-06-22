@@ -1,0 +1,50 @@
+#menu {
+    padding: 64px 32px;
+}
+
+#menu hgroup {
+    position: relative;
+    text-align: center;
+}
+
+#menu .TagsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 16px;
+    column-gap: 16px;
+
+    margin-top: 32px;
+}
+
+#menu .Chip {
+    cursor: pointer;
+    height: 42px;
+    border-radius: 21px;
+    border: 0.5px solid var(--pale-silver);
+    padding: 0 24px;
+
+    font-family: 'Roboto';
+    font-size: 14px;
+    line-height: 42px;
+    font-weight: 500;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    color: var(--pale-silver);
+}
+
+#menu .Chip.Active {
+    border: 0.5px solid var(--floral-white);
+    color: var(--floral-white);
+}
+
+@media screen and (min-width: 800px) {
+    #menu {
+        padding: 64px 128px;
+    }
+
+    #menu .TagsContainer {
+        margin-top: 64px;
+    }
+}
