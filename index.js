@@ -39,7 +39,7 @@ async function main() {
     app.use(bodyParser.urlencoded({extended: true}))
     app.use(cookieParser())
 
-    app.use(express.static(path.join(__dirname, 'build'))) 
+    app.use(express.static('../react/build'));
 
     app.use(expressSession({resave: false, saveUninitialized: false, secret: process.env.SESSION_SECRET}))
     app.use(expressFlash())
@@ -55,7 +55,7 @@ async function main() {
     // get * must be at the bottom, otherwise every url will be served the website
     app.get('*',(req, res, next) => {
         console.log(`GET from ${req.ip}`) 
-        res.sendFile(path.join(__dirname,'build','index.html')) 
+        res.sendFile('../react/build/'); 
     }) 
 
     app.listen(port, host, () => {
