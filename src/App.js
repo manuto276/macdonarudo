@@ -12,8 +12,8 @@ const AuthContext = createContext();
 function App() {
 
   const checkAuthentication = () => {
-        const host = process.env.HOST
-        axios.get(`${host}api/user/authenticated`,{
+        const host = process.env.REACT_APP_API_HOST
+        axios.get(`http://${host}/api/user/authenticated`,{
             withCredentials: true, 
         }).then(
             (response) => {
