@@ -42,14 +42,17 @@ function Header(props) {
     // weird overlay clips when scrolling.
     // We're passing the scrolling to the cart content.
     useEffect(() => {
-        if(authContextHook.isUserLogged){
-            setTo(null);
-        }
         if (showShoppingCart)
             document.body.style.overflow = 'hidden';
         else
             document.body.style.overflow = 'initial';
     });
+
+    useEffect(() => {
+        if(authContextHook.isUserLogged){
+            setTo(null);
+        }
+    }, []);
 
     const defaultItems = [
         { 'title': 'My Account', 'onClick': null },
