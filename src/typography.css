@@ -18,7 +18,7 @@
 
 @media screen and (max-width: 414px) {
     :root {
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 
@@ -30,41 +30,29 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     font-weight: 300;
-    font-size: 6.0625rem;
-    line-height: 7.375rem;
     letter-spacing: -1.5px;
 }
   
 h2 {
     font-weight: 300;
-    font-size: 3.8125rem;
-    line-height: 4.625rem;
     letter-spacing: -0.5px;
 }
   
 h3 {
     font-weight: 400;
-    font-size: 3rem;
-    line-height: 3.625rem;
 }
   
 h4 {
     font-weight: 500;
-    font-size: 2.125rem;
-    line-height: 2.625rem;
     letter-spacing: 0.25px;
 }
   
 h5 {
     font-weight: 400;
-    font-size: 1.5rem;
-    line-height: 1.8125px;
 }
   
 h6 {
     font-weight: 500;
-    font-size: 1.25rem;
-    line-height: 1.5rem;
     letter-spacing: 0.15px;
 }
   
@@ -72,8 +60,80 @@ p {
     font-family: 'Roboto';
     margin: 0;
     font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.5rem;
     letter-spacing: 0.5px;
     color: var(--floral-white);
+}
+
+@media screen and (min-width: 415px) {
+    h1 {
+        font-size: 6.0625rem;
+        line-height: 7.375rem;
+    }
+      
+    h2 {
+        font-size: 3.8125rem;
+        line-height: 4.625rem;
+    }
+      
+    h3 {
+        font-size: 3rem;
+        line-height: 3.625rem;
+    }
+      
+    h4 {
+        font-size: 2.125rem;
+        line-height: 2.625rem;
+    }
+      
+    h5 {
+        font-size: 1.5rem;
+        line-height: 1.8125rem;
+    }
+      
+    h6 {
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+    }
+      
+    p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 414px) {
+    h1 {
+        font-size: 48px;
+        line-height: 60px;
+    }
+      
+    h2 {
+        font-size: 32px;
+        line-height: 42px;
+    }
+      
+    h3 {
+        font-size: 24px;
+        line-height: 32px;
+    }
+      
+    h4 {
+        font-size: 22px;
+        line-height: 28px;
+    }
+      
+    h5 {
+        font-size: 18px;
+        line-height: 26px;
+    }
+      
+    h6 {
+        font-size: 16px;
+        line-height: 24px;
+    }
+      
+    p {
+        font-size: 16px;
+        line-height: 24px;
+    }
 }
