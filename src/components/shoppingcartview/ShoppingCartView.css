@@ -6,11 +6,11 @@
     bottom: 0;
     z-index: 99;
 
-    visibility: hidden;
-
     width: 100%;
     height: 100%;
-    transition: all 350ms ease;
+    
+    visibility: hidden;
+    transition: visibility 350ms none;
 }
 
 .ShoppingCart.Visible {
@@ -21,12 +21,13 @@
 .Overlay {
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.32);
-    opacity: 0;
-    transition: inherit;
-
+    
     overflow-y: scroll;
     overflow-x: hidden;
+    
+    background-color: rgba(0, 0, 0, 0.32);
+    opacity: 0;
+    transition: all 350ms ease;
 }
 
 .ShoppingCart.Visible
@@ -36,24 +37,25 @@
 
 .ShoppingCart
 .Cart {
-    position: fixed;
     background-color: var(--eerie-black);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
     
     width: 414px;
     height: fit-content;
-
+    
+    margin-left: auto;
+    padding: 32px;
+    border-radius: 16px;
+    
+    position: fixed;
     left: 32px;
     right: 32px;
     top: 32px;
     bottom: 32px;
 
-    margin-left: auto;
+    overflow: scroll;
 
-    padding: 32px;
-    border-radius: 16px;
-
-    transition: inherit;
+    transition: all 350ms ease;
     transform: translateX(64px);
     opacity: 0;
 }
@@ -83,6 +85,13 @@
 .ShoppingCart
 .EmptyCart .State {
     margin-bottom: 32px;
+}
+
+@media screen and (min-width: 479px) {
+    .ShoppingCart
+    .Cart {
+        max-height: calc(100% - 64px);
+    }
 }
 
 @media screen and (max-width: 478px) {

@@ -13,6 +13,7 @@ function Header(props) {
     const [isUserLogged, setIsUserLogged] = useState(false);
     const [to, setTo] = useState('/user/login');
 
+    // Giuse commenta muzunna lezzo
     const checkAuthentication = () => {
         axios.get('http://localhost:3001/api/user/authenticated',{
             withCredentials: true, 
@@ -36,6 +37,17 @@ function Header(props) {
     }
 
     useEffect(checkAuthentication, []);
+
+    // This effect applies when the shopping cart is visible:
+    // if so, then we be removing the mf overflow so it doesn't show
+    // weird overlay clips when scrolling.
+    // We're passing the scrolling to the cart content.
+    useEffect(() => {
+        if (showShoppingCart)
+            document.body.style.overflow = 'hidden';
+        else
+            document.body.style.overflow = 'initial';
+    });
 
     const defaultItems = [
         { 'title': 'My Account', 'onClick': null },
