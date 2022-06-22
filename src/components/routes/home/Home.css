@@ -33,13 +33,6 @@
 }
 
 @media screen and (min-width: 1024px) {
-    #home header #phone-number,
-    #home header #cart, 
-    #home header #account {
-        color: var(--eerie-black) !important;
-        fill: var(--eerie-black) !important;
-    }
-
     #home hgroup {
         margin-left: 128px;
         margin-right: 64px;

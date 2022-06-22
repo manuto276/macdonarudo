@@ -1,8 +1,10 @@
+import { Header } from '../../header/Header';
 import './Menu.css';
 
 function Menu() {
     return (
         <section id='menu'>
+            <Header />
             <div className='Content'>
                 <hgroup>
                     <h1>Explore<br/>Our Menu</h1>
