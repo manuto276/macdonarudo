@@ -24,7 +24,8 @@ function Header(props) {
     const authContextHook = useContext(AuthContext);
 
     const logout = () => {
-        axios.get('http://localhost:3001/api/user/logout/', {withCredentials: true}).then((response) => {
+        const host = process.env.HOST
+        axios.get(`${host}api/user/logout`, {withCredentials: true}).then((response) => {
             if(response.status === 200){
                 alert('Logout successful.');
                 authContextHook.setIsUserLogged(false);

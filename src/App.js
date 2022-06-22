@@ -10,7 +10,8 @@ const AuthContext = createContext();
 function App() {
 
   const checkAuthentication = () => {
-        axios.get('http://localhost:3001/api/user/authenticated',{
+        const host = process.env.HOST
+        axios.get(`${host}api/user/authenticated`,{
             withCredentials: true, 
         }).then(
             (response) => {
