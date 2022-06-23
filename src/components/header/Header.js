@@ -37,7 +37,6 @@ function Header(props) {
                 alert('Logout successful.');
                 authContextHook.setIsUserLogged(false);
                 authContextHook.setRole(null);
-                setTo('/user/login/')
                 // if the logout was successful, navigate to "/" in order to
                 // reload the components and the isUserLogged state variable
                 navigate('/', {replace: true});
@@ -55,12 +54,6 @@ function Header(props) {
         else
             document.body.style.overflow = 'initial';
     });
-
-    useEffect(() => {
-        if(authContextHook.isUserLogged){
-            setTo(null);
-        }
-    }, []);
 
     const defaultItems = [
         { 'title': 'My Account', 'onClick': null },
@@ -82,7 +75,7 @@ function Header(props) {
                                 <ShoppingCart id='cart' />
                             </SlideEffect>
                         </Link>
-                        <Link to={to} onClick={() => {
+                        <Link to={authContextHook.isUserLogged ? null : '/user/login'} onClick={() => {
                                 if(authContextHook.isUserLogged){
                                     setShowPopupMenu(true);
                                 }
