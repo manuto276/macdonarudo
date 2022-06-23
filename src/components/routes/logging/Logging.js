@@ -29,8 +29,8 @@ function Login(props) {
         if(email.length === 0 || password.length === 0){
             return;
         }
-        const host = process.env.HOST
-        axios.post(`${host}api/user/login/`, {
+        const host = process.env.REACT_APP_API_HOST
+        axios.post(`http://${host}/api/user/login/`, {
             email: email,
             password: password,
         }, {withCredentials: true}).then((response) => {
@@ -91,8 +91,8 @@ function Signup(props) {
             || password.length === 0 || confirmPassword.length === 0){
                 return;
            }
-        const host = process.env.HOST
-        axios.post(`${host}api/user/`, {
+        const host = process.env.REACT_APP_API_HOST
+        axios.post(`http://${host}/api/user/`, {
             firstName: firstName,
             lastName: lastName,
             bdate: bdate,

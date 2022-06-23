@@ -19,17 +19,24 @@ function Header(props) {
     const [to, setTo] = useState('/user/login');
     const navigate = useNavigate();
 
-    // this hook refreshes the UI whenever the value provided by AuthContex changes.
-    // See comments in App.js for more explanation
+    /*  this hook refreshes the UI whenever the value provided by AuthContex changes.
+        See comments in App.js for more explanation
+        properties:
+        - authContextHook.isUserLogged
+        - authContextHook.role
+        methods:
+        - authContextHook.setIsUserLogged
+        - authContextHook.setRole  */
+
     const authContextHook = useContext(AuthContext);
 
     const logout = () => {
-        const host = process.env.HOST
-        axios.get(`${host}api/user/logout`, {withCredentials: true}).then((response) => {
+        const host = process.env.REACT_APP_API_HOST
+        axios.get(`http://${host}/api/user/logout`, {withCredentials: true}).then((response) => {
             if(response.status === 200){
                 alert('Logout successful.');
                 authContextHook.setIsUserLogged(false);
-                setTo('/user/login/')
+                authContextHook.setRole(null);
                 // if the logout was successful, navigate to "/" in order to
                 // reload the components and the isUserLogged state variable
                 navigate('/', {replace: true});
@@ -38,14 +45,6 @@ function Header(props) {
     }
 
     useEffect(() => {
-        if(authContextHook.isUserLogged){
-            setTo(null);
-        }
-
-        // This effect applies when the shopping cart is visible:
-        // if so, then we be removing the mf overflow so it doesn't show
-        // weird overlay clips when scrolling.
-        // We're passing the scrolling to the cart content.
         if (showShoppingCart)
             document.body.style.overflow = 'hidden';
         else
@@ -76,12 +75,12 @@ function Header(props) {
                             <Link onClick={() => {
                                 console.log('Showing cart');
                                 setShowShoppingCart(true);
-                            }}>
-                                <SlideEffect height='1.5rem'>
+                                }}>
+                                <SlideEffect height='24px'>
                                     <ShoppingCart id='cart' />
                                 </SlideEffect>
                             </Link>}
-                        <Link to={to} onClick={() => {
+                        <Link to={authContextHook.isUserLogged ? null : '/user/login'} onClick={() => {
                                 if(authContextHook.isUserLogged){
                                     setShowPopupMenu(true);
                                 }
