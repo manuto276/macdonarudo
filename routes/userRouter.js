@@ -105,6 +105,7 @@ router.get('/user/logout/', passport.authenticate('jwt', {session: false}), (req
 
 router.get('/user/authenticated/', passport.authenticate('jwt', {session: false}), async (req ,res) => {
     console.log(`GET from ${req.ip}`);
+    console.log(req.user);
     const user = {
         role: req.user.role
     }

@@ -95,7 +95,6 @@ const userSchema = new mongoose.Schema(
                         required: false
                     }
                 },
-                required: true
             }],
             default: []
         },

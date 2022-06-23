@@ -1,29 +1,55 @@
 #!/usr/bin/env node
 
-const dotenv = require('dotenv')
-dotenv.config({path: './.env'})
+const dotenv = require('dotenv');
+dotenv.config({path: './.env'});
 
-const express = require('express') 
-const mongoose = require('mongoose') 
-const bodyParser = require('body-parser') 
-const path = require('path') 
-const expressSession = require('express-session')
-const passport = require('passport')
-const expressFlash = require('express-flash')
-const cookieParser = require('cookie-parser')
-const cors = require('cors')
-const userRouter = require('./routes/userRouter')
-const orderRouter = require('./routes/orderRouter')
-const productRouter = require('./routes/productRouter')
-
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const path = require('path');
+const expressSession = require('express-session');
+const passport = require('passport');
+const expressFlash = require('express-flash');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const userRouter = require('./routes/userRouter');
+const orderRouter = require('./routes/orderRouter');
+const productRouter = require('./routes/productRouter');
+const fs = require('fs');
+const User = require('./models/User');
+const { json } = require('express');
 
 
 // this function is from passport-config.js
 
 async function main() {
+    
     console.log(`Connecting to database ...`);
     await mongoose.connect('mongodb://localhost:27017/mac_donarudo_db', {useNewUrlParser: true})
     console.log(`Connection to database successful.`);
+
+    //
+    if(!(fs.existsSync('./first_run_check.txt'))){
+        console.log("First run, creating admin user...");
+        await fs.writeFile('first_run_check.txt', 'Just a random file to know if this is the first time running the app.',
+        (error) => {if(error){console.log(error);}});
+        const adminCredentials = JSON.parse(fs.readFileSync('admin.json', 'utf-8'));
+        const admin = User({
+            email: adminCredentials.email,
+            password: adminCredentials.password,
+            firstName: 'Admin',
+            lastName: 'Admin',
+            bdate: new Date('2000-07-31'),
+            city: 'Admin city',
+            role: 'admin'
+        });
+        await admin.save((error, admin) => {
+            if(error){
+                console.log(error);
+            }
+        });
+    }
+
     const app = express() 
 
     const port = 3001
