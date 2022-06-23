@@ -111,7 +111,7 @@ router.get('/user/authenticated/', passport.authenticate('jwt', {session: false}
     res.status(200).send(user)
 })
 
-router.post('/order/addToCart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/order/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
         const products = req.body.products;
         const userObj = req.user;
