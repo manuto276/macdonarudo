@@ -19,8 +19,15 @@ function Header(props) {
     const [to, setTo] = useState('/user/login');
     const navigate = useNavigate();
 
-    // this hook refreshes the UI whenever the value provided by AuthContex changes.
-    // See comments in App.js for more explanation
+    /*  this hook refreshes the UI whenever the value provided by AuthContex changes.
+        See comments in App.js for more explanation
+        properties:
+        - authContextHook.isUserLogged
+        - authContextHook.role
+        methods:
+        - authContextHook.setIsUserLogged
+        - authContextHook.setRole  */
+
     const authContextHook = useContext(AuthContext);
 
     const logout = () => {
@@ -29,6 +36,7 @@ function Header(props) {
             if(response.status === 200){
                 alert('Logout successful.');
                 authContextHook.setIsUserLogged(false);
+                authContextHook.setRole(null);
                 setTo('/user/login/')
                 // if the logout was successful, navigate to "/" in order to
                 // reload the components and the isUserLogged state variable

@@ -19,6 +19,7 @@ function App() {
             (response) => {
                 if(response.status === 200){
                     setIsUserLogged(true);
+                    setRole(response.role);
                 }
             }
         ).catch((reason) => console.log(reason));
@@ -28,10 +29,12 @@ function App() {
   useEffect(checkAuthentication, []);
   
   const [isUserLogged, setIsUserLogged] = useState(false);
+  // hook to hold the role of the current user
+  const [role, setRole] = useState(null);
 
   return (
     <div className='App'>
-      <AuthContext.Provider value={{isUserLogged, setIsUserLogged}}>
+      <AuthContext.Provider value={{isUserLogged, setIsUserLogged, role, setRole}}>
         <BrowserRouter>
           <Routes>
             <Route path='/'>
