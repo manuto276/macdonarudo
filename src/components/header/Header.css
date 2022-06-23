@@ -15,17 +15,6 @@ header .Main {
 }
 
 header
-.NavItem {
-    color: var(--floral-white);
-    font-family: 'Roboto';
-    font-weight: 500;
-    font-size: 0.875rem;
-    line-height: 1rem;
-    letter-spacing: 1.25px;
-    text-transform: uppercase;
-}
-
-header
 .More {
     margin-left: auto;
     display: flex;
@@ -60,16 +49,11 @@ header
 
 @media screen and (max-width: 799px) {
     header
-    .Logo {
-        height: 3rem !important;
-    }
-
-    header
     .Navigation {
         margin-top: 16px;
         padding-left: 20px;
         padding-right: 20px;
-        border-bottom: 0.5px solid var(--black-olive);
+        border-bottom: 1px solid var(--black-olive);
         display: flex;
         flex-direction: row;
     }
@@ -115,11 +99,6 @@ header
 }
 
 @media screen and (min-width: 800px) {
-    header
-    .Logo {
-        height: 4rem !important;
-    }
-
     header .Navigation {
         position: absolute;
         top: 50%;
@@ -143,7 +122,7 @@ header
         right: 0;
         top: 0;
         content: '';
-        width: 0.5px;
+        width: 1px;
         height: 1rem;
         background-color: var(--pale-silver);
     }

@@ -1,0 +1,11 @@
+@media screen and (max-width: 799px) {
+    .Logo {
+        height: 3rem;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .Logo {
+        height: 4rem;
+    }
+}

@@ -7,17 +7,17 @@ function SocialRow(props) {
     return (
         <div id={props.id} className={'SocialRow' + (props.className ? ' ' + props.className : '')}>
             <Link>
-                <SlideEffect height='24px'>
+                <SlideEffect height='1.5rem'>
                     <Facebook />
                 </SlideEffect>
             </Link>
             <Link>
-                <SlideEffect height='24px'>
+                <SlideEffect height='1.5rem'>
                     <Instagram />
                 </SlideEffect>
             </Link>
             <Link>
-                <SlideEffect height='24px'>
+                <SlideEffect height='1.5rem'>
                     <Twitter />
                 </SlideEffect>
             </Link>

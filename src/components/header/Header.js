@@ -1,5 +1,5 @@
 import './Header.css';
-import { AccountCircle, ShoppingCart } from '../icon/Icon';
+import { AccountCircle, ListAlt, ShoppingCart } from '../icon/Icon';
 import { Logo } from '../logo/Logo';
 import { Link, SlideEffect } from '../link/Link';
 import { useEffect, useState, useContext } from 'react';
@@ -37,14 +37,15 @@ function Header(props) {
         })
     }
 
-    // This effect applies when the shopping cart is visible:
-    // if so, then we be removing the mf overflow so it doesn't show
-    // weird overlay clips when scrolling.
-    // We're passing the scrolling to the cart content.
     useEffect(() => {
         if(authContextHook.isUserLogged){
             setTo(null);
         }
+
+        // This effect applies when the shopping cart is visible:
+        // if so, then we be removing the mf overflow so it doesn't show
+        // weird overlay clips when scrolling.
+        // We're passing the scrolling to the cart content.
         if (showShoppingCart)
             document.body.style.overflow = 'hidden';
         else
@@ -57,26 +58,35 @@ function Header(props) {
         { 'title': 'Logout', 'onClick': logout }
     ]
 
+    // TODO: We need to update this value whether the user is a cook or not.
+    let isCook = false; // Testing value.
+
     return (
         <div className='HeaderContainer'>
             <header>
                 <div className='Main'>
                     <Logo />
                     <div className='More'>
-                        <Link onClick={() => {
+                        {isCook ? 
+                            <Link>
+                                <SlideEffect height='1.5rem'>
+                                    <ListAlt id='orders' />
+                                </SlideEffect>
+                            </Link> : 
+                            <Link onClick={() => {
                                 console.log('Showing cart');
                                 setShowShoppingCart(true);
                             }}>
-                            <SlideEffect height='24px'>
-                                <ShoppingCart id='cart' />
-                            </SlideEffect>
-                        </Link>
+                                <SlideEffect height='1.5rem'>
+                                    <ShoppingCart id='cart' />
+                                </SlideEffect>
+                            </Link>}
                         <Link to={to} onClick={() => {
                                 if(authContextHook.isUserLogged){
                                     setShowPopupMenu(true);
                                 }
                             }}>
-                            <SlideEffect height='24px'>
+                            <SlideEffect height='1.5rem'>
                                 <AccountCircle id='account' />
                             </SlideEffect>
                         </Link>
@@ -85,17 +95,17 @@ function Header(props) {
                 <nav className='Navigation'>
                     <div className='NavItem'>
                         <Link to='/'>
-                            <SlideEffect height='1rem'>Home</SlideEffect>
+                            <SlideEffect className='button' height='1rem'>Home</SlideEffect>
                         </Link>
                     </div>
                     <div className='NavItem'>
                         <Link to='/menu'>
-                            <SlideEffect height='1rem'>Menu</SlideEffect>
+                            <SlideEffect className='button' height='1rem'>Menu</SlideEffect>
                         </Link>
                     </div>
                     <div className='NavItem'>
                         <Link>
-                            <SlideEffect height='1rem'>About us</SlideEffect>
+                            <SlideEffect className='button' height='1rem'>About us</SlideEffect>
                         </Link>
                     </div>
                 </nav>

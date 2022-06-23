@@ -3,6 +3,7 @@ import { Hamburger } from '../../hamburger/Hamburger';
 
 import './Home.css';
 import { Header } from '../../header/Header';
+import { Footer } from '../../footer/Footer';
 
 function Home(props) {
     return (
@@ -16,6 +17,7 @@ function Home(props) {
                 </hgroup>
                 <Hamburger />
             </div>
+            <Footer />
         </section>
     );
 }

@@ -1,4 +1,5 @@
 #menu .Content {
+    position: relative;
     padding: 64px 32px;
 }
 
@@ -7,7 +8,7 @@
     text-align: center;
 }
 
-#menu .TagsContainer {
+#menu .FoodTypeList {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -18,11 +19,12 @@
     margin-top: 32px;
 }
 
-#menu .Chip {
+#menu 
+.FoodTypeList .Chip {
     cursor: pointer;
     height: 42px;
     border-radius: 21px;
-    border: 0.5px solid var(--pale-silver);
+    border: 1px solid var(--floral-white);
     padding: 0 24px;
 
     font-family: 'Roboto';
@@ -31,20 +33,25 @@
     font-weight: 500;
     letter-spacing: 1.25px;
     text-transform: uppercase;
-    color: var(--pale-silver);
+    color: var(--floral-white);
+    
+    opacity: 0.32;
+    transition: all 350ms ease;
 }
 
-#menu .Chip.Active {
-    border: 0.5px solid var(--floral-white);
-    color: var(--floral-white);
+#menu
+.FoodTypeList .Chip:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+#menu 
+.FoodTypeList .Chip.Active {
+    opacity: 1;
 }
 
 @media screen and (min-width: 800px) {
     #menu .Content {
         padding: 64px 128px;
-    }
-
-    #menu .TagsContainer {
-        margin-top: 64px;
     }
 }

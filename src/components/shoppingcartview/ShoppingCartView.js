@@ -10,7 +10,7 @@ function ShoppingCartView(props) {
             <div className='Overlay' onClick={props.onDismiss}></div>
             <div className='Cart'>
                 <button className='Tertiary CloseButton' onClick={props.onDismiss}>
-                    <SlideEffect height='24px'>
+                    <SlideEffect height='1.5rem'>
                         <Close />
                     </SlideEffect>
                 </button>

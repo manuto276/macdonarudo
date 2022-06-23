@@ -22,10 +22,17 @@
     }
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Fredericka the Great';
+h1, h2, h3, h4, h5, h6, p {
     margin: 0;
     color: var(--floral-white);
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Fredericka the Great';
+}
+
+h5, h6, p {
+    font-family: 'Roboto';
 }
 
 h1 {
@@ -57,11 +64,20 @@ h6 {
 }
   
 p {
-    font-family: 'Roboto';
     margin: 0;
     font-weight: 400;
     letter-spacing: 0.5px;
     color: var(--floral-white);
+}
+
+.button {
+    color: var(--floral-white);
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1rem;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
 }
 
 @media screen and (min-width: 415px) {
@@ -99,6 +115,11 @@ p {
         font-size: 1rem;
         line-height: 1.5rem;
     }
+    
+    .button {
+        font-size: 0.875rem;
+        line-height: 1rem;
+    }
 }
 
 @media screen and (max-width: 414px) {
@@ -135,5 +156,10 @@ p {
     p {
         font-size: 16px;
         line-height: 24px;
+    }
+    
+    .button {
+        font-size: 14px;
+        line-height: 16px;
     }
 }

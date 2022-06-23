@@ -12,7 +12,7 @@ function Link(props) {
 
 function SlideEffect(props) {
     return (
-        <div className='SlideEffect'>
+        <div className={'SlideEffect' + (props.className ? ' ' + props.className : '')}>
             <div className='Mask' style={{height: props.height ?? 'initial'}}>
                 <div>{props.children}</div>
                 <div>{props.children}</div>

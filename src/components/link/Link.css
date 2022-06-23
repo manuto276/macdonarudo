@@ -5,8 +5,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
 }
 
 .Link:visited, .Link:focus, .Link:active, .Link:hover {
     color: inherit;
+    text-decoration: none;
 }
