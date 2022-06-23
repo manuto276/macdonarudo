@@ -111,10 +111,46 @@ router.get('/user/authenticated/', passport.authenticate('jwt', {session: false}
     res.status(200).send(user)
 })
 
-router.post('/user/authenticated/', passport.authenticate('jwt', {session: false}),
-    (req, res) => {
-        res.status(200).send(`${req.user.email}'s sessions is valid`)
+router.post('/order/addToCart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    try{
+        const products = req.body.products;
+        const userObj = req.user;
+        for(i=0; i<products.length; i++){
+            const product = products[i];
+            const productId = product._id;
+            const amount = product.amount;
+            const user = await User.findById(userObj._id);
+            user.cart.push({_id: productId, amount: amount})
+            await user.save((error, user) => {
+                if(error){
+                    res.status(502).send(error);
+                }else{
+                    res.status(200).send(`Added ${products.length} elements`);
+                }
+            });
+        }
+    }catch(error){
+        res.status(400).send(error);
     }
-)
+});
+
+router.get('/order/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    try{
+        const id = req.user._id;
+        const role = req.user.role;
+        if(role === 'cook'){
+            res.status(401).send("Cooks can't have a cart");
+        }
+        const user = await User.findById(req.user._id);
+        const cart = user.cart;
+        if(cart){
+            res.status(200).send(cart);
+        }else{
+            res.status(404).send('no_cart');
+        }
+    }catch(error){
+        res.status(400).send(error);
+    }
+});
 
 module.exports = router

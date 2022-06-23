@@ -78,6 +78,27 @@ const userSchema = new mongoose.Schema(
             default: [],
             ref: 'Order'
         },      
+        cart: {
+            type: [{
+                type: {
+                    _id: {
+                        type: String,
+                        required: true,
+                        ref: 'Product'
+                    }, 
+                    amount: {
+                        type: Number,
+                        required: true
+                    },
+                    discountCode: {
+                        type: String,
+                        required: false
+                    }
+                },
+                required: true
+            }],
+            default: []
+        },
         password: {
             type: String,
             required: true
