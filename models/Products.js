@@ -14,6 +14,11 @@ const productSchema = new mongoose.Schema(
         price: {
             type: Number,
             required: true
+        },
+        type:{
+            type: String,
+            required: true,
+            enum: ['burger', 'pizza', 'salad', 'french-fries', 'drink', 'dessert']
         }
     }
 )

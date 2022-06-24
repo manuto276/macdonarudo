@@ -2,4 +2,4 @@ node_modules
 npm-debug.log
 build
 .DS_Store
-first_run_check.txt
+first_run/first_run_check.txt

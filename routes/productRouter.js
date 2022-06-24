@@ -8,14 +8,16 @@ const router = Router()
 
 router.post('/', async (req, res) => {
     try{
-        const body = req.body
-        const id = body._id
-        const price = body.price
+        const body = req.body;
+        const id = body._id;
+        const price = body.price;
+        const type = body.type;
     
         const product = new Product(
             {
                 _id: id,
-                price: price
+                price: price,
+                type: type
             }
         )
     
@@ -27,7 +29,7 @@ router.post('/', async (req, res) => {
             res.send(`Saved ${product.id}`)
         })
     }catch(error){
-        res.send(error)
+        res.status(400).send(error)
     }
 })
 

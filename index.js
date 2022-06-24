@@ -29,11 +29,11 @@ async function main() {
     console.log(`Connection to database successful.`);
 
     //
-    if(!(fs.existsSync('./first_run_check.txt'))){
+    if(!(fs.existsSync('first_run/first_run_check.txt'))){
         console.log("First run, creating admin user...");
-        await fs.writeFile('first_run_check.txt', 'Just a random file to know if this is the first time running the app.',
+        fs.writeFileSync('first_run/first_run_check.txt', 'Just a random file to know if this is the first time running the app.',
         (error) => {if(error){console.log(error);}});
-        const adminCredentials = JSON.parse(fs.readFileSync('admin.json', 'utf-8'));
+        const adminCredentials = JSON.parse(fs.readFileSync('first_run/admin.json', 'utf-8'));
         const admin = User({
             email: adminCredentials.email,
             password: adminCredentials.password,

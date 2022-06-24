@@ -1,0 +1,72 @@
+[
+    {
+        "_id": "makko-chicken",
+        "price": 5.99,
+        "type": "burger"
+    },
+    {
+        "_id": "big-makko",
+        "price": 6.99,
+        "type": "burger"
+    },
+    {
+        "_id": "kurispi-makko-bakonu",
+        "price": 6.99,
+        "type": "burger"
+    },
+    {
+        "_id": "cheese-burgeru",
+        "price": 1.99,
+        "type": "burger"
+    },
+    {
+        "_id": "magarita-pizza",
+        "price": 5.99,
+        "type": "pizza"
+    },
+    {
+        "_id": "pepperoni-pizza",
+        "price": 7.99,
+        "type": "pizza"
+    },
+    {
+        "_id": "pineapple-pizza",
+        "price": 6.66,
+        "type": "pizza"
+    },
+    {
+        "_id": "chimken-sarad",
+        "price": 8.99,
+        "type": "salad"
+    },
+    {
+        "_id": "hawaiian-poke",
+        "price": 11.99,
+        "type": "salad"
+    },
+    {
+        "_id": "coca-cola",
+        "price": 1.99,
+        "type": "drink"
+    },
+    {
+        "_id": "bepis",
+        "price": 1.98,
+        "type": "drink"
+    },
+    {
+        "_id": "sproot",
+        "price": 1.99,
+        "type": "drink"
+    },
+    {
+        "_id": "water",
+        "price": 0.99,
+        "type": "drink"
+    },
+    {
+        "_id": "makko-frurry",
+        "price": 3.99,
+        "type": "dessert"
+    }
+]
