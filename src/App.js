@@ -11,6 +11,10 @@ const AuthContext = createContext();
 
 function App() {
 
+  // check the user authentication by sending a get to
+  // /api/user/authenticated. If the client has an access_token cookie,
+  // this request will verify if it's valid. If it is, the user is authenticated with.
+  // Otherwise they will receive a 401 status response.
   const checkAuthentication = () => {
         const host = process.env.REACT_APP_API_HOST
         axios.get(`http://${host}/api/user/authenticated`,{
@@ -28,10 +32,14 @@ function App() {
   // check if the user is authenticated at first rendering
   useEffect(checkAuthentication, []);
   
+  // state variable to hold the current authentication status
   const [isUserLogged, setIsUserLogged] = useState(false);
-  // hook to hold the role of the current user
+  // state variable to hold the role of the current user
   const [role, setRole] = useState(null);
 
+  // AuthContext.Provider is a component that passes its value property down to every children.
+  // If the children uses useContext(AuthContext), it can access every property of AuthContext,
+  // e.g. isUserLogged or setRole
   return (
     <div className='App'>
       <AuthContext.Provider value={{isUserLogged, setIsUserLogged, role, setRole}}>
