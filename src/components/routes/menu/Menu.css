@@ -1,5 +1,4 @@
 #menu .Content {
-    position: relative;
     padding: 64px 32px;
 }
 
@@ -22,18 +21,10 @@
 #menu 
 .FoodTypeList .Chip {
     cursor: pointer;
-    height: 42px;
-    border-radius: 21px;
+    height: 3rem;
+    border-radius: 1.5rem;
     border: 1px solid var(--floral-white);
     padding: 0 24px;
-
-    font-family: 'Roboto';
-    font-size: 14px;
-    line-height: 42px;
-    font-weight: 500;
-    letter-spacing: 1.25px;
-    text-transform: uppercase;
-    color: var(--floral-white);
     
     opacity: 0.32;
     transition: all 350ms ease;
@@ -48,6 +39,12 @@
 #menu 
 .FoodTypeList .Chip.Active {
     opacity: 1;
+}
+
+#menu #addFoodButton {
+    margin-top: 64px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media screen and (min-width: 800px) {

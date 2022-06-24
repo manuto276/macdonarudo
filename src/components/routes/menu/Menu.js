@@ -1,18 +1,24 @@
+import './Menu.css';
 import { useContext, useState } from 'react';
 import { FloatingActionButton } from '../../floatingactionbutton/FloatingActionButton';
 import { Footer } from '../../footer/Footer';
 import { Header } from '../../header/Header';
 import { Add } from '../../icon/Icon';
 import { SlideEffect } from '../../link/Link';
-import './Menu.css';
 import { AuthContext } from '../../../App';
+import { NewProductView } from '../../newproductview/NewProductView';
 
 const FOOD_TYPES = ['Burgers', 'Pizzas', 'Salads', 'French Fries', 'Drinks', 'Desserts'];
 
 function Menu() {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [isNewProductVisible, setNewProductVisible] = useState(false);
 
     const authContextHook = useContext(AuthContext);
+    let isAdmin = authContextHook.role === 'admin';
+
+    // testing 
+    isAdmin = true;
 
     return (
         <section id='menu'>
@@ -22,15 +28,17 @@ function Menu() {
                     <h1>Explore<br/>Our Menu</h1>
                 </hgroup>
                 <FoodTypeList activeIndex={activeIndex} onItemClick={(index) => setActiveIndex(index)} />
-                <div className='Grid'></div>
-                {authContextHook.role === 'admin' ? 
-                    <FloatingActionButton id='add-food'>
+                <div className='MenuGrid'></div>
+                {isAdmin ? 
+                    <FloatingActionButton id='addFoodButton' onClick={() => setNewProductVisible(true)}>
                         <SlideEffect height='1.5rem'>
                             <Add />
                         </SlideEffect>
                     </FloatingActionButton> : null }
             </div>
             <Footer />
+            {isAdmin ? 
+                    <NewProductView isVisible={isNewProductVisible} onDismiss={() => setNewProductVisible(false)} /> : null }
         </section>
     );
 }
@@ -43,7 +51,9 @@ function FoodTypeList(props) {
     return (
         <div className='FoodTypeList'>
             {FOOD_TYPES.map((item, i) => 
-                <div className={'Chip' + (activeIndex == i ? ' Active' : '')} onClick={() => props.onItemClick(i)}>{item}</div>)}
+                <div className={'Chip' + (activeIndex == i ? ' Active' : '')} onClick={() => props.onItemClick(i)}>
+                    <SlideEffect className='button' height='1rem'>{item}</SlideEffect>
+                </div>)}
         </div>
     );
 }
