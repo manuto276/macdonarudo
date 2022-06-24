@@ -2,8 +2,6 @@ import './Menu.css';
 import './FoodCategories.css';
 import './ProductItem.css';
 
-import bbq from '../../../resources/images/bbq.png';
-
 import { useContext, useState } from 'react';
 import { FloatingActionButton } from '../../floatingactionbutton/FloatingActionButton';
 import { Footer } from '../../footer/Footer';
