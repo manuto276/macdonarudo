@@ -1,7 +1,8 @@
+import './NewProductView.css';
 import { useEffect } from 'react';
 import { Close, OutlinedPhotoLibrary } from '../icon/Icon';
 import { SlideEffect } from '../link/Link';
-import './NewProductView.css';
+import { FOOD_TYPES } from '../routes/menu/Menu';
 
 function NewProductView(props) {
     let image = null;
@@ -26,9 +27,11 @@ function NewProductView(props) {
                 { image == null ? <OutlinedPhotoLibrary size='4rem' color='var(--pale-silver)' /> : null}
             </div>
             <form id='newProductForm'>
-                <input id='newProductName' type='text' placeholder='Product Name' />
-                <input id='newProductCategory' type='text' placeholder='Category' />
-                <input id='newProductPrice' type='text' placeholder='Price' />
+                <input id='name' type='text' placeholder='Product Name' />
+                <select id='category' type='text' required>
+                        {FOOD_TYPES.map((item, i) => <option>{item}</option>)}
+                </select>
+                <input id='price' type='number' placeholder='Price' />
                 <button id='addProductButton' type='submit' form='newProductForm'>
                     <SlideEffect height='1rem'>Add Product</SlideEffect>
                 </button>

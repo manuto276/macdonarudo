@@ -8,7 +8,7 @@ import { SlideEffect } from '../../link/Link';
 import { AuthContext } from '../../../App';
 import { NewProductView } from '../../newproductview/NewProductView';
 
-const FOOD_TYPES = ['Burgers', 'Pizzas', 'Salads', 'French Fries', 'Drinks', 'Desserts'];
+export const FOOD_TYPES = ['Burgers', 'Pizzas', 'Salads', 'French Fries', 'Drinks', 'Desserts'];
 
 function Menu() {
     const [activeIndex, setActiveIndex] = useState(0);
