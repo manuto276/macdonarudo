@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const Product = require('./Product')
-const User = require('./User')
+const Product = require('./Products')
+const User = require('./Users')
 
 /*
     ID
@@ -36,7 +36,7 @@ const orderSchema = new mongoose.Schema(
                 _id: {
                     type: String,
                     required: true,
-                    ref: 'Product'
+                    ref: 'Products'
                 }, 
                 amount: {
                     type: Number,
@@ -52,4 +52,4 @@ const orderSchema = new mongoose.Schema(
     }
 )
 
-module.exports = mongoose.model('Order', orderSchema)
+module.exports = mongoose.model('Orders', orderSchema)

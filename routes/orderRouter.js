@@ -1,12 +1,12 @@
 const { Router } = require('express')
-const Order = require('../models/Order')
+const Orders = require('../models/Orders')
 const passport = require('passport')
-const Product = require('../models/Product')
+const Product = require('../models/Products')
 const localStrategyConfig = require('../auth/local-strategy')
 
 const router = Router()
 
-router.post('/order/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
         const body = req.body
         const clientId = req.user.id
@@ -35,7 +35,7 @@ router.post('/order/', passport.authenticate('jwt', {session: false}), async (re
             totalAmount += products[i].price * productsObjs[i].amount
         }
 
-        const order = new Order({
+        const order = new Orders({
                 totalAmount: totalAmount, 
                 clientId: clientId,
                 products: productsObjs,
@@ -55,32 +55,74 @@ router.post('/order/', passport.authenticate('jwt', {session: false}), async (re
     }
 })
 
-router.put('/order/:orderid', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.put('/:orderid', passport.authenticate('jwt', {session: false}), async (req, res) => {
     if(req.user.role !== 'cook'){
         res.status(401).send('Unauthorized')
         return
     }
     try{
         const newStatus = req.body.status
-        const oldStatus = await Order.findById(req.params.orderid)
+        const oldStatus = await Orders.findById(req.params.orderid)
         if(newStatus <= oldStatus){
             res.status(304).send('Status not changed')
             return
         }
-        await Order.findByIdAndUpdate(req.params.orderid, {status: newStatus})
+        await Orders.findByIdAndUpdate(req.params.orderid, {status: newStatus})
     }catch(error){
         res.send(error)
     }
 })
 
-router.get('/order/', passport.authenticate('jwt', {session: false}), async (req, res) => {
-    const orders = await Order.find({clientId: req.user.id})
+router.get('/orders/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    const orders = await Orders.find({clientId: req.user.id})
     res.send(orders)
 })
 
-router.delete('/order/deleteall', async (req, res) => {
-    await Order.deleteMany()
+router.delete('/deleteall', async (req, res) => {
+    await Orders.deleteMany()
     res.send('Ok')
 })
 
+
+router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    try{
+        const products = req.body.products;
+        const userObj = req.user;
+        for(i=0; i<products.length; i++){
+            const product = products[i];
+            const productId = product._id;
+            const amount = product.amount;
+            const user = await User.findById(userObj._id);
+            user.cart.push({_id: productId, amount: amount})
+            await user.save((error, user) => {
+                if(error){
+                    res.status(502).send(error);
+                }else{
+                    res.status(200).send(`Added ${products.length} elements`);
+                }
+            });
+        }
+    }catch(error){
+        res.status(400).send(error);
+    }
+});
+
+router.get('/orders/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    try{
+        const id = req.user._id;
+        const role = req.user.role;
+        if(role === 'cook'){
+            res.status(401).send("Cooks can't have a cart");
+        }
+        const user = await User.findById(req.user._id);
+        const cart = user.cart;
+        if(cart){
+            res.status(200).send(cart);
+        }else{
+            res.status(404).send('no_cart');
+        }
+    }catch(error){
+        res.status(400).send(error);
+    }
+});
 module.exports = router

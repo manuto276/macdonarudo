@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-const Order = require('./Order')
+const Orders = require('./Orders')
 
 /*
     ID
@@ -76,7 +76,7 @@ const userSchema = new mongoose.Schema(
         order_ids: {
             type: [mongoose.Types.ObjectId],
             default: [],
-            ref: 'Order'
+            ref: 'Orders'
         },      
         cart: {
             type: [{
@@ -84,7 +84,7 @@ const userSchema = new mongoose.Schema(
                     _id: {
                         type: String,
                         required: true,
-                        ref: 'Product'
+                        ref: 'Products'
                     }, 
                     amount: {
                         type: Number,
@@ -145,4 +145,4 @@ userSchema.methods.comparePassword = function(password, callback) {
     })
 }
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('Users', userSchema)

@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const User = require('../models/User')
+const User = require('../models/Users')
 const passport = require('passport')
 const Jwt = require('jsonwebtoken')
 const localStrategyConfig = require('../auth/local-strategy')
@@ -17,7 +17,7 @@ const signToken = (userId) => {
     )
 }
 
-router.post('/user/', async (req,res) => {
+router.post('/', async (req,res) => {
     console.log(req.ip);
     try{
         const body = req.body
@@ -63,18 +63,18 @@ router.post('/user/', async (req,res) => {
     }
 }) 
 
-router.get('/user/', async (req,res) => {
+router.get('/', async (req,res) => {
     console.log(`GET from ${req.ip}`);
     const users = await User.find();
     res.send(users);
 })
 
-router.delete('/user/deleteall/', passport.authenticate('jwt', {session: false}), async (req,res) => {
+router.delete('/deleteall/', passport.authenticate('jwt', {session: false}), async (req,res) => {
     await User.deleteMany();
     res.send('Ok');
 })
 
-router.delete('/user/:email/', passport.authenticate('jwt', {session: false}), async (req,res) => {
+router.delete('/users/:email/', passport.authenticate('jwt', {session: false}), async (req,res) => {
   try{
         const email = req.params.email;
         await User.deleteOne({email: email});
@@ -84,7 +84,7 @@ router.delete('/user/:email/', passport.authenticate('jwt', {session: false}), a
   }
 }) 
 
-router.post('/user/login/', passport.authenticate('local', {session: false}),
+router.post('/login/', passport.authenticate('local', {session: false}),
     (req, res) => {
         console.log(`POST from ${req.ip}`);
         const { _id, email, role } = req.user
@@ -98,12 +98,12 @@ router.post('/user/login/', passport.authenticate('local', {session: false}),
     }
 )
 
-router.get('/user/logout/', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.get('/logout/', passport.authenticate('jwt', {session: false}), (req, res) => {
     res.clearCookie('access_token')
     res.send('Bye')
 })
 
-router.get('/user/authenticated/', passport.authenticate('jwt', {session: false}), async (req ,res) => {
+router.get('/authenticated/', passport.authenticate('jwt', {session: false}), async (req ,res) => {
     console.log(`GET from ${req.ip}`);
     console.log(req.user);
     const user = {
@@ -111,47 +111,5 @@ router.get('/user/authenticated/', passport.authenticate('jwt', {session: false}
     }
     res.status(200).send(user)
 })
-
-router.post('/order/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
-    try{
-        const products = req.body.products;
-        const userObj = req.user;
-        for(i=0; i<products.length; i++){
-            const product = products[i];
-            const productId = product._id;
-            const amount = product.amount;
-            const user = await User.findById(userObj._id);
-            user.cart.push({_id: productId, amount: amount})
-            await user.save((error, user) => {
-                if(error){
-                    res.status(502).send(error);
-                }else{
-                    res.status(200).send(`Added ${products.length} elements`);
-                }
-            });
-        }
-    }catch(error){
-        res.status(400).send(error);
-    }
-});
-
-router.get('/order/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
-    try{
-        const id = req.user._id;
-        const role = req.user.role;
-        if(role === 'cook'){
-            res.status(401).send("Cooks can't have a cart");
-        }
-        const user = await User.findById(req.user._id);
-        const cart = user.cart;
-        if(cart){
-            res.status(200).send(cart);
-        }else{
-            res.status(404).send('no_cart');
-        }
-    }catch(error){
-        res.status(400).send(error);
-    }
-});
 
 module.exports = router

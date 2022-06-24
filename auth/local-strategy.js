@@ -1,6 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy
 const passport = require('passport')
-const User = require('../models/User')
+const User = require('../models/Users')
 const JwtStrategy = require('passport-jwt').Strategy
 
 // function to extract access_token cookie from the incoming request
