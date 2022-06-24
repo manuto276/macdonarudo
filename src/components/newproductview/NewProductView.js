@@ -24,12 +24,12 @@ function NewProductView(props) {
                 </SlideEffect>
             </button>
             <form id='newProductForm'>
-                <input id='name' type='text' placeholder='Product Name' />
+                <input id='name' type='text' placeholder='Product Name' required />
                 <select id='category' type='text' required>
                         {FOOD_TYPES.map((item, i) => <option>{item}</option>)}
                 </select>
-                <input id='price' type='number' placeholder='Price' />
-                <input id='icon' type='file' />
+                <input id='price' type='number' placeholder='Price' required />
+                <input id='icon' type='file' required />
                 <button id='addProductButton' type='submit' form='newProductForm'>
                     <SlideEffect height='1rem'>Add Product</SlideEffect>
                 </button>
