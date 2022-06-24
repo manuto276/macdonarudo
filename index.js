@@ -18,6 +18,7 @@ const productRouter = require('./routes/productRouter');
 const fs = require('fs');
 const User = require('./models/Users');
 const { json } = require('express');
+const Products = require('./models/Products');
 
 
 // this function is from passport-config.js
@@ -48,6 +49,15 @@ async function main() {
                 console.log(error);
             }
         });
+
+        const menu = JSON.parse(fs.readFileSync('first_run/menu.json'));
+        for(productObj in menu){
+            const product = new Products(productObj)
+            await product.save((error, product) => {
+                console.log(error);
+            });
+        }
+        console.log("DONE");
     }
 
     const app = express() 
