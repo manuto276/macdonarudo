@@ -7,48 +7,42 @@
     text-align: center;
 }
 
-#menu .FoodTypeList {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    row-gap: 16px;
-    column-gap: 16px;
-
-    margin-top: 32px;
-}
-
-#menu 
-.FoodTypeList .Chip {
-    cursor: pointer;
-    height: 3rem;
-    border-radius: 1.5rem;
-    border: 1px solid var(--floral-white);
-    padding: 0 24px;
-    
-    opacity: 0.32;
-    transition: all 350ms ease;
-}
-
-#menu
-.FoodTypeList .Chip:hover {
-    opacity: 1;
-    background-color: rgba(255, 255, 255, 0.04);
-}
-
-#menu 
-.FoodTypeList .Chip.Active {
-    opacity: 1;
-}
-
 #menu #addFoodButton {
     margin-top: 64px;
     margin-left: auto;
     margin-right: auto;
 }
 
+#menuGrid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 64px;
+}
+
+@media screen and (max-width: 799px) {
+    #menuGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media screen and (min-width: 800px) {
     #menu .Content {
         padding: 64px 128px;
+    }
+
+    #menuGrid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #menuGrid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (min-width: 1720px) {
+    #menuGrid {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     }
 }

@@ -1,0 +1,33 @@
+#menu .FoodCategories {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 16px;
+    column-gap: 16px;
+
+    margin-top: 32px;
+}
+
+#menu 
+.FoodCategories .Chip {
+    cursor: pointer;
+    height: 3rem;
+    border-radius: 1.5rem;
+    border: 1px solid var(--floral-white);
+    padding: 0 24px;
+    
+    opacity: 0.32;
+    transition: all 350ms ease;
+}
+
+#menu
+.FoodCategories .Chip:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+#menu 
+.FoodCategories .Chip.Active {
+    opacity: 1;
+}
