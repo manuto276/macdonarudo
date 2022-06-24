@@ -11,6 +11,10 @@ const AuthContext = createContext();
 
 function App() {
 
+  // check the user authentication by sending a get to
+  // /api/user/authenticated. If the client has an access_token cookie,
+  // this request will verify if it's valid. If it is, the user is authenticated with.
+  // Otherwise they will receive a 401 status response.
   const checkAuthentication = () => {
         const host = process.env.REACT_APP_API_HOST
         axios.get(`http://${host}/api/user/authenticated`,{
