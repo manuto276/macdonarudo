@@ -23,6 +23,8 @@ function NewProductView(props) {
                     <Close />
                 </SlideEffect>
             </button>
+            <h5>Create a new product.</h5>
+            <p>Fill the form below to create a new menu product.</p>
             <form id='newProductForm'>
                 <input id='name' type='text' placeholder='Product Name' required />
                 <select id='category' type='text' required>

@@ -75,11 +75,21 @@
     background-color: var(--black-olive);
 }
 
+.NewProductView h5 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.NewProductView p {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
 .NewProductView form {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 1rem;
 }
 
 .NewProductView input {
