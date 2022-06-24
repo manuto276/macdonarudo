@@ -44,3 +44,25 @@ input, select {
 input:focus, select:focus {
   outline: none;
 }
+
+input[type='file'] {
+  border: none;
+  padding: 0;
+}
+
+input[type='file']::file-selector-button {
+  cursor: pointer;
+  height: 3.5rem;
+  padding: 0 2rem;
+
+  border: 1px solid var(--pale-silver);
+  border-radius: 1.75rem;
+  background: none;
+  color: var(--floral-white);
+
+  transition: all 350ms ease;
+}
+
+input[type='file']::file-selector-button:hover {
+  background: rgba(255, 255, 255, 0.04);
+}

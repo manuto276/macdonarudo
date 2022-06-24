@@ -23,15 +23,13 @@ function NewProductView(props) {
                     <Close />
                 </SlideEffect>
             </button>
-            <div id='newProductImage'>
-                { image == null ? <OutlinedPhotoLibrary size='4rem' color='var(--pale-silver)' /> : null}
-            </div>
             <form id='newProductForm'>
                 <input id='name' type='text' placeholder='Product Name' />
                 <select id='category' type='text' required>
                         {FOOD_TYPES.map((item, i) => <option>{item}</option>)}
                 </select>
                 <input id='price' type='number' placeholder='Price' />
+                <input id='icon' type='file' />
                 <button id='addProductButton' type='submit' form='newProductForm'>
                     <SlideEffect height='1rem'>Add Product</SlideEffect>
                 </button>
