@@ -31,7 +31,7 @@ function Login(props) {
         }
         const host = process.env.REACT_APP_API_HOST
         // send the post request with the user credentials in the body
-        axios.post(`http://${host}/api/user/login/`, {
+        axios.post(`http://${host}/api/users/login/`, {
             email: email,
             password: password,
         }, {withCredentials: true}).then((response) => {
@@ -97,7 +97,7 @@ function Signup(props) {
         const host = process.env.REACT_APP_API_HOST
         // send post request to /api/user/ to create a new user, with the user info
         // in the request body
-        axios.post(`http://${host}/api/user/`, {
+        axios.post(`http://${host}/api/users/`, {
             firstName: firstName,
             lastName: lastName,
             bdate: bdate,

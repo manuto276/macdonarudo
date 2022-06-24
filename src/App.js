@@ -17,7 +17,7 @@ function App() {
   // Otherwise they will receive a 401 status response.
   const checkAuthentication = () => {
         const host = process.env.REACT_APP_API_HOST
-        axios.get(`http://${host}/api/user/authenticated`,{
+        axios.get(`http://${host}/api/users/authenticated`,{
             withCredentials: true, 
         }).then(
             (response) => {

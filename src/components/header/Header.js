@@ -32,7 +32,7 @@ function Header(props) {
 
     const logout = () => {
         const host = process.env.REACT_APP_API_HOST
-        axios.get(`http://${host}/api/user/logout`, {withCredentials: true}).then((response) => {
+        axios.get(`http://${host}/api/users/logout`, {withCredentials: true}).then((response) => {
             if(response.status === 200){
                 alert('Logout successful.');
                 authContextHook.setIsUserLogged(false);
