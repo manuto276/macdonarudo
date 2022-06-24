@@ -85,8 +85,7 @@ function Signup(props) {
     // sends a POST request to /api/user/ in order to create a new user.
     // event.preventDefault() is needed to prevent the refresh of the page
     // due to activating the submit button.
-    const signup = (event) => {
-        event.preventDefault();
+    const signup = () => {
         // if any of the necessary fields is empty, don't even try to send
         // the request, since it would receive an error response
         if(firstName.length === 0 || lastName.length === 0
@@ -132,7 +131,7 @@ function Signup(props) {
                         <SwitchBox value={isCookWorker} onClick={() => setCookWorker(!isCookWorker)} />
                     </div>
 
-                    <button className='extended' onClick={signup} id='sign-in-button' type='submit' form='signup-form' value='Sign up'>
+                    <button className='extended' onClick={(event) => {event.preventDefault(); signup();}} id='sign-in-button' type='submit' form='signup-form' value='Sign up'>
                         <SlideEffect height='1rem'>Sign up</SlideEffect>
                     </button>
                     <button className='Secondary extended' onClick={() => navigate('/user/login/')} type='submit' value='Sign in'>

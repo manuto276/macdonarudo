@@ -57,16 +57,13 @@ function Header(props) {
         { 'title': 'Logout', 'onClick': logout }
     ]
 
-    // TODO: We need to update this value whether the user is a cook or not.
-    let isCook = false; // Testing value.
-
     return (
         <div className='HeaderContainer'>
             <header>
                 <div className='Main'>
                     <Logo />
                     <div className='More'>
-                        {isCook ? 
+                        {authContextHook.role === 'cook' ? 
                             <Link>
                                 <SlideEffect height='1.5rem'>
                                     <ListAlt id='orders' />

@@ -19,7 +19,7 @@ function App() {
             (response) => {
                 if(response.status === 200){
                     setIsUserLogged(true);
-                    setRole(response.role);
+                    setRole(response.data.role);
                 }
             }
         ).catch((reason) => console.log(reason));

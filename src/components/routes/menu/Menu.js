@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { FloatingActionButton } from '../../floatingactionbutton/FloatingActionButton';
 import { Footer } from '../../footer/Footer';
 import { Header } from '../../header/Header';
 import { Add } from '../../icon/Icon';
 import { SlideEffect } from '../../link/Link';
 import './Menu.css';
+import { AuthContext } from '../../../App';
 
 const FOOD_TYPES = ['Burgers', 'Pizzas', 'Salads', 'French Fries', 'Drinks', 'Desserts'];
 
 function Menu() {
     const [activeIndex, setActiveIndex] = useState(0);
 
-    // TODO: Update this bool whether the user is an admin or not.
-    let isAdmin = true; // Testing value
+    const authContextHook = useContext(AuthContext);
 
     return (
         <section id='menu'>
@@ -23,7 +23,7 @@ function Menu() {
                 </hgroup>
                 <FoodTypeList activeIndex={activeIndex} onItemClick={(index) => setActiveIndex(index)} />
                 <div className='Grid'></div>
-                {isAdmin ? 
+                {authContextHook.role === 'admin' ? 
                     <FloatingActionButton id='add-food'>
                         <SlideEffect height='1.5rem'>
                             <Add />
