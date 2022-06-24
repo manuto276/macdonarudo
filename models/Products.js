@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema(
     {
-        _id: {
+        name: {
             type: String,
             required: true
         },
@@ -19,6 +19,9 @@ const productSchema = new mongoose.Schema(
             type: String,
             required: true,
             enum: ['burger', 'pizza', 'salad', 'french-fries', 'drink', 'dessert']
+        },
+        image: {
+            type: Buffer
         }
     }
 )

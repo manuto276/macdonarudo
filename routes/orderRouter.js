@@ -2,7 +2,9 @@ const { Router } = require('express')
 const Orders = require('../models/Orders')
 const passport = require('passport')
 const Product = require('../models/Products')
+const Users = require('../models/Users')
 const localStrategyConfig = require('../auth/local-strategy')
+const Products = require('../models/Products')
 
 const router = Router()
 
@@ -55,7 +57,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
     }
 })
 
-router.put('/:orderid', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     if(req.user.role !== 'cook'){
         res.status(401).send('Unauthorized')
         return
@@ -73,12 +75,12 @@ router.put('/:orderid', passport.authenticate('jwt', {session: false}), async (r
     }
 })
 
-router.get('/orders/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     const orders = await Orders.find({clientId: req.user.id})
     res.send(orders)
 })
 
-router.delete('/deleteall', async (req, res) => {
+router.delete('/deleteall/', async (req, res) => {
     await Orders.deleteMany()
     res.send('Ok')
 })
@@ -91,30 +93,46 @@ router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req
         for(i=0; i<products.length; i++){
             const product = products[i];
             const productId = product._id;
+            console.log(productId);
+            let isProductInMenu = await Products.findById(productId);
+            if(!isProductInMenu){
+                res.status(400).send('Bad product id');
+                return;
+            }
             const amount = product.amount;
-            const user = await User.findById(userObj._id);
-            user.cart.push({_id: productId, amount: amount})
+            const user = await Users.findById(userObj._id);
+            let exists = false
+            for(j=0; j<user.cart.length; j++){
+                if(user.cart[j]._id === productId){
+                    user.cart[j].amount += amount;
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists){
+                user.cart.push({_id: productId, amount: amount});
+            }
             await user.save((error, user) => {
                 if(error){
-                    res.status(502).send(error);
-                }else{
-                    res.status(200).send(`Added ${products.length} elements`);
+                    console.log(error);
                 }
             });
         }
+        res.status(200).send(`Added: \n${products}`);
     }catch(error){
+        console.log(error);
         res.status(400).send(error);
     }
 });
 
-router.get('/orders/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
         const id = req.user._id;
         const role = req.user.role;
         if(role === 'cook'){
             res.status(401).send("Cooks can't have a cart");
         }
-        const user = await User.findById(req.user._id);
+        const user = await Users.findById(req.user._id);
         const cart = user.cart;
         if(cart){
             res.status(200).send(cart);
@@ -125,4 +143,31 @@ router.get('/orders/cart/', passport.authenticate('jwt', {session: false}), asyn
         res.status(400).send(error);
     }
 });
+
+router.delete('/cart/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    try{
+        const productId = req.params.id;
+        const user = await Users.findById(req.user._id);
+        console.log(productId);
+        user.cart = user.cart.filter(product => {
+            console.log(product._id);
+            return product._id !== productId;
+        });
+        let status = 200;
+        let error = null;
+        await user.save((err, user) => {
+            if(err){
+                status = 502;
+                console.log(err);
+                error = error;
+            }
+        });
+        res.status(status).send(error)
+    }catch(error){
+        console.log(error);
+        res.status(400).send(error);
+    }
+});
+
+
 module.exports = router

@@ -1,6 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy
 const passport = require('passport')
-const User = require('../models/Users')
+const Users = require('../models/Users')
 const JwtStrategy = require('passport-jwt').Strategy
 
 // function to extract access_token cookie from the incoming request
@@ -21,7 +21,7 @@ passport.use(new JwtStrategy(
     // this callback verifies if the JWT contains the correct credentials
     // the payload is the data content of the JWT
     async (payload, done) => {
-        User.findById(payload.sub, (error, user) => {
+        Users.findById(payload.sub, (error, user) => {
             if(error){
                 return done(error, false)
             }
@@ -43,12 +43,12 @@ passport.use(new LocalStrategy(
     },
     // callback to check if the login data is correct and autenticate
     async (email, password, done) => {
-        User.findOne({email: email}, (error, user) => {
+        Users.findOne({email: email}, (error, user) => {
             if(error){
                 return done(error, false)
             }
             if(user){
-                // this function is in User.js
+                // this function is in Users.js
                 // if the password is correct it will return done(null, user)
                 return user.comparePassword(password, done)
             }

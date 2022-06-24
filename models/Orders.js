@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Product = require('./Products')
-const User = require('./Users')
+const Users = require('./Users')
 
 /*
     ID
@@ -23,7 +23,7 @@ const orderSchema = new mongoose.Schema(
         clientId: {
             type: mongoose.Types.ObjectId,
             required: true,
-            ref: 'User'
+            ref: 'Users'
         },
         status: {
             type: Number,
@@ -34,7 +34,7 @@ const orderSchema = new mongoose.Schema(
         products: [{
             type: {
                 _id: {
-                    type: String,
+                    type: mongoose.Types.ObjectId,
                     required: true,
                     ref: 'Products'
                 }, 

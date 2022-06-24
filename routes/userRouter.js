@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const User = require('../models/Users')
+const Users = require('../models/Users')
 const passport = require('passport')
 const Jwt = require('jsonwebtoken')
 const localStrategyConfig = require('../auth/local-strategy')
@@ -31,7 +31,7 @@ router.post('/', async (req,res) => {
         const email = body.email
         const password = body.password
         const bdate = body.bdate
-        const user = new User({
+        const user = new Users({
             firstName: firstName,
             lastName: lastName,
             role: role,
@@ -50,6 +50,7 @@ router.post('/', async (req,res) => {
                         return;
                     }
                 }catch(error){
+                    console.log(error);
                     res.status(502).send(error);
                     return;
                 }
@@ -65,19 +66,19 @@ router.post('/', async (req,res) => {
 
 router.get('/', async (req,res) => {
     console.log(`GET from ${req.ip}`);
-    const users = await User.find();
+    const users = await Users.find();
     res.send(users);
 })
 
 router.delete('/deleteall/', passport.authenticate('jwt', {session: false}), async (req,res) => {
-    await User.deleteMany();
+    await Users.deleteMany();
     res.send('Ok');
 })
 
-router.delete('/users/:email/', passport.authenticate('jwt', {session: false}), async (req,res) => {
+router.delete('/:email/', passport.authenticate('jwt', {session: false}), async (req,res) => {
   try{
         const email = req.params.email;
-        await User.deleteOne({email: email});
+        await Users.deleteOne({email: email});
         res.send(`Deleted ${email}`);
   }catch(error){
         res.send(error)
@@ -110,6 +111,29 @@ router.get('/authenticated/', passport.authenticate('jwt', {session: false}), as
         role: req.user.role
     }
     res.status(200).send(user)
-})
+});
+
+router.put('/changerole/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    try{
+        if(req.user.role !== 'admin'){
+            res.status(401).send('Admin privileges required');
+            return;
+        }
+        const email = req.body.email;
+        const newRole = req.body.newRole;
+        roles = ['customer', 'cook', 'admin'];
+        if(!(roles.some((role) => role === newRole))){
+            res.status(400).send('Invalid role.');
+            return;
+        }
+        
+        const user = await Users.findOneAndUpdate({email: email}, {role: newRole});
+        
+        res.status(200).send('Updated role.')
+    }catch(error){
+        console.log(error);
+        res.status(400).send(error);
+    }
+});
 
 module.exports = router

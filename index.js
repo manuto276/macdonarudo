@@ -16,7 +16,7 @@ const userRouter = require('./routes/userRouter');
 const orderRouter = require('./routes/orderRouter');
 const productRouter = require('./routes/productRouter');
 const fs = require('fs');
-const User = require('./models/Users');
+const Users = require('./models/Users');
 const { json } = require('express');
 const Products = require('./models/Products');
 
@@ -35,7 +35,7 @@ async function main() {
         fs.writeFileSync('first_run/first_run_check.txt', 'Just a random file to know if this is the first time running the app.',
         (error) => {if(error){console.log(error);}});
         const adminCredentials = JSON.parse(fs.readFileSync('first_run/admin.json', 'utf-8'));
-        const admin = User({
+        const admin = Users({
             email: adminCredentials.email,
             password: adminCredentials.password,
             firstName: 'Admin',
@@ -49,12 +49,15 @@ async function main() {
                 console.log(error);
             }
         });
-
+        
         const menu = JSON.parse(fs.readFileSync('first_run/menu.json'));
-        for(productObj in menu){
-            const product = new Products(productObj)
+        for(i=0; i<menu.length; i++){
+            const product = new Products(menu[i])
+            console.log(menu[i]);
             await product.save((error, product) => {
-                console.log(error);
+                if(error){
+                    console.log(error);
+                }
             });
         }
         console.log("DONE");

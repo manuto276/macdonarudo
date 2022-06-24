@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
                 validator: 
                 // Arrow function would not work
                 async function(email) {
-                    // this.constructor is the User model, this is the schema. 
+                    // this.constructor is the Users model, this is the schema. 
                     const user = await this.constructor.findOne({email: email})
                     if(user){
                         // if the email is already used by the same user that is trying to use it it's ok

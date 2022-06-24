@@ -2,22 +2,23 @@ const { Router } = require('express')
 const Product = require('../models/Products')
 const passport = require('passport')
 const Jwt = require('jsonwebtoken')
-const { reset } = require('nodemon')
 
 const router = Router()
 
 router.post('/', async (req, res) => {
     try{
         const body = req.body;
-        const id = body._id;
+        const name = body.name;
         const price = body.price;
         const type = body.type;
+        //const image = body.image;
     
         const product = new Product(
             {
-                _id: id,
+                name: name,
                 price: price,
-                type: type
+                type: type,
+                //image: image
             }
         )
     
@@ -29,14 +30,15 @@ router.post('/', async (req, res) => {
             res.send(`Saved ${product.id}`)
         })
     }catch(error){
+        console.log(error);
         res.status(400).send(error)
     }
 })
 
 router.get('/', async (req, res) => {
-    const products = await Product.find()
-    res.send(products)
-})
+    const products = await Product.find();
+    res.send(products);
+});
 
 router.delete('/deleteall', async (req, res) => {
     await Product.deleteMany()

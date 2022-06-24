@@ -1,11 +1,18 @@
-POST http://localhost:3000/api/product/ HTTP/1.1
+POST http://localhost:3001/api/products/ HTTP/1.1
 Content-Type: application/json
 
 {
     "_id": "mc-chicken",
-    "price": 6.99
+    "price": 6.99,
+    "type": "burger"
 }
 
 ###
 
-GET http://localhost:3000/api/product/ HTTP/1.1
+GET http://localhost:3001/api/products/ HTTP/1.1
+
+###
+DELETE http://localhost:3001/api/products/62b646863dad89475b68f81b HTTP/1.1
+
+###
+DELETE http://localhost:3001/api/products/deleteall HTTP/1.1
