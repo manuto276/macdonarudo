@@ -1,0 +1,41 @@
+.SwitchBox {
+    cursor: pointer;
+    height: 2.25;
+    width: 3.75rem;
+    border-radius: 1.125rem;
+    padding: 0.25rem;
+
+    background-color: var(--black-olive);
+    transition: all 200ms ease;
+}
+
+.SwitchBox.Active {
+    background-color: var(--flame);
+}
+
+.SwitchBox 
+.Ball {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    margin-left: 0;
+    background-color: var(--floral-white);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
+    transition: all 200ms ease;
+}
+
+.SwitchBox.Active
+.Ball {
+    margin-left: auto;
+}
+
+.SwitchBox:hover
+.Ball {
+    margin-left: 4%;
+}
+
+.SwitchBox.Active:hover
+.Ball {
+    margin-left: auto;
+    margin-right: 4%;
+}

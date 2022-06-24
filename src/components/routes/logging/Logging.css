@@ -29,6 +29,14 @@
     margin-bottom: 4rem;
 }
 
+.LoggingPage .SwitchContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 56px;
+}
+
 @media screen and (max-width: 483px) {
     .LoggingPage {
         padding: 64px 32px;

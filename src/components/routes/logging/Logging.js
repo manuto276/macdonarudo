@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { SlideEffect } from '../../link/Link';
 import axios from 'axios';
 import { AuthContext } from '../../../App';
+import { SwitchBox } from '../../switchbox/SwitchBox';
 
 function Login(props) {
 
@@ -76,6 +77,8 @@ function Signup(props) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    const [isCookWorker, setCookWorker] = useState('');
+
     // this hook allows navigation to a specified path
     const navigate = useNavigate();
 
@@ -123,8 +126,14 @@ function Signup(props) {
                     <input className='extended' value={email} onChange={e => setEmail(e.target.value)} type='email' placeholder='E-mail' />
                     <input type='password' value={password} onChange={e => setPassword(e.target.value)} placeholder='Password' />
                     <input type='password' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder='Confirm password' />
+                    
+                    <div className='extended SwitchContainer'>
+                        <p>Sign up as cook worker</p>
+                        <SwitchBox value={isCookWorker} onClick={() => setCookWorker(!isCookWorker)} />
+                    </div>
+
                     <button className='extended' onClick={signup} id='sign-in-button' type='submit' form='signup-form' value='Sign up'>
-                        <SlideEffect height='1rem'>Sign in</SlideEffect>
+                        <SlideEffect height='1rem'>Sign up</SlideEffect>
                     </button>
                     <button className='Secondary extended' onClick={() => navigate('/user/login/')} type='submit' value='Sign in'>
                         <SlideEffect height='1rem'>Already have an account? Sign in</SlideEffect>
