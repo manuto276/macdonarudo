@@ -48,26 +48,23 @@
     width: 25.875rem;
     height: fit-content;
     
-    margin-left: auto;
     padding: 2rem;
     border-radius: 1rem;
     
     position: fixed;
-    left: 2rem;
-    right: 2rem;
-    top: 2rem;
-    bottom: 2rem;
+    left: 50%;
+    top: 50%;
 
     overflow: scroll;
 
     transition: all 350ms ease;
-    transform: translateX(4rem);
+    transform: translate(-50%, calc(-50% - 4rem));
     opacity: 0;
 }
 
 .Dialog.Visible
 .View {
-    transform: translateX(0);
+    transform: translate(-50%, -50%);
     opacity: 1;
 }
 
@@ -75,6 +72,23 @@
     .Dialog
     .View {
         max-height: calc(100% - 2rem);
+    }
+
+    .Dialog.ShoppingCartDialog
+    .View {
+        margin-left: auto;
+        
+        left: 2rem!important;
+        right: 2rem !important;
+        top: 2rem !important;
+        bottom: 2rem !important;
+
+        transform: translateX(4rem) !important;
+    }
+
+    .Dialog.ShoppingCartDialog.Visible
+    .View {
+        transform: translateX(0) !important;
     }
 }
 
@@ -94,7 +108,7 @@
     }
 
     .Dialog.Visible
-    .Cart {
+    .View {
         transform: translateY(0);
     }
 }

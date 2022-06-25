@@ -11,9 +11,8 @@ import axios from 'axios';
 
 export const FOOD_TYPES = ['burger', 'pizza', 'salad', 'french-fries', 'drink', 'dessert'];
 
-function Menu() {
+function Menu(props) {
     const [activeIndex, setActiveIndex] = useState(0);
-    const [isNewProductVisible, setIsNewProductVisible] = useState(false);
 
     const authContextHook = useContext(AuthContext);
     let isAdmin = authContextHook.role === 'admin';
@@ -52,7 +51,7 @@ function Menu() {
                     })}
                 </div>
                 {isAdmin ? 
-                    <FloatingActionButton id='addFoodButton' onClick={() => setIsNewProductVisible(true)}>
+                    <FloatingActionButton id='addFoodButton' onClick={props.onAddClick}>
                         <SlideEffect height='1.5rem'>
                             <Add />
                         </SlideEffect>

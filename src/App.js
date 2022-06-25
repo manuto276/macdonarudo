@@ -41,10 +41,15 @@ function App() {
   const [role, setRole] = useState(null);
 
   const [isDialogVisible, setDialogVisible] = useState(false);
+  const [isShoppingCartVisible, setShoppingCartVisible] = useState(false);
   const [dialogContent, setDialogContent] = useState(null);
+  const [dialogClasses, setDialogClasses] = useState('');
 
   function dismissDialog() {
-    setDialogVisible(false);
+    if (isDialogVisible)
+      setDialogVisible(false);
+    if (isShoppingCartVisible)
+      setShoppingCartVisible(false);
   }
 
   // AuthContext.Provider is a component that passes its value property down to every children.
@@ -56,8 +61,7 @@ function App() {
         <BrowserRouter>
           {shouldShowNavBars() ?
             <Header onCartClick={() => {
-              setDialogVisible(true); 
-              setDialogContent(<CartView onDismiss={dismissDialog} />)
+              setShoppingCartVisible(true); 
             }} /> : null}
           <Routes>
             <Route path='/'>
@@ -82,7 +86,8 @@ function App() {
           </Routes>
           {shouldShowNavBars() ?
             <Footer /> : null }
-          <Dialog view={dialogContent} visible={isDialogVisible} onDismiss={dismissDialog} />
+          <Dialog className={dialogClasses} view={dialogContent} visible={isDialogVisible} onDismiss={dismissDialog} />
+          <Dialog className='ShoppingCartDialog' view={<CartView onDismiss={dismissDialog} />} visible={isShoppingCartVisible} onDismiss={dismissDialog} />
         </BrowserRouter>
       </AuthContext.Provider>
     </div>
@@ -105,7 +110,7 @@ function Dialog(props) {
   });
   
   return (
-    <div className={'Dialog' + (props.visible ? ' Visible' : '')}>
+    <div className={'Dialog' + (props.visible ? ' Visible' : '') + (props.className ? ' ' + props.className : '')}>
       <div className='Overlay' onClick={props.onDismiss ?? null} />
       <div className='View'>{view}</div>
     </div>
