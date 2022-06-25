@@ -11,14 +11,16 @@ router.post('/', async (req, res) => {
         const name = body.name;
         const price = body.price;
         const type = body.type;
-        //const image = body.image;
+        const image = body.image;
+
+        console.log(image);
     
         const product = new Product(
             {
                 name: name,
                 price: price,
                 type: type,
-                //image: image
+                image: image
             }
         )
     

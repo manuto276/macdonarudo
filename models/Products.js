@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema(
             enum: ['burger', 'pizza', 'salad', 'french-fries', 'drink', 'dessert']
         },
         image: {
-            type: Buffer
+            type: String
         }
     }
 )
