@@ -18,22 +18,6 @@ function App() {
   // /api/user/authenticated. If the client has an access_token cookie,
   // this request will verify if it's valid. If it is, the user is authenticated with.
   // Otherwise they will receive a 401 status response.
-  const checkAuthentication = () => {
-        const host = process.env.REACT_APP_API_HOST
-        axios.get(`http://${host}/api/users/authenticated`,{
-            withCredentials: true, 
-        }).then(
-            (response) => {
-                if(response.status === 200){
-                    setIsUserLogged(true);
-                    setRole(response.data.role);
-                }
-            }
-        ).catch((reason) => console.log(reason));
-  }
-
-  // check if the user is authenticated at first rendering
-  useEffect(checkAuthentication, []);
   
   // state variable to hold the current authentication status
   const [isUserLogged, setIsUserLogged] = useState(false);
@@ -45,6 +29,8 @@ function App() {
   const [dialogContent, setDialogContent] = useState(null);
   const [dialogClasses, setDialogClasses] = useState('');
 
+  const [menu, setMenu] = useState([])
+
   function dismissDialog() {
     if (isDialogVisible)
       setDialogVisible(false);
@@ -52,12 +38,40 @@ function App() {
       setShoppingCartVisible(false);
   }
 
+  const getMenu = async () => {
+    const host = process.env.REACT_APP_API_HOST;
+    axios.get(`http://${host}/api/products/`).then((response) => {
+        setMenu(response.data);            
+    }).catch((error) => {
+        alert(error);
+    });
+  }
+
+  const checkAuthentication = () => {
+    const host = process.env.REACT_APP_API_HOST
+    axios.get(`http://${host}/api/users/authenticated`,{
+        withCredentials: true, 
+    }).then(
+        (response) => {
+            if(response.status === 200){
+                setIsUserLogged(true);
+                setRole(response.data.role);
+            }
+        }
+    ).catch((reason) => console.log(reason));
+  }
+
+  // check if the user is authenticated at first rendering
+  useEffect(checkAuthentication, []);
+
   // AuthContext.Provider is a component that passes its value property down to every children.
   // If the children uses useContext(AuthContext), it can access every property of AuthContext,
   // e.g. isUserLogged or setRole
   return (
     <div className='App'>
-      <AuthContext.Provider value={{isUserLogged, setIsUserLogged, role, setRole}}>
+      <AuthContext.Provider value={{
+        isUserLogged, setIsUserLogged, role, setRole, menu, setMenu, getMenu
+        }}>
         <BrowserRouter>
           {shouldShowNavBars() ?
             <Header onCartClick={() => {

@@ -1,4 +1,4 @@
-import './Header.css';
+import './Header.css'
 import { AccountCircle, ListAlt, ShoppingCart } from '../icon/Icon';
 import { Logo } from '../logo/Logo';
 import { Link, SlideEffect } from '../link/Link';
@@ -11,10 +11,6 @@ import { AuthContext } from '../../App'
 function Header(props) {
     const [showPopupMenu, setShowPopupMenu] = useState(false);
 
-    // this hook holds the link "to" of the account icon button on the top right.
-    // If the user is not logged in, "to" is set to "/user/login/". Otherwise,
-    // it will be null, hence the link won't redirect and only show a popup
-    const [to, setTo] = useState('/user/login');
     const navigate = useNavigate();
 
     /*  this hook refreshes the UI whenever the value provided by AuthContex changes.

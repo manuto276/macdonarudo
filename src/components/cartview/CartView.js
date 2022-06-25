@@ -12,7 +12,7 @@ function CartView(props) {
                     <Close />
                 </SlideEffect>
             </button>
-            { props.list == null || props.list.length == 0 ? <EmptyCart onDismiss={props.onDismiss} /> : <div /> }
+            { props.list == null || props.list.length === 0 ? <EmptyCart onDismiss={props.onDismiss} /> : <div /> }
         </div>
     );
 }

@@ -1,13 +1,11 @@
 import './Menu.css';
 import './FoodCategories.css';
 import './ProductItem.css';
-
 import { useContext, useEffect, useState } from 'react';
 import { FloatingActionButton } from '../../floatingactionbutton/FloatingActionButton';
 import { Add, Delete, Edit, ShoppingCart } from '../../icon/Icon';
 import { SlideEffect } from '../../link/Link';
 import { AuthContext } from '../../../App';
-import axios from 'axios';
 
 export const FOOD_TYPES = ['burger', 'pizza', 'salad', 'french-fries', 'drink', 'dessert'];
 
@@ -17,19 +15,8 @@ function Menu(props) {
     const authContextHook = useContext(AuthContext);
     let isAdmin = authContextHook.role === 'admin';
 
-    const [menu, setMenu] = useState([]);
-
-    const getMenu = () => {
-        const host = process.env.REACT_APP_API_HOST;
-        axios.get(`http://${host}/api/products/`).then((response) => {
-            setMenu(response.data);            
-        }).catch((error) => {
-            alert(error);
-        });
-    }
-
     useEffect(() => {
-        getMenu();
+        authContextHook.getMenu();
     }, []);
 
     return (
@@ -40,14 +27,15 @@ function Menu(props) {
                 </hgroup>
                 <FoodCategories activeIndex={activeIndex} onItemClick={(index) => setActiveIndex(index)} />
                 <div id='menuGrid'>
-                    {menu.map((product, i) => {
+                    {authContextHook.menu.map((product, i) => {
                         if(FOOD_TYPES.indexOf(product.type) === activeIndex){
                             return <ProductItem 
                                 product={product} 
                                 isAdmin={isAdmin} 
-                                refreshMenuCallback={getMenu}
-                                onDelete={() => this.props.onDeleteClick(product._id, product.name)} />
+                                refreshMenuCallback={authContextHook.getMenu}
+                                onDelete={() => props.onDeleteClick(product._id, product.name)} />
                         }
+                        return null;
                     })}
                 </div>
                 {isAdmin ? 
@@ -69,7 +57,7 @@ function FoodCategories(props) {
     return (
         <div className='FoodCategories'>
             {FOOD_TYPES.map((item, i) => 
-                <div className={'Chip' + (activeIndex == i ? ' Active' : '')} key={item} onClick={() => props.onItemClick(i)}>
+                <div className={'Chip' + (activeIndex === i ? ' Active' : '')} key={item} onClick={() => props.onItemClick(i)}>
                     <SlideEffect className='button' height='1rem'>{item}</SlideEffect>
                 </div>)}
         </div>
