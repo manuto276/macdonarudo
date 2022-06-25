@@ -4,12 +4,9 @@ import './ProductItem.css';
 
 import { useContext, useEffect, useState } from 'react';
 import { FloatingActionButton } from '../../floatingactionbutton/FloatingActionButton';
-import { Footer } from '../../footer/Footer';
-import { Header } from '../../header/Header';
 import { Add, Delete, Edit, ShoppingCart } from '../../icon/Icon';
 import { SlideEffect } from '../../link/Link';
 import { AuthContext } from '../../../App';
-import { NewProductView } from '../../newproductview/NewProductView';
 import axios from 'axios';
 
 export const FOOD_TYPES = ['burger', 'pizza', 'salad', 'french-fries', 'drink', 'dessert'];
@@ -38,7 +35,6 @@ function Menu() {
 
     return (
         <section id='menu'>
-            <Header />
             <div className='Content'>
                 <hgroup>
                     <h1>Explore<br/>Our Menu</h1>
@@ -47,7 +43,11 @@ function Menu() {
                 <div id='menuGrid'>
                     {menu.map((product, i) => {
                         if(FOOD_TYPES.indexOf(product.type) === activeIndex){
-                            return <ProductItem product={product} isAdmin={isAdmin} refreshMenuCallback={getMenu}/>
+                            return <ProductItem 
+                                product={product} 
+                                isAdmin={isAdmin} 
+                                refreshMenuCallback={getMenu}
+                                onDelete={() => this.props.onDeleteClick(product._id, product.name)} />
                         }
                     })}
                 </div>
@@ -58,12 +58,6 @@ function Menu() {
                         </SlideEffect>
                     </FloatingActionButton> : null }
             </div>
-            <Footer />
-            {isAdmin ? 
-                    <NewProductView uploadCallback={() => {
-                        getMenu();
-                        setIsNewProductVisible(false);
-                    }} isVisible={isNewProductVisible} onDismiss={() => setIsNewProductVisible(false)} /> : null }
         </section>
     );
 }
@@ -84,16 +78,6 @@ function FoodCategories(props) {
 }
 
 function ProductItem(props) {
-
-    const deleteProduct = () => {
-        const host = process.env.REACT_APP_API_HOST;
-        axios.delete(`http://${host}/api/products/${props.product._id}`).then((response) => {
-            props.refreshMenuCallback();
-        }).catch((error) => {
-            alert(error);
-        });
-    }
-
     return (
         <div className='ProductItem'>
             <div className='ProductIcon'>
@@ -105,18 +89,14 @@ function ProductItem(props) {
             </div>
             <div className='Actions'>
                 <button>
-                    <SlideEffect height='1.5rem'>
-                        <ShoppingCart />
-                    </SlideEffect>
+                    <SlideEffect height='1.5rem'><ShoppingCart /></SlideEffect>
                 </button>
                 {props.isAdmin ? 
                 <button className='Tertiary'>
-                    <SlideEffect height='1.5rem'>
-                        <Edit />
-                    </SlideEffect>
+                    <SlideEffect height='1.5rem' onClick={props.onEdit}><Edit /></SlideEffect>
                 </button> : null}
                 {props.isAdmin ? 
-                <button className='Tertiary' onClick={deleteProduct}>
+                <button className='Tertiary' onClick={props.onDelete}>
                     <SlideEffect height='1.5rem'>
                         <Delete />
                     </SlideEffect>

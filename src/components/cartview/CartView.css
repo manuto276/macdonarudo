@@ -1,0 +1,26 @@
+#cartView {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#cartView
+.CloseButton {
+    padding: 0;
+    width: 3.5rem;
+    margin-left: auto;
+    margin-bottom: 2rem;
+}
+
+#cartView
+.EmptyCart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 2rem;
+}
+
+#cartView
+.EmptyCart .State {
+    margin-bottom: 2rem;
+}

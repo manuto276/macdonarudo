@@ -1,0 +1,41 @@
+#addProductView
+.CloseButton {
+    padding: 0;
+    width: 3.5rem;
+    margin-left: auto;
+    margin-bottom: 2rem;
+}
+
+#addProductView h5 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+#addProductView p {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+#addProductView form {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+#addProductView input {
+    width: 100%;
+}
+
+#addProductView #name {
+    grid-column: 1/3;
+}
+
+#addProductView #icon {
+    grid-column: 1/3;
+}
+
+#addProductView #addProductButton {
+    grid-column: 1/3;
+    margin-top: 1rem;
+}

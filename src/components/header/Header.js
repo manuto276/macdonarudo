@@ -5,13 +5,11 @@ import { Link, SlideEffect } from '../link/Link';
 import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { PopupMenu } from '../popupmenu/PopupMenu';
-import { ShoppingCartView } from '../shoppingcartview/ShoppingCartView';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../App'
 
 function Header(props) {
     const [showPopupMenu, setShowPopupMenu] = useState(false);
-    const [showShoppingCart, setShowShoppingCart] = useState(false);
 
     // this hook holds the link "to" of the account icon button on the top right.
     // If the user is not logged in, "to" is set to "/user/login/". Otherwise,
@@ -44,13 +42,6 @@ function Header(props) {
         })
     }
 
-    useEffect(() => {
-        if (showShoppingCart)
-            document.body.style.overflow = 'hidden';
-        else
-            document.body.style.overflow = 'initial';
-    });
-
     const defaultItems = [
         { 'title': 'My Account', 'onClick': null },
         { 'title': 'My Orders', 'onClick': null },
@@ -69,11 +60,8 @@ function Header(props) {
                                     <ListAlt id='orders' />
                                 </SlideEffect>
                             </Link> : 
-                            <Link onClick={() => {
-                                console.log('Showing cart');
-                                setShowShoppingCart(true);
-                                }}>
-                                <SlideEffect height='24px'>
+                            <Link onClick={props.onCartClick ?? null}>
+                                <SlideEffect height='1.5rem'>
                                     <ShoppingCart id='cart' />
                                 </SlideEffect>
                             </Link>}
@@ -107,7 +95,6 @@ function Header(props) {
                 </nav>
             </header>
             <PopupMenu isVisible={showPopupMenu} onDismiss={() => setShowPopupMenu(false)} menuItems={defaultItems} />
-            <ShoppingCartView isVisible={showShoppingCart} onDismiss={() => setShowShoppingCart(false)} />
         </div>
     );
 }

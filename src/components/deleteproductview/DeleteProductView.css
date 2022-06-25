@@ -1,0 +1,29 @@
+#deleteProductView
+.CloseButton {
+    padding: 0;
+    width: 3.5rem;
+    margin-left: auto;
+    margin-bottom: 2rem;
+}
+
+#deleteProductView h5 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+#deleteProductView p {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+#deleteProductView form {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+#deleteProductView #deleteProductButton {
+    grid-column: 1/3;
+    margin-top: 1rem;
+}

@@ -1,19 +1,11 @@
-import './NewProductView.css';
-import { useEffect, useState } from 'react';
-import { Close, OutlinedPhotoLibrary } from '../icon/Icon';
+import './AddProductView.css';
+import { useState } from 'react';
+import { Close } from '../icon/Icon';
 import { SlideEffect } from '../link/Link';
 import { FOOD_TYPES } from '../routes/menu/Menu';
 import axios from 'axios';
 
-function NewProductView(props) {
-
-    useEffect(() => {
-        if (props.isVisible)
-            document.body.style.overflow = 'hidden';
-        else
-            document.body.style.overflow = 'initial';
-    });
-
+function AddProductView(props) {
     const [productName, setproductName] = useState('');
     const [productType, setProductType] = useState('burger');
     const [price, setPrice] = useState(0);
@@ -34,9 +26,7 @@ function NewProductView(props) {
     }
 
     return (
-        <div className={'NewProductView' + (props.isVisible ? ' Visible' : '')}>
-        <div className='Overlay' onClick={props.onDismiss}></div>
-        <div className='MainView'>
+        <div id='addProductView'>
             <button className='Tertiary CloseButton' onClick={props.onDismiss}>
                 <SlideEffect height='1.5rem'>
                     <Close />
@@ -62,8 +52,7 @@ function NewProductView(props) {
                 </button>
             </form>
         </div>
-        </div>
     );
 }
 
-export { NewProductView };
+export { AddProductView };

@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Header } from './components/header/Header';
@@ -6,11 +6,14 @@ import { Home } from './components/routes/home/Home';
 import { Login, Signup } from './components/routes/logging/Logging';
 import { Menu } from './components/routes/menu/Menu';
 import axios from 'axios';
+import { Footer } from './components/footer/Footer';
+import { CartView } from './components/cartview/CartView';
+import { AddProductView } from './components/addproductview/AddProductView';
+import { DeleteProductView } from './components/deleteproductview/DeleteProductView';
 
 const AuthContext = createContext();
 
 function App() {
-
   // check the user authentication by sending a get to
   // /api/user/authenticated. If the client has an access_token cookie,
   // this request will verify if it's valid. If it is, the user is authenticated with.
@@ -37,6 +40,13 @@ function App() {
   // state variable to hold the role of the current user
   const [role, setRole] = useState(null);
 
+  const [isDialogVisible, setDialogVisible] = useState(false);
+  const [dialogContent, setDialogContent] = useState(null);
+
+  function dismissDialog() {
+    setDialogVisible(false);
+  }
+
   // AuthContext.Provider is a component that passes its value property down to every children.
   // If the children uses useContext(AuthContext), it can access every property of AuthContext,
   // e.g. isUserLogged or setRole
@@ -44,17 +54,69 @@ function App() {
     <div className='App'>
       <AuthContext.Provider value={{isUserLogged, setIsUserLogged, role, setRole}}>
         <BrowserRouter>
+          {shouldShowNavBars() ?
+            <Header onCartClick={() => {
+              setDialogVisible(true); 
+              setDialogContent(<CartView onDismiss={dismissDialog} />)
+            }} /> : null}
           <Routes>
             <Route path='/'>
               <Route path='/' element={ <Home /> } />
-              <Route path='/menu' element={ <Menu /> } />
+              <Route path='/menu' 
+                element={
+                <Menu onAddClick={() => {
+                  setDialogVisible(true); 
+                  setDialogContent(<AddProductView onDismiss={dismissDialog} />)
+                }}
+                onEditClick={(id, name, price) => {
+                  setDialogVisible(true); 
+                  setDialogContent(<AddProductView onDismiss={dismissDialog} />)
+                }}
+                onDeleteClick={(id, name) => {
+                  setDialogVisible(true);
+                  setDialogContent(<DeleteProductView productId={id} productName={name} onDismiss={dismissDialog} />)
+                }} /> } />
             </Route>
             <Route path='user/login' element={ <Login /> } />
             <Route path='user/signup' element={ <Signup /> } />
           </Routes>
+          {shouldShowNavBars() ?
+            <Footer /> : null }
+          <Dialog view={dialogContent} visible={isDialogVisible} onDismiss={dismissDialog} />
         </BrowserRouter>
       </AuthContext.Provider>
     </div>
   );
 }
+
 export { App, AuthContext };
+
+function Dialog(props) {
+  let view = null;
+
+  if (props.view != null)
+    view = React.cloneElement(props.view, {onDismiss: props.onDismiss});
+
+  useEffect(() => {
+      if (props.visible && view != null)
+          document.body.style.overflow = 'hidden';
+      else
+          document.body.style.overflow = 'initial';
+  });
+  
+  return (
+    <div className={'Dialog' + (props.visible ? ' Visible' : '')}>
+      <div className='Overlay' onClick={props.onDismiss ?? null} />
+      <div className='View'>{view}</div>
+    </div>
+  );
+}
+
+/** 
+ * This function checks whether we should show or not the Header and Footer.
+ * More specifically: if the current path is login or signup then we should not
+ * show them.
+ */
+function shouldShowNavBars() {
+  return !window.location.href.includes('login') && !window.location.href.includes('signup');
+}

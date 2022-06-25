@@ -2,3 +2,99 @@
     position: relative;
     min-height: 100vh;
 }
+
+.Dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+
+    width: 100%;
+    height: 100%;
+    
+    visibility: hidden;
+    transition: visibility 350ms none;
+}
+
+.Dialog.Visible {
+    visibility: visible;
+}
+
+.Dialog
+.Overlay {
+    width: 100%;
+    height: 100%;
+    
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
+    background-color: rgba(0, 0, 0, 0.32);
+    opacity: 0;
+    transition: all 350ms ease;
+}
+
+.Dialog.Visible
+.Overlay {
+    opacity: 1;
+}
+
+.Dialog
+.View {
+    background-color: var(--eerie-black);
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.16);
+    
+    width: 25.875rem;
+    height: fit-content;
+    
+    margin-left: auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    
+    position: fixed;
+    left: 2rem;
+    right: 2rem;
+    top: 2rem;
+    bottom: 2rem;
+
+    overflow: scroll;
+
+    transition: all 350ms ease;
+    transform: translateX(4rem);
+    opacity: 0;
+}
+
+.Dialog.Visible
+.View {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+@media screen and (min-width: 479px) {
+    .Dialog
+    .View {
+        max-height: calc(100% - 2rem);
+    }
+}
+
+@media screen and (max-width: 478px) {
+    .Dialog
+    .View {
+        border-radius: 0;
+
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        height: 100%;
+        width: 100%;
+        transform: translateY(-1rem);
+    }
+
+    .Dialog.Visible
+    .Cart {
+        transform: translateY(0);
+    }
+}
