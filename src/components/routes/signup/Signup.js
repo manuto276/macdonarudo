@@ -7,8 +7,6 @@ import { SlideEffect } from '../../link/Link';
 import axios from 'axios';
 import { SwitchBox } from '../../switchbox/SwitchBox';
 
-import { validateEmail } from '../../../App';
-
 function Signup(props) {
     // these are state variables that hold the content of the fields needed
     // to register the user.
