@@ -9,7 +9,8 @@
 #addProductView
 #preview {
     margin: 0 auto;
-    height: 9.75rem;
+    height: 6rem;
+    margin-bottom: 2rem;
 }
 
 #addProductView form {

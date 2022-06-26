@@ -67,7 +67,7 @@ function AddProductView(props) {
                 const input = document.getElementById('icon-input');
                 input.click();
             }}>
-                <img id='preview' src={image ?? AddImageState} />
+                <img id='preview' src={image !== '' ? image : AddImageState} alt='Product Image' />
             </Link>
             <form id='newProductForm'>
                 <input style={{display: 'none'}} id='icon-input' onChange={(event) => showImage(event)} type='file' accept='image/png' required />
