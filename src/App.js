@@ -64,6 +64,12 @@ function App() {
 
   // check if the user is authenticated at first rendering
   useEffect(checkAuthentication, []);
+  useEffect(() => {
+      if ((isDialogVisible && dialogContent !== null) || isShoppingCartVisible)
+          document.body.style.overflow = 'hidden';
+      else
+          document.body.style.overflow = 'initial';
+  });
 
   // AuthContext.Provider is a component that passes its value property down to every children.
   // If the children uses useContext(AuthContext), it can access every property of AuthContext,
@@ -116,13 +122,6 @@ function Dialog(props) {
 
   if (props.view != null)
     view = React.cloneElement(props.view, {onDismiss: props.onDismiss});
-
-  useEffect(() => {
-      if (props.visible && view != null)
-          document.body.style.overflow = 'hidden';
-      else
-          document.body.style.overflow = 'initial';
-  });
   
   return (
     <div className={'Dialog' + (props.visible ? ' Visible' : '') + (props.className ? ' ' + props.className : '')}>
