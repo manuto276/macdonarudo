@@ -3,16 +3,15 @@ const Orders = require('../models/Orders')
 const passport = require('passport')
 const Product = require('../models/Products')
 const Users = require('../models/Users')
-const localStrategyConfig = require('../auth/local-strategy')
+const StrategyConfig = require('../auth/strategies.js')
 const Products = require('../models/Products')
 
 const router = Router()
 
 router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
-        const body = req.body
-        const clientId = req.user.id
-        const productsObjs = body.products
+        const userId = req.user.id
+        const productsObjs = (await Users.findById(userId)).cart;
 
         let products = []
         let valid = true
@@ -39,7 +38,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
 
         const order = new Orders({
                 totalAmount: totalAmount, 
-                clientId: clientId,
+                clientId: userId,
                 products: productsObjs,
                 date: Date.now(),
                 status: 0
@@ -88,7 +87,7 @@ router.delete('/deleteall/', async (req, res) => {
 
 router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
-        const products = req.body.products;
+        const products = req.body;
         const userObj = req.user;
         for(i=0; i<products.length; i++){
             const product = products[i];
@@ -147,7 +146,7 @@ router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req,
 router.delete('/cart/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
         const productId = req.params.id;
-        const user = await Users.findById(req.user._id);
+        const user = req.user;
         console.log(productId);
         user.cart = user.cart.filter(product => {
             console.log(product._id);
@@ -168,6 +167,24 @@ router.delete('/cart/:id', passport.authenticate('jwt', {session: false}), async
         res.status(400).send(error);
     }
 });
+
+/*router.get('/status/', passport.authenticate('jwt', {session: false}), async function(req, res) {
+    res.header({
+      'Cache-Control': 'no-cache',
+      'Content-Type': 'text/event-stream',
+      'Connection': 'keep-alive'
+    });
+    res.flushHeaders();
+
+    res.write('retry: 5000\n\n');
+    const userId = req.user._id;
+    let userOrders = await Orders.find({clientId: userId, status: {$ne: 3}}, {_id: 1, status: 1});
+    while (true) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        let newUserOrders = await Orders.find({clientId: userId, status: {$ne: 3}}, {_id: 1, status: 1});
+        if()
+    }
+  });*/
 
 
 module.exports = router

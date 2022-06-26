@@ -5,15 +5,17 @@ const Jwt = require('jsonwebtoken')
 
 const router = Router()
 
-router.post('/', async (req, res) => {
+router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
+        if(req.user.role !== 'admin'){
+            res.status(401).send();
+            return;
+        }
         const body = req.body;
         const name = body.name;
         const price = body.price;
         const type = body.type;
         const image = body.image;
-
-        console.log(image);
     
         const product = new Product(
             {
@@ -47,8 +49,13 @@ router.delete('/deleteall', async (req, res) => {
     res.send('Ok')
 })
 
-router.delete('/:id', async (req, res) => {
-    await Product.deleteOne({_id: req.params.id})
-    res.send(`Deleted ${req.params.id}`)
-})
+router.delete('/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    if(req.user.role !== 'admin'){
+        res.status(401).send();
+        return;
+    }
+    await Product.deleteOne({_id: req.params.id});
+    res.send(`Deleted ${req.params.id}`);
+});
+
 module.exports = router

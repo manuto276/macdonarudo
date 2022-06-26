@@ -2,20 +2,10 @@ const { Router } = require('express')
 const Users = require('../models/Users')
 const passport = require('passport')
 const Jwt = require('jsonwebtoken')
-const localStrategyConfig = require('../auth/local-strategy')
+const localStrategyConfig = require('../auth/strategies')
 
 
 const router = Router()
-
-const signToken = (userId) => {
-    return Jwt.sign(
-        {
-            sub: userId, // the payload of the Jwt will contain the userId
-        },
-        process.env.JWT_SECRET, // secret key
-        {expiresIn: '2d'} // expires after 2 days
-    )
-}
 
 router.post('/', async (req,res) => {
     console.log(req.ip);
@@ -84,6 +74,16 @@ router.delete('/:email/', passport.authenticate('jwt', {session: false}), async 
         res.send(error)
   }
 }) 
+
+const signToken = (userId) => {
+    return Jwt.sign(
+        {
+            sub: userId, // the payload of the Jwt will contain the userId
+        },
+        process.env.JWT_SECRET, // secret key
+        {expiresIn: '2d'} // expires after 2 days
+    )
+}
 
 router.post('/login/', passport.authenticate('local', {session: false}),
     (req, res) => {

@@ -1,19 +1,6 @@
 POST http://localhost:3001/api/orders/ HTTP/1.1
 Content-Type: application/json
 
-{
-    "products": [
-        {
-            "_id": "makko-chicken",
-            "amount": 2
-        },
-        {
-            "_id": "big-makko",
-            "amount": 3
-        }
-    ]
-}
-
 ###
 
 GET http://localhost:3001/api/orders/ HTTP/1.1
@@ -32,19 +19,11 @@ Content-Type: application/json
 {
     "products": [
         {
-            "_id": "makko-chicken",
-            "amount": 1
-        },
-        {
-            "_id": "big-makko",
-            "amount": 5
-        },
-        {
-            "_id": "sproot",
+            "_id": "62b78733603a26a050eab5b2",
             "amount": 1
         }
     ]
 }
 
 ###
-DELETE http://localhost:3001/api/orders/cart/makko-chicken HTTP/1.1
+DELETE http://localhost:3001/api/orders/cart/62b78733603a26a050eab5b2 HTTP/1.1
