@@ -25,14 +25,6 @@ function Menu(props) {
 
     const menuSubset = createMenuSubset(authContextHook.menu, category);
 
-    const addToCart = () => {
-        const host = process.env.REACT_APP_API_HOST;
-        axios.post(`http://${host}/api/orders/cart/`, [{
-            _id: props.product._id,
-            amount: 1
-        }],{withCredentials: true});
-    }
-
     return (
         <section id='menu'>
             <div className='Content'>
