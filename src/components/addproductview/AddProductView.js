@@ -7,22 +7,23 @@ import axios from 'axios';
 import { AuthContext } from '../../App';
 
 function AddProductView(props) {
-    const [productName, setproductName] = useState('');
-    const [productType, setProductType] = useState('burger');
-    const [price, setPrice] = useState(0);
     const [image, setImage] = useState('');
 
     const authContextHook = useContext(AuthContext);
 
     const uploadProduct = (event) => {
         event.preventDefault();
-        if(productName.length === 0 || productType.length === 0 || price <= 0 || image.length === 0){
+        const formData = new FormData(event.target);
+        const name = formData.get('name');
+        const type = formData.get('type');
+        const price = formData.get('price');
+        if(name.length === 0 || type.length === 0 || price <= 0 || image.length === 0){
             return;
         }
         const host = process.env.REACT_APP_API_HOST;
         axios.post(`http://${host}/api/products/`, {
-            name: productName,
-            type: productType,
+            name: name,
+            type: type,
             price: price,
             image: image
         }, {withCredentials: true}).then((response) => {
@@ -64,14 +65,14 @@ function AddProductView(props) {
             <h5>Create a product.</h5>
             <p>Fill the form below to create a new menu product.</p>
             <img src={image} style={{maxHeight: '100px', maxWidth: '100px'}}></img>
-            <form id='newProductForm'>
-                <input id='name' type='text' value={productName} onChange={e => setproductName(e.target.value)} placeholder='Product Name' required />
-                <select id='category' type='text' value={productType} onChange={e => setProductType(e.target.value)} required>
+            <form id='newProductForm' onSubmit={uploadProduct}>
+                <input id='name' name='name' type='text' placeholder='Product Name' required />
+                <select id='category' name='type' type='text' required>
                         {FOOD_TYPES.map((item, i) => <option>{item}</option>)}
                 </select>
-                <input id='price' type='number' value={price} onChange={e => setPrice(e.target.value)} placeholder='Price' required />
+                <input id='price' type='number' name='price' step='0.01' placeholder='Price' required />
                 <input id='icon' onChange={(event) => showImage(event)} type='file' accept='image/png' required />
-                <button id='addProductButton' type='submit' onClick={uploadProduct} form='newProductForm'>
+                <button id='addProductButton' type='submit' form='newProductForm'>
                     <SlideEffect height='1rem'>Add Product</SlideEffect>
                 </button>
             </form>
