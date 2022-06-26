@@ -51,7 +51,8 @@ function Signup(props) {
             city: city,
             email: email,
             password: password,
-            confirmPassword: confirmPassword
+            confirmPassword: confirmPassword,
+            role: isCookWorker ? 'cook' : 'customer'
         }).then((response) => {
             // if the request is successful the user was created.
             // navigate to /user/login/ to allow the user to log in
