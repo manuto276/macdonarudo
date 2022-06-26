@@ -11,10 +11,10 @@ const router = Router()
 router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
         const userId = req.user.id
-        const productsObjs = (await Users.findById(userId)).cart;
+        const productsObjs = req.user.cart;
 
-        let products = []
-        let valid = true
+        let products = [];
+        let valid = true;
         // check if products exists and if they do add the retrieved data to array and use it
         // to calculate the total amount
         for(i=0; i<productsObjs.length; i++){
@@ -44,11 +44,18 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
                 status: 0
             })
 
-        await order.save((error, order) => {
+        await order.save(async (error, order) => {
             if(error){
                 res.status(409).send(error)
             }else{
-                res.send(`Saved order ${order.id} for ${order.totalAmount}`)
+                req.user.cart = [];
+                await req.user.save(async (error, user) => {
+                    if(error){
+                        res.status(502).send(error);
+                        return;
+                    }
+                    res.send(`Saved order ${order.id} for ${order.totalAmount}`);
+                });
             }
         })
     }catch(error){
