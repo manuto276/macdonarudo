@@ -63,19 +63,22 @@ function AddProductView(props) {
                     <Close />
                 </SlideEffect>
             </button>
-            <Link onClick={() => {
-                const input = document.getElementById('icon-input');
-                input.click();
-            }}>
-                <img id='preview' src={image !== '' ? image : AddImageState} alt='Product Image' />
-            </Link>
+            <div className='PreviewContainer'>
+                <Link onClick={() => {
+                    const input = document.getElementById('icon-input');
+                    input.click();
+                }}>
+                    <img id='preview' src={image !== '' ? image : AddImageState} alt='Product Image' />
+                </Link>
+                {image === '' ? <p>Tap to add a photo</p> : null}
+            </div>
             <form id='newProductForm'>
                 <input style={{display: 'none'}} id='icon-input' onChange={(event) => showImage(event)} type='file' accept='image/png' required />
                 <input id='name' type='text' value={productName} onChange={e => setproductName(e.target.value)} placeholder='Product Name' required />
                 <select id='category' type='text' value={productType} onChange={e => setProductType(e.target.value)} required>
                         {FOOD_TYPES.map((item, i) => <option>{item}</option>)}
                 </select>
-                <input id='price' type='number' value={price} onChange={e => setPrice(e.target.value)} placeholder='Price' required />
+                <input id='price' type='number' min='0.50' step='0.01' value={price} onChange={e => setPrice(e.target.value)} placeholder='Price' required />
                 <button id='addProductButton' type='submit' onClick={uploadProduct} form='newProductForm'>
                     <SlideEffect height='1rem'>Add Product</SlideEffect>
                 </button>
