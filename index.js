@@ -17,7 +17,6 @@ const orderRouter = require('./routes/orderRouter');
 const productRouter = require('./routes/productRouter');
 const fs = require('fs');
 const Users = require('./models/Users');
-const { json } = require('express');
 const Products = require('./models/Products');
 
 
@@ -75,9 +74,23 @@ async function main() {
     // initialize passport's sessions
     app.use(passport.session())
 
-    app.use('/api/users/', userRouter)
-    app.use('/api/orders/', orderRouter)
-    app.use('/api/products/', productRouter)
+    app.use('/api/users/', userRouter);
+    app.use('/api/orders/', orderRouter);
+    app.use('/api/products/', productRouter);
+
+    app.get('/sse/', async (req, res) => {
+        
+
+        console.log('Started SSE');
+        const interval = setInterval(() => {
+            res.write(`data: hi\n\n`);
+        }, 1000);
+
+        res.on('close', () => {
+            console.log('Closed.');
+            clearInterval(interval);
+        });
+    });
 
     // get * must be at the bottom, otherwise every url will be served the website
     app.get('*',(req, res, next) => {

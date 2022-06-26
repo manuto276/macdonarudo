@@ -1,0 +1,1 @@
+GET http://localhost:3001/sse/ HTTP/1.1

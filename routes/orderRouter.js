@@ -7,6 +7,9 @@ const StrategyConfig = require('../auth/strategies.js')
 const Products = require('../models/Products')
 const router = Router()
 
+let sseConnections = [];
+let mutex = false;
+
 router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
         const userId = req.user.id
@@ -75,19 +78,83 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
             return
         }
         await Orders.findByIdAndUpdate(req.params.orderid, {status: newStatus})
+        let index;
+        if(sseConnections.some((connection, i) => {
+            let matches = connection.userId === req.user._id;
+            if(matches){
+                index = i;
+                return matches;
+            }
+            return matches;
+        })){
+            sseConnections[index].updates = sseConnections[index].updates.filter((update, i) => {
+                return update.orderId !== req.params.orderid
+            });
+            sseConnections[index].updates.push({orderId: req.params.orderid, status: newStatus});
+        }
     }catch(error){
         res.send(error)
     }
 })
 
+router.get('/updates/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': 'text/event-stream',
+        'Connection': 'keep-alive'
+      });
+    console.log('Set SSE.');
+    let index;
+    if(sseConnections.length === 0 || sseConnections.every((connection, i) => {
+        let doesntMatch = connection.userId !== req.user._id
+        if(doesntMatch){
+            return doesntMatch;
+        }
+        index = i;
+        return doesntMatch;
+    })){
+        index = sseConnections.push({userId: req.user._id, subscribed: 1, updates: []}) - 1;
+    }
+    sseConnections[index].subscribed += 1;
+    const interval = setInterval(() => {
+        const updatesToSend = [].concat(sseConnections[index].updates);
+        if(updatesToSend.length > 0){
+            sseConnections[index].updates = [];
+            res.write(`data: ${updatesToSend}\n\n`);
+        }
+    }, 1000)
+    
+    res.on('close', () => {
+        clearInterval(interval);
+        sseConnections[index].subscribed -= 1;
+        if(sseConnections[index].subscribed === 0){
+            sseConnections.splice(index, 1);
+        }
+    })
+
+});
+
 router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     if(req.user.role === 'admin' || req.user.role === 'cook'){
         const orders = await Orders.find();
-        console.log(sseConnections);
         res.send(orders); 
         return;
     }
+
     const orders = await Orders.find({clientId: req.user.id});
+    res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': 'text/event-stream',
+        'Connection': 'keep-alive'
+      });
+    res.write(orders);
+    console.log('Started SSE');
+
+
+    res.on('close', () => {
+        console.log('Closed.');
+        clearInterval(interval);
+    });
     res.send(orders);
 })
 
@@ -104,7 +171,6 @@ router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req
         for(i=0; i<products.length; i++){
             const product = products[i];
             const productId = product._id;
-            console.log(productId);
             let isProductInMenu = await Products.findById(productId);
             if(!isProductInMenu){
                 res.status(400).send('Bad product id');
@@ -158,9 +224,7 @@ router.delete('/cart/:id', passport.authenticate('jwt', {session: false}), async
     try{
         const productId = req.params.id;
         const user = req.user;
-        console.log(productId);
         user.cart = user.cart.filter(product => {
-            console.log(product._id);
             return product._id !== productId;
         });
         let status = 200;
