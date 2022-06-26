@@ -80,6 +80,16 @@ p {
     text-transform: uppercase;
 }
 
+.caption {
+    color: var(--floral-white);
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 0.75rem;
+    line-height: 0.875rem;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
 .error {
     color: var(--flame);
 }

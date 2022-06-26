@@ -17,7 +17,7 @@ function Footer() {
                 <Link to='/'>
                     <SlideEffect className='button' height='1rem'>Home</SlideEffect>
                 </Link>
-                <Link to='/'>
+                <Link to='/menu'>
                     <SlideEffect className='button' height='1rem'>Menu</SlideEffect>
                 </Link>
                 <Link to='/'>
