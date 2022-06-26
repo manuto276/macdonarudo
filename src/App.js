@@ -3,13 +3,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Header } from './components/header/Header';
 import { Home } from './components/routes/home/Home';
-import { Login, Signup } from './components/routes/logging/Logging';
 import { Menu } from './components/routes/menu/Menu';
 import axios from 'axios';
 import { Footer } from './components/footer/Footer';
 import { CartView } from './components/cartview/CartView';
 import { AddProductView } from './components/addproductview/AddProductView';
 import { DeleteProductView } from './components/deleteproductview/DeleteProductView';
+import { Login } from './components/routes/login/Login';
+import { Signup } from './components/routes/signup/Signup';
 
 const AuthContext = createContext();
 

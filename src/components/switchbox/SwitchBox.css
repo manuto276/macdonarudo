@@ -1,3 +1,15 @@
+.SwitchBoxContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 1rem;
+}
+
+.SwitchBoxContainer p {
+    margin-left: 0.5rem;
+}
+
 .SwitchBox {
     cursor: pointer;
     height: 2.25;

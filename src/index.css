@@ -25,9 +25,6 @@ input, select {
   height: 3.5rem;
   padding: 0 2rem;
 
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
   background: none;
   border: 1px solid var(--pale-silver);
   border-radius: 1.75rem;
@@ -48,6 +45,10 @@ input:focus, select:focus {
 input[type='file'] {
   border: none;
   padding: 0;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 input[type='file']::file-selector-button {

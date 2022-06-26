@@ -1,75 +1,13 @@
-import './Logging.css';
-import './Login.css';
-import './Signup.css';
+import './Signup.css'
+
 import { Logo } from '../../logo/Logo';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SlideEffect } from '../../link/Link';
 import axios from 'axios';
-import { AuthContext } from '../../../App';
 import { SwitchBox } from '../../switchbox/SwitchBox';
 
-function Login(props) {
-
-    // these are state variables that hold the content of the fields needed
-    // to register the user.
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    // this hook allows navigation to a specified path
-    const navigate = useNavigate();
-
-    // this hook refreshes the UI whenever the value provided by AuthContex changes.
-    // See comments in App.js for more explanation
-    const authContextHook = useContext(AuthContext);
-
-    // sends a POST request to /api/user/login/ to attempt a login
-    const login = () => {
-        // if the fields are empty, return
-        if(email.length === 0 || password.length === 0){
-            return;
-        }
-        const host = process.env.REACT_APP_API_HOST
-        // send the post request with the user credentials in the body
-        axios.post(`http://${host}/api/users/login/`, {
-            email: email,
-            password: password,
-        }, {withCredentials: true}).then((response) => {
-
-            // if the login was successful, navigate to '/'
-            authContextHook.setIsUserLogged(true);
-            console.log(response);
-            navigate('/', {replace: true});
-        }).catch((error) => alert(error))
-    };
-    
-
-    return (
-        <section id='login' className='LoggingPage'>
-            <div className='FormContainer'>
-                <Logo />
-                <h2 id='title'>Hello Again!</h2>
-                <p id='description'>It's nice to have you back to McDonarudo&#174;.<br/>Please fill the form below to sign into the site.</p>
-                <form id='login-form' action=''>
-                    <input onChange={e => setEmail(e.target.value)} value={email}  type='email' placeholder='E-mail' />
-                    <input onChange={e => setPassword(e.target.value)} value={password} type='password' placeholder='Password' />
-                    <button id='sign-in-button' type='submit' form='login-form' value='Login' onClick={(event) => {
-                        event.preventDefault(); // prevent page refresh when clicked
-                        login();
-                    }}>
-                        <SlideEffect height='1rem'>Sign in</SlideEffect>
-                    </button>
-                    <button className='Secondary' type='submit' value='Sign up' onClick={() => navigate('/user/signup')}>
-                        <SlideEffect height='1rem'>Don't have an account? Sign up</SlideEffect>
-                    </button>
-                </form>
-            </div>
-        </section>
-    );
-}
-
 function Signup(props) {
-
     // these are state variables that hold the content of the fields needed
     // to register the user.
     const [firstName, setFirstName] = useState('');
@@ -79,6 +17,8 @@ function Signup(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    const [isPasswordVisible, setPasswordVisible] = useState(false);
 
     const [isCookWorker, setCookWorker] = useState('');
 
@@ -124,14 +64,12 @@ function Signup(props) {
                     <input type='text' value={lastName} onChange={e => setLastName(e.target.value)} placeholder='Last name' />
                     <input type='date' value={bdate} onChange={e => setBdate(e.target.value)} placeholder='Date of birth' />
                     <input type='text' value={city} onChange={e => setCity(e.target.value)} placeholder='City' />
-                    <input className='extended' value={email} onChange={e => setEmail(e.target.value)} type='email' placeholder='E-mail' />
-                    <input type='password' value={password} onChange={e => setPassword(e.target.value)} placeholder='Password' />
-                    <input type='password' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder='Confirm password' />
+                    <input value={email} onChange={e => setEmail(e.target.value)} type='email' placeholder='E-mail' />
+                    <input type={isPasswordVisible ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder='Password' />
+                    <input type={isPasswordVisible ? 'text' : 'password'} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder='Confirm password' />
                     
-                    <div className='extended SwitchContainer'>
-                        <p>Sign up as cook worker</p>
-                        <SwitchBox value={isCookWorker} onClick={() => setCookWorker(!isCookWorker)} />
-                    </div>
+                    <SwitchBox label='Show password' value={isPasswordVisible} onClick={() => setPasswordVisible(!isPasswordVisible)} />
+                    <SwitchBox label='Sign up as cook worker' value={isCookWorker} onClick={() => setCookWorker(!isCookWorker)} />
 
                     <button className='extended' onClick={(event) => {
                         // prevent page refresh by clicking the sign up button
@@ -149,4 +87,4 @@ function Signup(props) {
     );
 }
 
-export { Login, Signup };
+export { Signup };
