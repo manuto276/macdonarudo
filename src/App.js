@@ -75,7 +75,7 @@ function App() {
       if (isDialogVisible === false)
         setTimeout(function () {
           setDialogContent(null)
-        }, 350);
+        }, 1000);
   });
 
   // AuthContext.Provider is a component that passes its value property down to every children.
