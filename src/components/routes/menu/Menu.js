@@ -9,7 +9,6 @@ import { Add, Delete, Edit, ShoppingCart } from '../../icon/Icon';
 import { SlideEffect } from '../../link/Link';
 import { AuthContext } from '../../../App';
 import { EditableProduct, Product } from '../../product/Product';
-import axios from 'axios';
 
 export const FOOD_TYPES = ['burger', 'pizza', 'salad', 'french-fries', 'drink', 'dessert'];
 
