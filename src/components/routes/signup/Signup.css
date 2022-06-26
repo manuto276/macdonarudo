@@ -24,6 +24,10 @@
     text-align: center;
 }
 
+#signup .error {
+    margin-top: 1rem;
+}
+
 #signup form {
     width: 100%;
     margin-top: 4rem;

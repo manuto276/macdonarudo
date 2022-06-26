@@ -1,11 +1,13 @@
 import './Signup.css'
 
 import { Logo } from '../../logo/Logo';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SlideEffect } from '../../link/Link';
 import axios from 'axios';
 import { SwitchBox } from '../../switchbox/SwitchBox';
+
+import { validateEmail } from '../../../App';
 
 function Signup(props) {
     // these are state variables that hold the content of the fields needed
@@ -32,15 +34,28 @@ function Signup(props) {
         const confirmPassword = formData.get('confirmPassword');
         // if any of the necessary fields is empty, don't even try to send
         // the request, since it would receive an error response
-        if(firstName.length === 0 || lastName.length === 0
-            || bdate.length === 0 || city.length === 0 || email.length === 0
-            || password.length === 0 || confirmPassword.length === 0){
-                return;
-        }
-        if(confirmPassword !== password){
-            alert(`Passwords don't match.`);
+
+        // Adding error control over the input fields.
+        if (firstName.length === 0 || lastName.length === 0 || bdate.length === 0 || city.length === 0) {
+            setErrorMessage('Please fill your personal information first.');
             return;
         }
+
+        if (email.length === 0) {
+            setErrorMessage('Please add your e-mail.')
+            return;
+        }
+
+        if (password.length === 0 || confirmPassword.length === 0) {
+            setErrorMessage('Please add your password.')
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setErrorMessage('Password don\'t match');
+            return;
+        }
+
         const host = process.env.REACT_APP_API_HOST
         // send post request to /api/user/ to create a new user, with the user info
         // in the request body
@@ -66,7 +81,7 @@ function Signup(props) {
                 <Logo />
                 <h2>Hello There!</h2>
                 <p>Welcome to McDonarudo&#174;.<br/>Please fill the form below to register on this site.</p>
-                { errorMessage !== null ? <p className='error'>{errorMessage}</p> : null}
+                { errorMessage !== null ? <p className='error'>Error: {errorMessage}</p> : null}
                 <form id='signup-form' onSubmit={signup}>
                     <input type='text' name='firstName' placeholder='First name' />
                     <input type='text' name='lastName' cityplaceholder='Last name' />

@@ -122,8 +122,6 @@ function App() {
   );
 }
 
-export { App, AuthContext };
-
 function Dialog(props) {
   let view = null;
 
@@ -146,3 +144,5 @@ function Dialog(props) {
 function shouldShowNavBars() {
   return !window.location.href.includes('login') && !window.location.href.includes('signup');
 }
+
+export { App, AuthContext };

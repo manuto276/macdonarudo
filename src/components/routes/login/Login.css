@@ -24,8 +24,8 @@
     text-align: center;
 }
 
-.ErrorMessage {
-    color: var(--flame);
+#login .error {
+    margin-top: 1rem;
 }
 
 #login form {

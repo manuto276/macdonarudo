@@ -24,15 +24,21 @@ function Login(props) {
 
     // sends a POST request to /api/user/login/ to attempt a login
     const login = (event) => {
-        
         event.preventDefault();
         const formData = new FormData(event.target);
         const email = formData.get('email');
         const password = formData.get('password');
-        // if the fields are empty, return
-        if(email.length === 0 || password.length === 0){
+        
+        if (email.length === 0) {
+            setErrorMessage('Please add your e-mail.')
             return;
         }
+        
+        if (password.length === 0) {
+            setErrorMessage('Please add your password.')
+            return;
+        }
+
         const host = process.env.REACT_APP_API_HOST
         // send the post request with the user credentials in the body
         axios.post(`http://${host}/api/users/login/`, {
@@ -44,16 +50,29 @@ function Login(props) {
             authContextHook.setIsUserLogged(true);
             console.log(response);
             navigate('/', {replace: true});
-        }).catch((error) => alert(error))
+        }).catch((error) => {
+            const status = error.response.status;
+
+            switch (status) {
+                case 0:
+                    setErrorMessage('Network error.');
+                    break;
+                case 401:
+                    setErrorMessage('Wrong credentials');
+                    break;
+                default: 
+                    setErrorMessage(error);
+                    break;
+            }
+        });
     };
-    
 
     return (
         <section id='login'>
             <Logo />
             <h2>Hello Again!</h2>
             <p>It's nice to have you back to McDonarudo&#174;.<br/>Please fill the form below to sign into the site.</p>
-            { errorMessage !== null ? <p className='error'>{errorMessage}</p> : null}
+            { errorMessage !== null ? <p className='error'>Error: {errorMessage}</p> : null}
             <form id='login-form' onSubmit={(event) => login(event)}>
                 <input type='email' placeholder='E-mail' name='email'/>
                 <input type={isPasswordVisible ? 'text' : 'password'} name='password' placeholder='Password' />
