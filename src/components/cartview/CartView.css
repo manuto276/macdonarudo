@@ -14,14 +14,30 @@
 
 #cartView
 .EmptyCart {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     row-gap: 2rem;
+    text-align: center;
+}
+
+#cartView
+.AddUserCart {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 2rem;
+    text-align: center;
 }
 
 #cartView 
 .State {
     height: 9.75rem;
     margin-bottom: 2rem;
+}
+
+#cartView button {
+    width: 100%;
 }

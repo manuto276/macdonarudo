@@ -5,8 +5,13 @@ import AddUserState from '../../resources/add-user.svg';
 
 import { SlideEffect } from '../link/Link';
 import { Close } from '../icon/Icon';
+import { AuthContext } from '../../App';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 function CartView(props) {
+    const authContextHook = useContext(AuthContext);
+
     return (
         <div id='cartView'>
             <button className='Tertiary CloseButton' onClick={props.onDismiss}>
@@ -14,7 +19,11 @@ function CartView(props) {
                     <Close />
                 </SlideEffect>
             </button>
-            { props.list == null || props.list.length === 0 ? <EmptyCart onDismiss={props.onDismiss} /> : <div /> }
+            { !authContextHook.isUserLogged ? 
+                <AddUserCart onDismiss={props.onDismiss} /> : 
+                props.list == null || props.list.length === 0 ? 
+                    <EmptyCart onDismiss={props.onDismiss} /> : <div /> 
+            }
         </div>
     );
 }
@@ -32,13 +41,12 @@ function EmptyCart(props) {
 }
 
 function AddUserCart(props) {
+    const authContextHook = useContext(AuthContext);
+
     return (
         <div className='AddUserCart'>
             <img className='State' src={ AddUserState } alt='Add user' />
             <p>To use the shopping cart, you must sign in on this site first.</p>
-            <button onClick={props.onDismiss}>
-                <SlideEffect height='1rem'>Sign in</SlideEffect>
-            </button>
         </div>
     );
 }

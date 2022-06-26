@@ -1,3 +1,7 @@
+a {
+    text-decoration: none;
+}
+
 .Link {
     cursor: pointer;
     color: inherit;
