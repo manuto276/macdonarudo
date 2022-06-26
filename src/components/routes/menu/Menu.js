@@ -9,6 +9,7 @@ import { Add, Delete, Edit, ShoppingCart } from '../../icon/Icon';
 import { SlideEffect } from '../../link/Link';
 import { AuthContext } from '../../../App';
 import { EditableProduct, Product } from '../../product/Product';
+import axios from 'axios';
 
 export const FOOD_TYPES = ['burger', 'pizza', 'salad', 'french-fries', 'drink', 'dessert'];
 
@@ -23,6 +24,14 @@ function Menu(props) {
     }, []);
 
     const menuSubset = createMenuSubset(authContextHook.menu, category);
+
+    const addToCart = () => {
+        const host = process.env.REACT_APP_API_HOST;
+        axios.post(`http://${host}/api/orders/cart/`, [{
+            _id: props.product._id,
+            amount: 1
+        }],{withCredentials: true});
+    }
 
     return (
         <section id='menu'>
@@ -40,8 +49,8 @@ function Menu(props) {
                         authContextHook.menu.map((product, i) => {
                             if(FOOD_TYPES.indexOf(product.type) === category){
                                 return !isAdmin ? 
-                                    <Product id={product._id} icon={product.name} name={product.name} price={product.name} /> : 
-                                    <EditableProduct id={product._id} icon={product.name} name={product.name} price={product.name} onDelete={() => props.onDeleteClick(product._id, product.name)} />
+                                    <Product id={product._id} icon={product.image} name={product.name} price={product.price} /> : 
+                                    <EditableProduct id={product._id} icon={product.image} name={product.name} price={product.price} onDelete={() => props.onDeleteClick(product._id, product.name)} />
                                 /*return <ProductItem 
                                     product={product} 
                                     isAdmin={isAdmin} 
@@ -99,7 +108,7 @@ function ProductItem(props) {
     return (
         <div className='ProductItem'>
             <div className='ProductIcon'>
-                <img src={props.icon} alt={props.product.name} />
+                <img src={props.product.image} alt={props.product.name} />
             </div>
             <div className='ProductDesc'>
                 <h6>{props.product.name}</h6>

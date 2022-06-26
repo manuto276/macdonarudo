@@ -12,7 +12,7 @@ function DeleteProductView(props) {
 
     const deleteProduct = () => {
         const host = process.env.REACT_APP_API_HOST;
-        axios.delete(`http://${host}/api/products/${props.productId}`).then((response) => {
+        axios.delete(`http://${host}/api/products/${props.productId}`, {withCredentials: true}).then((response) => {
             authContextHook.getMenu();
         }).catch((error) => {
             alert(error);
