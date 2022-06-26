@@ -47,6 +47,9 @@ function AddUserCart(props) {
         <div className='AddUserCart'>
             <img className='State' src={ AddUserState } alt='Add user' />
             <p>To use the shopping cart, you must sign in on this site first.</p>
+            <button onClick={props.onDismiss}>
+                <SlideEffect height='1rem'>Back to browse</SlideEffect>
+            </button>
         </div>
     );
 }
