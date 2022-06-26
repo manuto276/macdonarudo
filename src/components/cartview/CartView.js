@@ -20,10 +20,10 @@ function CartView(props) {
                     <Close />
                 </SlideEffect>
             </button>
-            { /*!authContextHook.isUserLogged ? 
+            { !authContextHook.isUserLogged ? 
                 <AddUserCart onDismiss={props.onDismiss} /> : 
                 props.list == null || props.list.length === 0 ? 
-                    <EmptyCart onDismiss={props.onDismiss} /> : */
+                    <EmptyCart onDismiss={props.onDismiss} /> :
                     <OrderCart onDismiss={props.onDismiss} /> 
             }
         </div>
