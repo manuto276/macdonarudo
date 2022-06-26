@@ -5,7 +5,6 @@ const Product = require('../models/Products')
 const Users = require('../models/Users')
 const StrategyConfig = require('../auth/strategies.js')
 const Products = require('../models/Products')
-
 const router = Router()
 
 router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
@@ -82,13 +81,19 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
 })
 
 router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
-    const orders = await Orders.find({clientId: req.user.id})
-    res.send(orders)
+    if(req.user.role === 'admin' || req.user.role === 'cook'){
+        const orders = await Orders.find();
+        console.log(sseConnections);
+        res.send(orders); 
+        return;
+    }
+    const orders = await Orders.find({clientId: req.user.id});
+    res.send(orders);
 })
 
 router.delete('/deleteall/', async (req, res) => {
-    await Orders.deleteMany()
-    res.send('Ok')
+    await Orders.deleteMany();
+    res.send('Ok');
 })
 
 
@@ -138,8 +143,7 @@ router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req,
         if(role === 'cook'){
             res.status(401).send("Cooks can't have a cart");
         }
-        const user = await Users.findById(req.user._id);
-        const cart = user.cart;
+        const cart = req.user.cart;
         if(cart){
             res.status(200).send(cart);
         }else{

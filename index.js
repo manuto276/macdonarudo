@@ -26,7 +26,7 @@ const Products = require('./models/Products');
 async function main() {
     
     console.log(`Connecting to database ...`);
-    await mongoose.connect('mongodb://localhost:27017/mac_donarudo_db', {useNewUrlParser: true})
+    await mongoose.connect('mongodb://localhost:27017/mac_donarudo_db', {useNewUrlParser: true});
     console.log(`Connection to database successful.`);
 
     //
@@ -49,21 +49,10 @@ async function main() {
                 console.log(error);
             }
         });
-        
-        const menu = JSON.parse(fs.readFileSync('first_run/menu.json'));
-        for(i=0; i<menu.length; i++){
-            const product = new Products(menu[i])
-            console.log(menu[i]);
-            await product.save((error, product) => {
-                if(error){
-                    console.log(error);
-                }
-            });
-        }
         console.log("DONE");
     }
 
-    const app = express() 
+    const app = express();
 
     const port = 3001
     const host = 'localhost'

@@ -72,12 +72,7 @@ const userSchema = new mongoose.Schema(
             required: true,
             enum: ['customer', 'admin', 'cook'],
             default: 'customer'
-        },
-        order_ids: {
-            type: [mongoose.Types.ObjectId],
-            default: [],
-            ref: 'Orders'
-        },      
+        },     
         cart: {
             type: [{
                 type: {
