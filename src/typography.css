@@ -80,6 +80,10 @@ p {
     text-transform: uppercase;
 }
 
+.error {
+    color: var(--flame);
+}
+
 @media screen and (min-width: 415px) {
     h1 {
         font-size: 6.0625rem;

@@ -13,7 +13,9 @@ function Login(props) {
     // to register the user.
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const [isPasswordVisible, setPasswordVisible] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     // this hook allows navigation to a specified path
     const navigate = useNavigate();
@@ -48,6 +50,7 @@ function Login(props) {
             <Logo />
             <h2>Hello Again!</h2>
             <p>It's nice to have you back to McDonarudo&#174;.<br/>Please fill the form below to sign into the site.</p>
+            { errorMessage !== null ? <p className='error'>{errorMessage}</p> : null}
             <form id='login-form' action=''>
                 <input onChange={e => setEmail(e.target.value)} value={email}  type='email' placeholder='E-mail' />
                 <input onChange={e => setPassword(e.target.value)} value={password} type={isPasswordVisible ? 'text' : 'password'} placeholder='Password' />

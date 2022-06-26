@@ -19,9 +19,10 @@ function Signup(props) {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const [isPasswordVisible, setPasswordVisible] = useState(false);
+    const [isCookWorker, setCookWorker] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
-    const [isCookWorker, setCookWorker] = useState('');
-
+    
     // this hook allows navigation to a specified path
     const navigate = useNavigate();
 
@@ -57,8 +58,9 @@ function Signup(props) {
         <section id='signup' className='LoggingPage'>
             <div className='FormContainer'>
                 <Logo />
-                <h2 id='title'>Welcome, fella!</h2>
-                <p id='description'>Welcome to McDonarudo&#174;.<br/>Please fill the form below to register on this site.</p>
+                <h2>Hello There!</h2>
+                <p>Welcome to McDonarudo&#174;.<br/>Please fill the form below to register on this site.</p>
+                { errorMessage !== null ? <p className='error'>{errorMessage}</p> : null}
                 <form id='signup-form' action=''>
                     <input type='text' value={firstName} onChange={e => setFirstName(e.target.value)} placeholder='First name' />
                     <input type='text' value={lastName} onChange={e => setLastName(e.target.value)} placeholder='Last name' />
