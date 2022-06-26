@@ -6,14 +6,19 @@
     margin-bottom: 2rem;
 }
 
-#addProductView h5 {
-    text-align: center;
-    margin-bottom: 0.5rem;
+#addProductView
+.PreviewContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 2rem;
+    margin-bottom: 4rem;
 }
 
-#addProductView p {
-    text-align: center;
-    margin-bottom: 2rem;
+#addProductView
+#preview {
+    margin: 0 auto;
+    height: 9.75rem;
 }
 
 #addProductView form {

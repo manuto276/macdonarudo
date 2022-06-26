@@ -38,6 +38,12 @@ input, select {
   letter-spacing: 0.5px;
 }
 
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 input:focus, select:focus {
   outline: none;
 }
