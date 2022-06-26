@@ -15,12 +15,13 @@ router.post('/', async (req,res) => {
         const lastName = body.lastName
         const city = body.city;
 
-        // the role will be later be impossible to set,
-        // since it will be manually set by the admin
         const role = body.role
         const email = body.email
         const password = body.password
         const bdate = body.bdate
+        if(role === 'admin'){
+            res.status(401).send("Can't manually create admins.");
+        }
         const user = new Users({
             firstName: firstName,
             lastName: lastName,
