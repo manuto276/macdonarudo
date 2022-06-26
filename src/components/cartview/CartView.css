@@ -20,7 +20,8 @@
     row-gap: 2rem;
 }
 
-#cartView
-.EmptyCart .State {
+#cartView 
+.State {
+    height: 9.75rem;
     margin-bottom: 2rem;
 }

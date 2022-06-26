@@ -1,16 +1,19 @@
 import './Menu.css';
 import './FoodCategories.css';
-import './ProductItem.css';
+
+import NoProductState from '../../../resources/no-products.svg';
+
 import { useContext, useEffect, useState } from 'react';
 import { FloatingActionButton } from '../../floatingactionbutton/FloatingActionButton';
 import { Add, Delete, Edit, ShoppingCart } from '../../icon/Icon';
 import { SlideEffect } from '../../link/Link';
 import { AuthContext } from '../../../App';
+import { EditableProduct, Product } from '../../product/Product';
 
 export const FOOD_TYPES = ['burger', 'pizza', 'salad', 'french-fries', 'drink', 'dessert'];
 
 function Menu(props) {
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [category, setCategory] = useState(0);
 
     const authContextHook = useContext(AuthContext);
     let isAdmin = authContextHook.role === 'admin';
@@ -19,25 +22,37 @@ function Menu(props) {
         authContextHook.getMenu();
     }, []);
 
+    const menuSubset = createMenuSubset(authContextHook.menu, category);
+
     return (
         <section id='menu'>
             <div className='Content'>
                 <hgroup>
                     <h1>Explore<br/>Our Menu</h1>
                 </hgroup>
-                <FoodCategories activeIndex={activeIndex} onItemClick={(index) => setActiveIndex(index)} />
-                <div id='menuGrid'>
-                    {authContextHook.menu.map((product, i) => {
-                        if(FOOD_TYPES.indexOf(product.type) === activeIndex){
-                            return <ProductItem 
-                                product={product} 
-                                isAdmin={isAdmin} 
-                                refreshMenuCallback={authContextHook.getMenu}
-                                onDelete={() => props.onDeleteClick(product._id, product.name)} />
-                        }
-                        return null;
-                    })}
-                </div>
+                <FoodCategories activeIndex={category} onItemClick={(index) => setCategory(index)} />
+                {
+                    // If the menu has items for the current category,
+                    // then show a grid of items for those items.
+                    // Otherwise we shall show an empty state illustration.
+                    menuSubset.length > 0 ?
+                    <div id='menuGrid'>{
+                        authContextHook.menu.map((product, i) => {
+                            if(FOOD_TYPES.indexOf(product.type) === category){
+                                return !isAdmin ? 
+                                    <Product id={product._id} icon={product.name} name={product.name} price={product.name} /> : 
+                                    <EditableProduct id={product._id} icon={product.name} name={product.name} price={product.name} onDelete={() => props.onDeleteClick(product._id, product.name)} />
+                                /*return <ProductItem 
+                                    product={product} 
+                                    isAdmin={isAdmin} 
+                                    refreshMenuCallback={authContextHook.getMenu}
+                                    onDelete={() => props.onDeleteClick(product._id, product.name)} />*/
+                            }
+                            return null;
+                        })}
+                    </div> : 
+                    <EmptyMenuList />
+                }
                 {isAdmin ? 
                     <FloatingActionButton id='addFoodButton' onClick={props.onAddClick}>
                         <SlideEffect height='1.5rem'>
@@ -46,6 +61,22 @@ function Menu(props) {
                     </FloatingActionButton> : null }
             </div>
         </section>
+    );
+}
+
+function createMenuSubset(menu, category) {
+    if (menu === null || menu.length === 0)
+        return [];
+    
+    return menu.filter((item) => FOOD_TYPES.indexOf(item.type) === category);
+}
+
+function EmptyMenuList() {
+    return (
+        <div className='EmptyMenuList'>
+            <img className='State' src={NoProductState} alt='Empty Menu State' />
+            <p>Looks like there are no items for this category yet.</p>
+        </div>
     );
 }
 

@@ -1,6 +1,8 @@
 import './CartView.css';
 
-import EmptyCartState from '../../resources/mt-cart-state.svg';
+import EmptyCartState from '../../resources/empty-cart.svg';
+import AddUserState from '../../resources/add-user.svg';
+
 import { SlideEffect } from '../link/Link';
 import { Close } from '../icon/Icon';
 
@@ -24,6 +26,18 @@ function EmptyCart(props) {
             <p>Your shopping cart is empty.<br/>Try adding some items first.</p>
             <button onClick={props.onDismiss}>
                 <SlideEffect height='1rem'>Back to browse</SlideEffect>
+            </button>
+        </div>
+    );
+}
+
+function AddUserCart(props) {
+    return (
+        <div className='AddUserCart'>
+            <img className='State' src={ AddUserState } alt='Add user' />
+            <p>To use the shopping cart, you must sign in on this site first.</p>
+            <button onClick={props.onDismiss}>
+                <SlideEffect height='1rem'>Sign in</SlideEffect>
             </button>
         </div>
     );

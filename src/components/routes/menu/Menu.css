@@ -46,3 +46,17 @@
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     }
 }
+
+#menu
+.EmptyMenuList {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    padding-top: 4rem;
+    align-items: center;
+}
+
+#menu
+.EmptyMenuList .State {
+    height: 9.75rem;
+}

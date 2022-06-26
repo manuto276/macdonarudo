@@ -1,0 +1,97 @@
+.Product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+
+    border-radius: 0.5rem;
+    padding: 2rem;
+
+    transition: all 350ms ease;
+}
+
+.Product
+.Icon {
+    margin-bottom: 2rem;
+    transition: all 350ms ease;
+}
+
+.Product:hover
+.Icon {
+    transform: scale(1.04);
+    transform-origin: center;
+}
+
+.Product
+.Description {
+    display: flex;
+    flex-direction: column;
+}
+
+.Product
+.QuantitySelector {
+    display: flex;
+    gap: 1rem;
+}
+
+.Product
+.QuantitySelector button {
+    padding: 0;
+    width: 2.625rem;
+    height: 2.625rem;
+}
+
+.Product #addToCartButton {
+    height: 2.625rem;
+}
+
+.Product
+.Actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.Product
+.Actions button {
+    padding: 0;
+    width: 2.625rem;
+    height: 2.625rem;
+}
+
+@media screen and (max-width: 799px) {
+    .Product {
+        padding: 32px;
+    }
+
+    .Product
+    .Icon {
+        height: 96px;
+    }
+
+    .Product
+    .Icon img {
+        height: 96px;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .Product:hover {
+        box-shadow: 0px 0.5rem 1rem rgba(0, 0, 0, 0.08);
+    }
+
+    .Product
+    .Icon {
+        height: 6.5rem;
+    }
+
+    .Product
+    .Icon img {
+        height: 6.5rem;
+    }
+
+    .Product
+    .Description {
+        row-gap: 0.5rem;
+    }
+}
