@@ -81,7 +81,6 @@ async function main() {
     app.use(express.static(path.join(__dirname, '../react/build')));
 
     app.use(expressSession({resave: false, saveUninitialized: false, secret: process.env.SESSION_SECRET}))
-    app.use(expressFlash())
     // initialize passport
     app.use(passport.initialize())
     // initialize passport's sessions
