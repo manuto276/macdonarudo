@@ -73,7 +73,9 @@ function App() {
       // When the user closes the dialog, then we should clear the view 
       // so the data inside it can be re-initialized when it opens again.
       if (isDialogVisible === false)
-        setTimeout(setDialogContent(null), 350);
+        setTimeout(function () {
+          setDialogContent(null)
+        }, 350);
   });
 
   // AuthContext.Provider is a component that passes its value property down to every children.
