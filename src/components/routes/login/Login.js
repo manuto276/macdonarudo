@@ -11,8 +11,6 @@ import { SwitchBox } from '../../switchbox/SwitchBox';
 function Login(props) {
     // these are state variables that hold the content of the fields needed
     // to register the user.
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
 
     const [isPasswordVisible, setPasswordVisible] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -25,7 +23,12 @@ function Login(props) {
     const authContextHook = useContext(AuthContext);
 
     // sends a POST request to /api/user/login/ to attempt a login
-    const login = () => {
+    const login = (event) => {
+        
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const email = formData.get('email');
+        const password = formData.get('password');
         // if the fields are empty, return
         if(email.length === 0 || password.length === 0){
             return;
@@ -51,14 +54,11 @@ function Login(props) {
             <h2>Hello Again!</h2>
             <p>It's nice to have you back to McDonarudo&#174;.<br/>Please fill the form below to sign into the site.</p>
             { errorMessage !== null ? <p className='error'>{errorMessage}</p> : null}
-            <form id='login-form' action=''>
-                <input onChange={e => setEmail(e.target.value)} value={email}  type='email' placeholder='E-mail' />
-                <input onChange={e => setPassword(e.target.value)} value={password} type={isPasswordVisible ? 'text' : 'password'} placeholder='Password' />
+            <form id='login-form' onSubmit={(event) => login(event)}>
+                <input type='email' placeholder='E-mail' name='email'/>
+                <input type={isPasswordVisible ? 'text' : 'password'} name='password' placeholder='Password' />
                 <SwitchBox label='Show password' value={isPasswordVisible} onClick={() => setPasswordVisible(!isPasswordVisible)} />
-                <button id='sign-in-button' type='submit' form='login-form' value='Login' onClick={(event) => {
-                    event.preventDefault(); // prevent page refresh when clicked
-                    login();
-                }}>
+                <button id='sign-in-button' type='submit' form='login-form' value='Login'>
                     <SlideEffect height='1rem'>Sign in</SlideEffect>
                 </button>
                 <button className='Secondary' type='submit' value='Sign up' onClick={() => navigate('/user/signup')}>

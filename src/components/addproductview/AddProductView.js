@@ -9,22 +9,23 @@ import { AuthContext } from '../../App';
 import AddImageState from '../../resources/add-photo.svg';
 
 function AddProductView(props) {
-    const [productName, setproductName] = useState('');
-    const [productType, setProductType] = useState('burger');
-    const [price, setPrice] = useState(0);
     const [image, setImage] = useState('');
 
     const authContextHook = useContext(AuthContext);
 
     const uploadProduct = (event) => {
         event.preventDefault();
-        if(productName.length === 0 || productType.length === 0 || price <= 0 || image.length === 0){
+        const formData = new FormData(event.target);
+        const name = formData.get('name');
+        const type = formData.get('type');
+        const price = formData.get('price');
+        if(name.length === 0 || type.length === 0 || price <= 0 || image.length === 0){
             return;
         }
         const host = process.env.REACT_APP_API_HOST;
         axios.post(`http://${host}/api/products/`, {
-            name: productName,
-            type: productType,
+            name: name,
+            type: type,
             price: price,
             image: image
         }, {withCredentials: true}).then((response) => {
