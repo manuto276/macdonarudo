@@ -51,8 +51,8 @@ function EditableProduct(props) {
         <div className='Product'>
             <ProductHead icon={props.icon} name={props.name} price={props.price} />
             <div className='Actions'>
-                <button className='Tertiary'>
-                    <SlideEffect height='1.5rem' onClick={() => {console.log('Fuck im editing'); props.onEdit}}><Edit /></SlideEffect>
+                <button className='Tertiary' onClick={props.onEdit}>
+                    <SlideEffect height='1.5rem'><Edit /></SlideEffect>
                 </button>
                 <button className='Tertiary' onClick={props.onDelete}>
                     <SlideEffect height='1.5rem'>
