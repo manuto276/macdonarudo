@@ -34,8 +34,8 @@ function App() {
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [isShoppingCartVisible, setShoppingCartVisible] = useState(false);
   const [dialogContent, setDialogContent] = useState(null);
-
-  const [menu, setMenu] = useState([])
+  const [cart, setCart] = useState([]);
+  const [menu, setMenu] = useState([]);
 
   function dismissDialog() {
     if (isDialogVisible) {
@@ -53,13 +53,22 @@ function App() {
 
   const getMenu = async () => {
     const host = process.env.REACT_APP_API_HOST;
-    axios.get(`http://${host}/api/products/`)
+    await axios.get(`http://${host}/api/products/`)
     .then((response) => {
+        console.log("After then");
         setMenu(response.data);            
     })
     .catch((error) => {
       alert(error);
     });
+    console.log("After await");
+  }
+
+  const getCart = () => {
+    const host = process.env.REACT_APP_API_HOST;
+    axios.get(`http://${host}/api/orders/cart/`,{withCredentials: true}).then((response) => {
+    setCart(response.data);
+    })
   }
 
   const checkAuthentication = () => {
@@ -77,7 +86,12 @@ function App() {
   }
 
   // check if the user is authenticated at first rendering
-  useEffect(checkAuthentication, []);
+  useEffect(checkAuthentication, [isUserLogged]);
+  /*useEffect(() => {
+    if(menu.length === 0){
+      getMenu();
+    }
+  }, [])*/
   useEffect(() => {
       if ((isDialogVisible && dialogContent !== null) || isShoppingCartVisible)
           document.body.style.overflow = 'hidden';
@@ -91,7 +105,8 @@ function App() {
   return (
     <div className='App'>
       <AuthContext.Provider value={{
-        isUserLogged, setIsUserLogged, role, setRole, menu, setMenu, getMenu
+        isUserLogged, setIsUserLogged, role, setRole, menu, setMenu, getMenu,
+        cart, getCart
         }}>
         <BrowserRouter>
           {shouldShowNavBars() ?

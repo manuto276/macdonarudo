@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Add, Delete, Edit, Remove } from '../icon/Icon';
 import { SlideEffect } from '../link/Link';
 import './Product.css';
-import axios from 'axios';
+import axios from 'axios';import { AuthContext } from '../../App';
+
 
 function Product(props) {
     const [quantity, setQuantity] = useState(1);
+    const authContextHook = useContext(AuthContext);
 
     const addToCart = () => {
         const host = process.env.REACT_APP_API_HOST;
@@ -13,6 +15,7 @@ function Product(props) {
             _id: props.id,
             amount: quantity
         }],{withCredentials: true}).then((response) => {
+            authContextHook.getCart();
             alert(`${quantity} ${props.name} added to cart.`)
         });
     }

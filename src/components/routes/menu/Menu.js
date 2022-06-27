@@ -18,11 +18,13 @@ function Menu(props) {
     const authContextHook = useContext(AuthContext);
     let isAdmin = authContextHook.role === 'admin';
 
-    useEffect(() => {
-        authContextHook.getMenu();
-    }, []);
-
     const menuSubset = createMenuSubset(authContextHook.menu, category);
+
+    useEffect(() => {
+        if(authContextHook.menu.length === 0){
+            authContextHook.getMenu();
+        }
+    }, []);
 
     return (
         <section id='menu'>
@@ -37,6 +39,7 @@ function Menu(props) {
                     // Otherwise we shall show an empty state illustration.
                     menuSubset.length > 0 ?
                     <div id='menuGrid'>{
+                        authContextHook.menu.length > 0 ?
                         authContextHook.menu.map((product, i) => {
                             if(FOOD_TYPES.indexOf(product.type) === category){
                                 return !isAdmin ? 
@@ -55,7 +58,8 @@ function Menu(props) {
                                     onDelete={() => props.onDeleteClick(product._id, product.name)} />*/
                             }
                             return null;
-                        })}
+                        }
+                        ) : null}
                     </div> : <NoProductsError />
                 }
                 {isAdmin ? 

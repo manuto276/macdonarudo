@@ -6,12 +6,19 @@ import AddUserState from '../../resources/add-user.svg';
 import { SlideEffect } from '../link/Link';
 import { Close, Delete } from '../icon/Icon';
 import { AuthContext } from '../../App';
-import { useContext } from 'react';
-
-import bbq from '../../resources/images/bbq.png';
+import { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 function CartView(props) {
     const authContextHook = useContext(AuthContext);
+
+    
+
+    useEffect(() => {
+        if(authContextHook.cart.length === 0){
+            authContextHook.getCart();
+        }
+    }, []);
 
     return (
         <div id='cartView'>
@@ -22,9 +29,9 @@ function CartView(props) {
             </button>
             { !authContextHook.isUserLogged ? 
                 <AddUserCart onDismiss={props.onDismiss} /> : 
-                props.list == null || props.list.length === 0 ? 
+                authContextHook.cart.length === 0 ? 
                     <EmptyCart onDismiss={props.onDismiss} /> :
-                    <OrderCart onDismiss={props.onDismiss} /> 
+                    <OrderCart onDismiss={props.onDismiss} cart={authContextHook.cart}/> 
             }
         </div>
     );
@@ -43,6 +50,7 @@ function EmptyCart(props) {
 }
 
 function AddUserCart(props) {
+
     const authContextHook = useContext(AuthContext);
 
     return (
@@ -57,17 +65,41 @@ function AddUserCart(props) {
 }
 
 function OrderCart(props) {
-    let list = [];
-    let total = 0;
+
+    const [total, setTotal] = useState(0);
+    const authContextHook = useContext(AuthContext);
+
+    const calcTotal = async () => {
+        let total = 0
+        if(authContextHook.menu.length === 0){   
+            authContextHook.getMenu();   
+            return;
+        }
+        console.log("Menu:");
+        for(let j=0; j<props.cart.length; j++){
+            for(let i=0; i<authContextHook.menu.length; i++){
+                if(authContextHook.menu[i]._id === props.cart[j]._id){
+                    total += authContextHook.menu[i].price * props.cart[j].amount;
+                }
+            }
+        }
+        setTotal(total);
+    }
+
+    // calculate the total amount if the menu is ready of as soon as it is ready, or when the cart changes
+    useEffect(() => {
+        calcTotal();
+    }, [authContextHook.menu, authContextHook.cart]);
 
     return (
         <div className='OrderCart'>
             <div className='List'>
-                {list.map((item) => <CartItem />) /** TODO: Pass props */}
+                {props.cart.map((item, i) => <CartItem key={i} item={authContextHook.menu.length > 0 ? 
+                    authContextHook.menu.filter((product, i) => product._id === item._id)[0]: null} amount={item.amount} />) /** TODO: Pass props */}
             </div>
             <div className='Summary'>
                 <p>Total</p>
-                <h4>{total} €</h4>
+                <h4>{total.toFixed(2)} €</h4>
             </div>
             <button onClick={props.onDismiss}>
                 <SlideEffect height='1rem'>Place order</SlideEffect>
@@ -77,17 +109,29 @@ function OrderCart(props) {
 }
 
 function CartItem(props) {
+
+    const authContextHook = useContext(AuthContext);
+
+    const deleteCartItem = () => {
+        const host = process.env.REACT_APP_API_HOST
+        axios.delete(`http://${host}/api/orders/cart/${props.item._id}`, {withCredentials: true}).then((response) => {
+            authContextHook.getCart();
+        }).catch(error => {
+            alert(error);
+        });
+    }
+
     return (
         <div className='Item'>
             <div className='IconPreview'>
-                <img src={bbq} alt='Preview' /> {/** Replace with item.icon */}
-                <div className='Amount button'>{1024}</div> {/** Replace with item.amount */}
+                <img src={props.item != null ? props.item.image : ''} alt='Preview' /> {/** Replace with item.icon */}
+                <div className='Amount button'>{props.amount}</div> {/** Replace with item.amount */}
             </div>
             <div className='Description'>
-                <p className='Title'>McChicken BBQ</p>
-                <p className='Price caption'>3.99 €</p>
+                <p className='Title'>{props.item != null ? props.item.name : ''}</p>
+                <p className='Price caption'>{`${props.item != null ? props.item.price : ''} €`}</p>
             </div>
-            <button className='Tertiary RemoveItem'>
+            <button className='Tertiary RemoveItem' onClick={deleteCartItem}>
                 <SlideEffect height='1.5rem'>
                     <Delete />
                 </SlideEffect>
