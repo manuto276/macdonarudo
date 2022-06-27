@@ -15,6 +15,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import React, { useEffect, useState, createContext } from 'react';
 import axios from 'axios';
 import { Orders } from './components/routes/orders/Orders';
+import { MyOrders } from './components/routes/myorders/MyOrders';
+import { Transactions } from './components/routes/transactions/Transactions';
 
 const AuthContext = createContext();
 
@@ -116,6 +118,8 @@ function App() {
             </Route>
             <Route path='user/login' element={ <Login /> } />
             <Route path='user/signup' element={ <Signup /> } />
+            <Route path='user/orders' element={ <MyOrders /> } />
+            <Route path='transactions' element={ <Transactions /> } />
             <Route path='orders' element={ <Orders /> } />
           </Routes>
           {shouldShowNavBars() ?

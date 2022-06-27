@@ -11,7 +11,7 @@ function Transactions(props) {
                     <h1>Transactions</h1>
                     <p>This is a list of all the orders that ever existed.</p>
                 </hgroup>
-                <OrdersList />
+                <TransactionsList />
             </div>
         </section>
     );
