@@ -71,7 +71,7 @@ function AddProductView(props) {
                 }}>
                     <img id='preview' src={image !== '' ? image : AddImageState} alt='Product' />
                 </Link>
-                {image === '' ? <p>Tap to add a photo</p> : null}
+                <p>Tap to add a photo</p>
             </div>
             <form id='newProductForm' onSubmit={uploadProduct}>
                 <input style={{display: 'none'}} id='icon-input' onChange={(event) => showImage(event)} type='file' accept='image/png' required />
