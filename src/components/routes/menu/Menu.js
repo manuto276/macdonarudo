@@ -17,8 +17,10 @@ function Menu(props) {
 
     const authContextHook = useContext(AuthContext);
     let isAdmin = authContextHook.role === 'admin';
-    
-    authContextHook.getMenu();
+
+    useEffect(() => {
+        authContextHook.getMenu();
+    });
 
     const menuSubset = createMenuSubset(authContextHook.menu, category);
 
