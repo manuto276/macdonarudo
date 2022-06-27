@@ -38,9 +38,12 @@ function Header(props) {
         })
     }
 
-    const defaultItems = [
+    const userItems = [
         { 'title': 'My Account', 'onClick': null },
         { 'title': 'My Orders', 'to': '/user/orders'},
+    ]
+
+    const logoutItem = [
         { 'title': 'Logout', 'onClick': logout }
     ]
 
@@ -90,7 +93,7 @@ function Header(props) {
                     </div>
                 </nav>
             </header>
-            <PopupMenu isVisible={showPopupMenu} onDismiss={() => setShowPopupMenu(false)} menuItems={defaultItems} />
+            <PopupMenu isVisible={showPopupMenu} onDismiss={() => setShowPopupMenu(false)} menuItems={authContextHook.role === 'customer' ? userItems.concat(logoutItem) : logoutItem} />
         </div>
     );
 }
