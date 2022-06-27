@@ -40,7 +40,7 @@ function Header(props) {
 
     const defaultItems = [
         { 'title': 'My Account', 'onClick': null },
-        { 'title': 'My Orders', 'onClick': null },
+        { 'title': 'My Orders', 'to': '/user/orders'},
         { 'title': 'Logout', 'onClick': logout }
     ]
 
@@ -51,7 +51,7 @@ function Header(props) {
                     <Logo />
                     <div className='More'>
                         {authContextHook.role === 'admin' || authContextHook.role === 'cook' ? // TODO: Put the right role values
-                            <Link>
+                            <Link to={authContextHook.role === 'admin' ? '/transactions' : '/orders'}>
                                 <SlideEffect height='1.5rem'>
                                     <ListAlt id='transaction' />
                                 </SlideEffect>

@@ -1,5 +1,5 @@
 import './PopupMenu.css';
-import { SlideEffect } from "../link/Link";
+import { Link, SlideEffect } from "../link/Link";
 import { useEffect, useRef } from 'react';
 
 function PopupMenu(props) {
@@ -25,15 +25,16 @@ function PopupMenu(props) {
         <div ref={node} className={'PopupMenu' + (props.isVisible ? ' Show' : '')}>
             { props.menuItems !== null ? 
                 props.menuItems.map((item, index) => 
-                    <div 
+                    <Link 
                         key={index} 
                         className='Item' 
+                        to={item.to}
                         onClick={() => {
                             if (item.onClick)
                                 item.onClick(); 
                             props.onDismiss()}}>
                         <SlideEffect height='1rem'>{item.title}</SlideEffect>
-                    </div>
+                    </Link>
                 ) : null}
         </div>
     );

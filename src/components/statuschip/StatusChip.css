@@ -1,0 +1,21 @@
+.StatusChip {
+    width: fit-content;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.StatusChip.pending {
+    background-color: #263238;
+}
+
+.StatusChip.active {
+    background-color: #FFAB00;
+}
+
+.StatusChip.complete {
+    background-color: #00C853;
+}
+
+.StatusChip.rejected {
+    background-color: #FF5252;
+}

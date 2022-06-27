@@ -1,11 +1,11 @@
-#orders .Content {
+#my-orders .Content {
     padding: 4rem 2rem;
     display: flex;
     flex-direction: column;
     row-gap: 4rem;
 }
 
-#orders hgroup {
+#my-orders hgroup {
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
@@ -14,12 +14,12 @@
 }
 
 @media screen and (min-width: 800px) {
-    #orders .Content {
+    #my-orders .Content {
         padding: 4rem 8rem;
     }
 }
 
-#orders .OrdersList {
+#my-orders .MyOrdersList {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,13 +27,13 @@
 }
 
 @media screen and (max-width: 799px) {
-    #orders table {
+    #my-orders table {
         width: 100%;
     }
 }
 
 @media screen and (min-width: 800px) {
-    #orders table {
+    #my-orders table {
         width: 80%;
     }
 }
@@ -43,7 +43,7 @@ td.actions {
     overflow: visible;
 }
 
-#orders .PopupMenu {
+#my-orders .PopupMenu {
     right: 1rem;
     top: 1rem;
 }
