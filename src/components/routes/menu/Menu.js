@@ -1,5 +1,4 @@
 import './Menu.css';
-import './FoodCategories.css';
 
 import { NoProductsError } from '../../states/noproductserror/NoProductsError';
 
@@ -9,6 +8,7 @@ import { Add } from '../../icon/Icon';
 import { SlideEffect } from '../../link/Link';
 import { AuthContext } from '../../../App';
 import { EditableProduct, Product } from '../../product/Product';
+import { ProductCategories } from '../../productscategories/ProductCategories';
 
 export const FOOD_TYPES = ['burger', 'pizza', 'salad', 'french-fries', 'drink', 'dessert'];
 
@@ -30,7 +30,7 @@ function Menu(props) {
                 <hgroup>
                     <h1>Explore<br/>Our Menu</h1>
                 </hgroup>
-                <FoodCategories activeIndex={category} onItemClick={(index) => setCategory(index)} />
+                <ProductCategories activeIndex={category} onItemClick={(index) => setCategory(index)} />
                 {
                     // If the menu has items for the current category,
                     // then show a grid of items for those items.
@@ -41,7 +41,13 @@ function Menu(props) {
                             if(FOOD_TYPES.indexOf(product.type) === category){
                                 return !isAdmin ? 
                                     <Product id={product._id} icon={product.image} name={product.name} price={product.price} /> : 
-                                    <EditableProduct id={product._id} icon={product.image} name={product.name} price={product.price} onDelete={() => props.onDeleteClick(product._id, product.name)} />
+                                    <EditableProduct 
+                                        id={product._id} 
+                                        icon={product.image} 
+                                        name={product.name} 
+                                        price={product.price} 
+                                        onDelete={() => props.onDeleteClick(product._id, product.name)}
+                                        onEdit={() => props.onEditClick(product._id, product.name, product.type, product.price, product.image)} />
                                 /*return <ProductItem 
                                     product={product} 
                                     isAdmin={isAdmin} 
@@ -68,21 +74,6 @@ function createMenuSubset(menu, category) {
         return [];
     
     return menu.filter((item) => FOOD_TYPES.indexOf(item.type) === category);
-}
-
-// This function returns a list of Chips components
-// which represent the food categories.
-// By clicking on them we change the category.
-function FoodCategories(props) {
-    let activeIndex = props.activeIndex ?? 0;
-    return (
-        <div className='FoodCategories'>
-            {FOOD_TYPES.map((item, i) => 
-                <div className={'Chip' + (activeIndex === i ? ' Active' : '')} key={item} onClick={() => props.onItemClick(i)}>
-                    <SlideEffect className='button' height='1rem'>{item}</SlideEffect>
-                </div>)}
-        </div>
-    );
 }
 
 export { Menu };

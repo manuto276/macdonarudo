@@ -105,9 +105,9 @@ function App() {
                   setDialogVisible(true); 
                   setDialogContent(<AddProductView onDismiss={dismissDialog} />)
                 }}
-                onEditClick={(id, name, price) => {
+                onEditClick={(id, name, category, price, icon) => {
                   setDialogVisible(true); 
-                  setDialogContent(<AddProductView onDismiss={dismissDialog} />)
+                  setDialogContent(<AddProductView id={id} name={name} category={category} price={price} icon={icon} onDismiss={dismissDialog} edit />)
                 }}
                 onDeleteClick={(id, name) => {
                   setDialogVisible(true);

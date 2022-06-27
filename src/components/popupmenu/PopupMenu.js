@@ -19,7 +19,7 @@ function PopupMenu(props) {
             document.removeEventListener('mousedown', pointerEvent);
             document.removeEventListener('scroll', pointerEvent);
         }
-    }, [node]);
+    });
 
     return (
         <div ref={node} className={'PopupMenu' + (props.isVisible ? ' Show' : '')}>

@@ -9,7 +9,7 @@ import { AuthContext } from '../../App';
 import AddImageState from '../../resources/add-photo.svg';
 
 function AddProductView(props) {
-    const [image, setImage] = useState('');
+    const [image, setImage] = useState(props.icon ?? '');
 
     const authContextHook = useContext(AuthContext);
 
@@ -40,22 +40,22 @@ function AddProductView(props) {
         const file = event.target.files[0];
         const base64 = await imageToBase64(file);
         setImage(base64);
-      };
+    };
       
     const imageToBase64 = (file) => {
         return new Promise((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.readAsDataURL(file);
-    
-          fileReader.onload = () => {
-            resolve(fileReader.result);
-          };
-    
-          fileReader.onerror = (error) => {
-            reject(error);
-          };
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+        
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+        
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
         });
-      };
+    };
 
     return (
         <div id='addProductView'>
@@ -69,19 +69,19 @@ function AddProductView(props) {
                     const input = document.getElementById('icon-input');
                     input.click();
                 }}>
-                    <img id='preview' src={image !== '' ? image : AddImageState} alt='Product Image' />
+                    <img id='preview' src={image !== '' ? image : AddImageState} alt='Product' />
                 </Link>
                 {image === '' ? <p>Tap to add a photo</p> : null}
             </div>
             <form id='newProductForm' onSubmit={uploadProduct}>
                 <input style={{display: 'none'}} id='icon-input' onChange={(event) => showImage(event)} type='file' accept='image/png' required />
-                <input id='name' type='text' name='name' placeholder='Product Name' required />
-                <select id='category' type='text' name='type' required>
+                <input id='name' type='text' name='name' value={props.name ?? null} placeholder='Product Name' required />
+                <select id='category' type='text' name='type' value={props.category ?? null} required>
                         {FOOD_TYPES.map((item, i) => <option>{item}</option>)}
                 </select>
-                <input id='price' type='number' min='0.50' step='0.01' name='price' placeholder='Price' required />
+                <input id='price' type='number' min='0.50' step='0.01' name='price' value={props.price ?? null} placeholder='Price' required />
                 <button id='addProductButton' type='submit' form='newProductForm'>
-                    <SlideEffect height='1rem'>Add Product</SlideEffect>
+                    <SlideEffect height='1rem'>{props.edit ? 'Edit Product' : 'Add Product'}</SlideEffect>
                 </button>
             </form>
         </div>

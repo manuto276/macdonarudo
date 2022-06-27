@@ -1,7 +1,7 @@
 import './Orders.css';
 
 import { Link, SlideEffect } from '../../link/Link';
-import { Delete, Done, MoreVert } from '../../icon/Icon';
+import { MoreVert } from '../../icon/Icon';
 
 import { NoTasks } from '../../states/notasks/NoTasks';
 import { PopupMenu } from '../../popupmenu/PopupMenu';

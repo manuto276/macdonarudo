@@ -1,4 +1,4 @@
-#menu .FoodCategories {
+#menu .ProductCategories {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -8,7 +8,7 @@
 }
 
 #menu 
-.FoodCategories .Chip {
+.ProductCategories .Chip {
     cursor: pointer;
     height: 3rem;
     border-radius: 1.5rem;
@@ -20,12 +20,12 @@
 }
 
 #menu
-.FoodCategories .Chip:hover {
+.ProductCategories .Chip:hover {
     opacity: 1;
     background-color: rgba(255, 255, 255, 0.04);
 }
 
 #menu 
-.FoodCategories .Chip.Active {
+.ProductCategories .Chip.Active {
     opacity: 1;
 }
