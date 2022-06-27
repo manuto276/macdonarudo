@@ -5,7 +5,6 @@ const Product = require('../models/Products')
 const Users = require('../models/Users')
 const StrategyConfig = require('../auth/strategies.js')
 const Products = require('../models/Products')
-const UUID = require('uuid');
 const router = Router()
 
 let sseConnections = [];

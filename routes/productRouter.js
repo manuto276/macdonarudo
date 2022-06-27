@@ -37,6 +37,36 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
         console.log(error);
         res.status(400).send(error)
     }
+});
+
+router.put('/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    try{
+        if(req.user.role !== 'admin'){
+            res.status(401).send();
+            return;
+        }
+        const id = req.params.id;
+        const body = req.body;
+        const name = body.name;
+        const price = body.price;
+        const type = body.type;
+        const image = body.image;
+    
+        const newValues = {
+                name: name,
+                price: price,
+                type: type,
+                image: image
+            }
+    
+        await Product.findByIdAndUpdate(req.params.id, newValues);
+        res.status(200);
+
+
+    }catch(error){
+        console.log(error);
+        res.status(400).send(error)
+    }
 })
 
 router.get('/', async (req, res) => {
