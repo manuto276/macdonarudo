@@ -5,6 +5,7 @@ const Product = require('../models/Products')
 const Users = require('../models/Users')
 const StrategyConfig = require('../auth/strategies.js')
 const Products = require('../models/Products')
+const UUID = require('uuid');
 const router = Router()
 
 let sseConnections = [];
@@ -78,20 +79,16 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
             return
         }
         await Orders.findByIdAndUpdate(req.params.orderid, {status: newStatus})
-        let index;
-        if(sseConnections.some((connection, i) => {
-            let matches = connection.userId === req.user._id;
-            if(matches){
-                index = i;
-                return matches;
+        
+        for(const connection in sseConnections){
+            if(connection.userId === req.user._id){
+                connection.updates.push({orderId: req.params.orderid, status: newStatus, read: false});
+                connection.updates = connection.updates.filter((update, i) => {
+                    return update.read === false;
+                });
             }
-            return matches;
-        })){
-            sseConnections[index].updates = sseConnections[index].updates.filter((update, i) => {
-                return update.orderId !== req.params.orderid
-            });
-            sseConnections[index].updates.push({orderId: req.params.orderid, status: newStatus});
         }
+        
     }catch(error){
         res.send(error)
     }
@@ -104,32 +101,24 @@ router.get('/updates/', passport.authenticate('jwt', {session: false}), async (r
         'Connection': 'keep-alive'
       });
     console.log('Set SSE.');
-    let index;
-    if(sseConnections.length === 0 || sseConnections.every((connection, i) => {
-        let doesntMatch = connection.userId !== req.user._id
-        if(doesntMatch){
-            return doesntMatch;
-        }
-        index = i;
-        return doesntMatch;
-    })){
-        index = sseConnections.push({userId: req.user._id, subscribed: 1, updates: []}) - 1;
-    }
-    sseConnections[index].subscribed += 1;
+        
+    const sseConnection = {userId: req.user._id, updates: []}
+    sseConnections.push(sseConnection);
+
     const interval = setInterval(() => {
-        const updatesToSend = [].concat(sseConnections[index].updates);
+        const updatesToSend = [];
+        for(const update in sseConnection.updates){
+            update.read = true;
+            updatesToSend.push({orderId: update.orderId, status: update.status});
+        }
         if(updatesToSend.length > 0){
-            sseConnections[index].updates = [];
             res.write(`data: ${updatesToSend}\n\n`);
         }
     }, 1000)
     
     res.on('close', () => {
         clearInterval(interval);
-        sseConnections[index].subscribed -= 1;
-        if(sseConnections[index].subscribed === 0){
-            sseConnections.splice(index, 1);
-        }
+        sseConnections.splice(sseConnections.indexOf(sseConnection), 1);
     })
 
 });
@@ -142,19 +131,6 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res)
     }
 
     const orders = await Orders.find({clientId: req.user.id});
-    res.set({
-        'Cache-Control': 'no-cache',
-        'Content-Type': 'text/event-stream',
-        'Connection': 'keep-alive'
-      });
-    res.write(orders);
-    console.log('Started SSE');
-
-
-    res.on('close', () => {
-        console.log('Closed.');
-        clearInterval(interval);
-    });
     res.send(orders);
 })
 
