@@ -23,17 +23,18 @@ function PopupMenu(props) {
 
     return (
         <div ref={node} className={'PopupMenu' + (props.isVisible ? ' Show' : '')}>
-            { props.menuItems.map((item, index) => 
-                <div 
-                    key={index} 
-                    className='Item' 
-                    onClick={() => {
-                        if (item.onClick)
-                            item.onClick(); 
-                        props.onDismiss()}}>
-                    <SlideEffect height='1rem'>{item.title}</SlideEffect>
-                </div>
-            ) }
+            { props.menuItems !== null ? 
+                props.menuItems.map((item, index) => 
+                    <div 
+                        key={index} 
+                        className='Item' 
+                        onClick={() => {
+                            if (item.onClick)
+                                item.onClick(); 
+                            props.onDismiss()}}>
+                        <SlideEffect height='1rem'>{item.title}</SlideEffect>
+                    </div>
+                ) : null}
         </div>
     );
 }

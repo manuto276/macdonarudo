@@ -32,7 +32,6 @@ function App() {
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [isShoppingCartVisible, setShoppingCartVisible] = useState(false);
   const [dialogContent, setDialogContent] = useState(null);
-  const [dialogClasses, setDialogClasses] = useState('');
 
   const [menu, setMenu] = useState([])
 
@@ -52,10 +51,12 @@ function App() {
 
   const getMenu = async () => {
     const host = process.env.REACT_APP_API_HOST;
-    axios.get(`http://${host}/api/products/`).then((response) => {
+    axios.get(`http://${host}/api/products/`)
+    .then((response) => {
         setMenu(response.data);            
-    }).catch((error) => {
-        alert(error);
+    })
+    .catch((error) => {
+      alert(error);
     });
   }
 
@@ -119,7 +120,7 @@ function App() {
           </Routes>
           {shouldShowNavBars() ?
             <Footer /> : null }
-          <Dialog className={dialogClasses} view={dialogContent} visible={isDialogVisible} onDismiss={dismissDialog} />
+          <Dialog view={dialogContent} visible={isDialogVisible} onDismiss={dismissDialog} />
           <Dialog className='ShoppingCartDialog' view={<CartView onDismiss={dismissDialog} />} visible={isShoppingCartVisible} onDismiss={dismissDialog} />
         </BrowserRouter>
       </AuthContext.Provider>

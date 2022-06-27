@@ -1,12 +1,14 @@
 #orders .Content {
-    padding: 4rem 0;
+    padding: 4rem 2rem;
     display: flex;
     flex-direction: column;
     row-gap: 4rem;
-    overflow: hidden;
 }
 
 #orders hgroup {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
     position: relative;
     text-align: center;
 }
@@ -17,20 +19,36 @@
     }
 }
 
-#orders .ActiveOrders, 
-#orders .PendingOrders, 
-#orders .CompletedOrders {
+#orders .OrdersList {
     display: flex;
     flex-direction: column;
     align-items: center;
     row-gap: 4rem;
 }
 
-@media screen and (max-width: 799px) {
-    #orders hgroup {
-        margin: 0 2rem;
-    }
+#orders .Status {
+    width: fit-content;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+}
 
+.Status.Pending {
+    background-color: #263238;
+}
+
+.Status.Accepted {
+    background-color: #FFAB00;
+}
+
+.Status.Complete {
+    background-color: #00C853;
+}
+
+.Status.Rejected {
+    background-color: #FF5252;
+}
+
+@media screen and (max-width: 799px) {
     #orders table {
         width: 100%;
     }
@@ -40,4 +58,14 @@
     #orders table {
         width: 80%;
     }
+}
+
+td.actions {
+    position: relative;
+    overflow: visible;
+}
+
+#orders .PopupMenu {
+    right: 1rem;
+    top: 1rem;
 }
