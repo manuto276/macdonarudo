@@ -75,11 +75,11 @@ function AddProductView(props) {
             </div>
             <form id='newProductForm' onSubmit={uploadProduct}>
                 <input style={{display: 'none'}} id='icon-input' onChange={(event) => showImage(event)} type='file' accept='image/png' required />
-                <input id='name' type='text' name='name' value={props.name ?? null} placeholder='Product Name' required />
-                <select id='category' type='text' name='type' value={props.category ?? null} required>
+                <input id='name' type='text' name='name' defaultValue={props.name ?? null} placeholder='Product Name' required />
+                <select id='category' type='text' name='type' defaultValue={props.category ?? null} required>
                         {FOOD_TYPES.map((item, i) => <option>{item}</option>)}
                 </select>
-                <input id='price' type='number' min='0.50' step='0.01' name='price' value={props.price ?? null} placeholder='Price' required />
+                <input id='price' type='number' min='0.50' step='0.01' name='price' defaultValue={props.price ?? null} placeholder='Price' required />
                 <button id='addProductButton' type='submit' form='newProductForm'>
                     <SlideEffect height='1rem'>{props.edit ? 'Edit Product' : 'Add Product'}</SlideEffect>
                 </button>
