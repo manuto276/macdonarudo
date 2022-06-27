@@ -2,7 +2,7 @@ import './Header.css'
 import { AccountCircle, ListAlt, ShoppingCart } from '../icon/Icon';
 import { Logo } from '../logo/Logo';
 import { Link, SlideEffect } from '../link/Link';
-import { useEffect, useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import { PopupMenu } from '../popupmenu/PopupMenu';
 import { useNavigate } from 'react-router-dom';
@@ -50,15 +50,15 @@ function Header(props) {
                 <div className='Main'>
                     <Logo />
                     <div className='More'>
-                        {authContextHook.role === 'user' ? 
-                            <Link onClick={props.onCartClick ?? null}>
-                                <SlideEffect height='1.5rem'>
-                                    <ShoppingCart id='cart' />
-                                </SlideEffect>
-                            </Link> :
+                        {authContextHook.role === 'admin' || authContextHook.role === 'cook' ? // TODO: Put the right role values
                             <Link>
                                 <SlideEffect height='1.5rem'>
                                     <ListAlt id='transaction' />
+                                </SlideEffect>
+                            </Link> :
+                            <Link onClick={props.onCartClick ?? null}>
+                                <SlideEffect height='1.5rem'>
+                                    <ShoppingCart id='cart' />
                                 </SlideEffect>
                             </Link>}
                         <Link to={authContextHook.isUserLogged ? null : '/user/login'} onClick={() => {
