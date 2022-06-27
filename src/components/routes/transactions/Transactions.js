@@ -2,17 +2,26 @@ import './Transactions.css';
 
 import { NoTasks } from '../../states/notasks/NoTasks';
 import { StatusChip } from '../../statuschip/StatusChip';
+import { SpilledCupError } from '../../states/spilledcuperror/SpilledCupError';
+import { AuthContext } from '../../../App';
+import { useContext } from 'react';
+import { UnauthorizedPage } from '../../unauthorizedpage/UnauthorizedPage';
 
 function Transactions(props) {
+    const authContextHook = useContext(AuthContext);
+
     return (
         <section id='transactions'>
-            <div className='Content'>
-                <hgroup>
-                    <h1>Transactions</h1>
-                    <p>This is a list of all the orders that ever existed.</p>
-                </hgroup>
-                <TransactionsList />
-            </div>
+            {authContextHook.role === 'admin' ?
+                <div className='Content'>
+                    <hgroup>
+                        <h1>Transactions</h1>
+                        <p>This is a list of all the orders that ever existed.</p>
+                    </hgroup>
+                    <TransactionsList />
+                </div> : 
+                <UnauthorizedPage />
+            }
         </section>
     );
 }

@@ -5,19 +5,27 @@ import { MoreVert } from '../../icon/Icon';
 
 import { NoTasks } from '../../states/notasks/NoTasks';
 import { PopupMenu } from '../../popupmenu/PopupMenu';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { StatusChip } from '../../statuschip/StatusChip';
+import { AuthContext } from '../../../App';
+import { SpilledCupError } from '../../states/spilledcuperror/SpilledCupError';
+import { UnauthorizedPage } from '../../unauthorizedpage/UnauthorizedPage';
 
 function Orders(props) {
+    const authContextHook = useContext(AuthContext);
+
     return (
         <section id='orders'>
-            <div className='Content'>
-                <hgroup>
-                    <h1>Orders List</h1>
-                    <p>This is a list of all the created orders.<br/>You can accept an order, reject it or complete it.</p>
-                </hgroup>
-                <OrdersList />
-            </div>
+            {authContextHook.role === 'cook' ?
+                <div className='Content'>
+                    <hgroup>
+                        <h1>Orders List</h1>
+                        <p>This is a list of all the created orders.<br/>You can accept an order, reject it or complete it.</p>
+                    </hgroup>
+                    <OrdersList />
+                </div> : 
+                <UnauthorizedPage />
+            }
         </section>
     );
 }

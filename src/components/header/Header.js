@@ -41,9 +41,11 @@ function Header(props) {
     const userItems = [
         { 'title': 'My Account', 'onClick': null },
         { 'title': 'My Orders', 'to': '/user/orders'},
+        { 'title': 'Logout', 'onClick': logout }
     ]
 
-    const logoutItem = [
+    const privilegedItems = [
+        { 'title': 'My Account', 'onClick': null },
         { 'title': 'Logout', 'onClick': logout }
     ]
 
@@ -93,7 +95,7 @@ function Header(props) {
                     </div>
                 </nav>
             </header>
-            <PopupMenu isVisible={showPopupMenu} onDismiss={() => setShowPopupMenu(false)} menuItems={authContextHook.role === 'customer' ? userItems.concat(logoutItem) : logoutItem} />
+            <PopupMenu isVisible={showPopupMenu} onDismiss={() => setShowPopupMenu(false)} menuItems={authContextHook.role === 'customer' ? userItems : privilegedItems} />
         </div>
     );
 }
