@@ -20,7 +20,7 @@ function Menu(props) {
 
     useEffect(() => {
         authContextHook.getMenu();
-    });
+    }, []);
 
     const menuSubset = createMenuSubset(authContextHook.menu, category);
 
