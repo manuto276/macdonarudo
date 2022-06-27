@@ -1,5 +1,5 @@
 import './AddProductView.css';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Close } from '../icon/Icon';
 import { Link, SlideEffect } from '../link/Link';
 import { FOOD_TYPES } from '../routes/menu/Menu';
@@ -10,6 +10,7 @@ import AddImageState from '../../resources/add-photo.svg';
 
 function AddProductView(props) {
     const [image, setImage] = useState(props.icon ?? '');
+    const [isEditMode, setisEditMode] = useState(false);
 
     const authContextHook = useContext(AuthContext);
 
@@ -23,17 +24,31 @@ function AddProductView(props) {
             return;
         }
         const host = process.env.REACT_APP_API_HOST;
-        axios.post(`http://${host}/api/products/`, {
+        if(!isEditMode){
+            axios.post(`http://${host}/api/products/`, {
+                name: name,
+                type: type,
+                price: price,
+                image: image
+            }, {withCredentials: true}).then((response) => {
+                authContextHook.getMenu();
+                props.onDismiss();
+            }).catch((error) => {
+                alert(error);
+            });
+        }else{
+            axios.put(`http://${host}/api/products/${props.id}`, {
             name: name,
             type: type,
             price: price,
             image: image
-        }, {withCredentials: true}).then((response) => {
-            authContextHook.getMenu();
-            props.onDismiss();
-        }).catch((error) => {
-            alert(error);
-        });
+            }, {withCredentials: true}).then((response) => {
+                authContextHook.getMenu();
+                props.onDismiss();
+            }).catch((error) => {
+                alert(error);
+            });
+        }
     }
 
     const showImage = async (event) => {
@@ -56,6 +71,12 @@ function AddProductView(props) {
             };
         });
     };
+
+    useEffect(() => {
+        if(props.name != null){
+            setisEditMode(true);
+        }
+    }, []);
 
     return (
         <div id='addProductView'>
