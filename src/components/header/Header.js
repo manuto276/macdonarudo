@@ -50,15 +50,15 @@ function Header(props) {
                 <div className='Main'>
                     <Logo />
                     <div className='More'>
-                        {authContextHook.role === 'cook' ? 
-                            <Link>
-                                <SlideEffect height='1.5rem'>
-                                    <ListAlt id='orders' />
-                                </SlideEffect>
-                            </Link> : 
+                        {authContextHook.role === 'user' ? 
                             <Link onClick={props.onCartClick ?? null}>
                                 <SlideEffect height='1.5rem'>
                                     <ShoppingCart id='cart' />
+                                </SlideEffect>
+                            </Link> :
+                            <Link>
+                                <SlideEffect height='1.5rem'>
+                                    <ListAlt id='transaction' />
                                 </SlideEffect>
                             </Link>}
                         <Link to={authContextHook.isUserLogged ? null : '/user/login'} onClick={() => {

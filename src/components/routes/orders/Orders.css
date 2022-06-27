@@ -1,0 +1,43 @@
+#orders .Content {
+    padding: 4rem 0;
+    display: flex;
+    flex-direction: column;
+    row-gap: 4rem;
+    overflow: hidden;
+}
+
+#orders hgroup {
+    position: relative;
+    text-align: center;
+}
+
+@media screen and (min-width: 800px) {
+    #orders .Content {
+        padding: 4rem 8rem;
+    }
+}
+
+#orders .ActiveOrders, 
+#orders .PendingOrders, 
+#orders .CompletedOrders {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 4rem;
+}
+
+@media screen and (max-width: 799px) {
+    #orders hgroup {
+        margin: 0 2rem;
+    }
+
+    #orders table {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    #orders table {
+        width: 80%;
+    }
+}

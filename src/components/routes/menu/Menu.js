@@ -1,11 +1,11 @@
 import './Menu.css';
 import './FoodCategories.css';
 
-import NoProductState from '../../../resources/no-products.svg';
+import { NoProductsError } from '../../states/noproductserror/NoProductsError';
 
 import { useContext, useEffect, useState } from 'react';
 import { FloatingActionButton } from '../../floatingactionbutton/FloatingActionButton';
-import { Add, Delete, Edit, ShoppingCart } from '../../icon/Icon';
+import { Add } from '../../icon/Icon';
 import { SlideEffect } from '../../link/Link';
 import { AuthContext } from '../../../App';
 import { EditableProduct, Product } from '../../product/Product';
@@ -20,7 +20,7 @@ function Menu(props) {
 
     useEffect(() => {
         authContextHook.getMenu();
-    }, []);
+    }, [authContextHook]);
 
     const menuSubset = createMenuSubset(authContextHook.menu, category);
 
@@ -50,8 +50,7 @@ function Menu(props) {
                             }
                             return null;
                         })}
-                    </div> : 
-                    <EmptyMenuList />
+                    </div> : <NoProductsError />
                 }
                 {isAdmin ? 
                     <FloatingActionButton id='addFoodButton' onClick={props.onAddClick}>
@@ -71,15 +70,6 @@ function createMenuSubset(menu, category) {
     return menu.filter((item) => FOOD_TYPES.indexOf(item.type) === category);
 }
 
-function EmptyMenuList() {
-    return (
-        <div className='EmptyMenuList'>
-            <img className='State' src={NoProductState} alt='Empty Menu State' />
-            <p>Looks like there are no items for this category yet.</p>
-        </div>
-    );
-}
-
 // This function returns a list of Chips components
 // which represent the food categories.
 // By clicking on them we change the category.
@@ -91,35 +81,6 @@ function FoodCategories(props) {
                 <div className={'Chip' + (activeIndex === i ? ' Active' : '')} key={item} onClick={() => props.onItemClick(i)}>
                     <SlideEffect className='button' height='1rem'>{item}</SlideEffect>
                 </div>)}
-        </div>
-    );
-}
-
-function ProductItem(props) {
-    return (
-        <div className='ProductItem'>
-            <div className='ProductIcon'>
-                <img src={props.product.image} alt={props.product.name} />
-            </div>
-            <div className='ProductDesc'>
-                <h6>{props.product.name}</h6>
-                <p>{`${props.product.price} €`}</p>
-            </div>
-            <div className='Actions'>
-                <button>
-                    <SlideEffect height='1.5rem'><ShoppingCart /></SlideEffect>
-                </button>
-                {props.isAdmin ? 
-                <button className='Tertiary'>
-                    <SlideEffect height='1.5rem' onClick={props.onEdit}><Edit /></SlideEffect>
-                </button> : null}
-                {props.isAdmin ? 
-                <button className='Tertiary' onClick={props.onDelete}>
-                    <SlideEffect height='1.5rem'>
-                        <Delete />
-                    </SlideEffect>
-                </button> : null}
-            </div>
         </div>
     );
 }

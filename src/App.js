@@ -1,16 +1,20 @@
-import React, { useEffect, useState, createContext } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+
 import { Header } from './components/header/Header';
 import { Home } from './components/routes/home/Home';
 import { Menu } from './components/routes/menu/Menu';
-import axios from 'axios';
 import { Footer } from './components/footer/Footer';
 import { CartView } from './components/cartview/CartView';
 import { AddProductView } from './components/addproductview/AddProductView';
 import { DeleteProductView } from './components/deleteproductview/DeleteProductView';
 import { Login } from './components/routes/login/Login';
 import { Signup } from './components/routes/signup/Signup';
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import React, { useEffect, useState, createContext } from 'react';
+import axios from 'axios';
+import { Orders } from './components/routes/orders/Orders';
 
 const AuthContext = createContext();
 
@@ -111,6 +115,7 @@ function App() {
             </Route>
             <Route path='user/login' element={ <Login /> } />
             <Route path='user/signup' element={ <Signup /> } />
+            <Route path='orders' element={ <Orders /> } />
           </Routes>
           {shouldShowNavBars() ?
             <Footer /> : null }
