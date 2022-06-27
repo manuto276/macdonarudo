@@ -36,7 +36,7 @@ function OrdersList() {
     const [showPopupMenu, setShowPopupMenu] = useState(false);
 
     const orders = [];
-    orders[0] = {_id: 'asdsanvajfsd', _userId: 'sadcfvsdbmgdfakemanuele', date: 'Today', status: 'accepted'}
+    orders[0] = {_id: 'asdsanvajfsd', _userId: 'sadcfvsdbmgdfakemanuele', date: 'Today', status: 'active'}
 
     // The possible order states are:
     // 1. Pending
