@@ -4,20 +4,28 @@ import { NoTasks } from '../../states/notasks/NoTasks';
 import { StatusChip } from '../../statuschip/StatusChip';
 import { PopupMenu } from '../../popupmenu/PopupMenu';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { SlideEffect } from '../../link/Link';
 import { MoreVert } from '../../icon/Icon';
+import { AuthContext } from '../../../App';
+import { SpilledCupError } from '../../states/spilledcuperror/SpilledCupError';
+import { UnauthorizedPage } from '../../unauthorizedpage/UnauthorizedPage';
 
 function MyOrders(props) {
+    const authContextHook = useContext(AuthContext);
+
     return (
         <section id='my-orders'>
-            <div className='Content'>
-                <hgroup>
-                    <h1>My Orders</h1>
-                    <p>This is a list of all of your orders.</p>
-                </hgroup>
-                <MyOrdersList />
-            </div>
+            {authContextHook.role === 'customer' ?
+                <div className='Content'>
+                    <hgroup>
+                        <h1>My Orders</h1>
+                        <p>This is a list of all of your orders.</p>
+                    </hgroup>
+                    <MyOrdersList />
+                </div> : 
+                <UnauthorizedPage />
+            }
         </section>
     );
 }

@@ -1,0 +1,12 @@
+.UnauthorizedPage {
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 4rem;
+}
+
+@media screen and (min-width: 800px) {
+    .UnauthorizedPage {
+        padding: 4rem 8rem;
+    }
+}
