@@ -139,7 +139,8 @@ router.delete('/deleteall/', async (req, res) => {
 
 router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
-        const products = req.body.products;
+        console.log(req.body);
+        const products = req.body;
         if(products.length === 0){
             res.status(400).send('Empty products');
             return;
