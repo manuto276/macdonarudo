@@ -60,7 +60,7 @@ router.put('/:id', passport.authenticate('jwt', {session: false}), async (req, r
             }
     
         await Product.findByIdAndUpdate(req.params.id, newValues);
-        res.status(200);
+        res.status(200).send();
 
 
     }catch(error){

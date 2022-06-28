@@ -19,11 +19,11 @@ Content-Type: application/json
 {
     "products": [
         {
-            "_id": "62b78733603a26a050eab5b2",
+            "_id": "62bb6d96113ba228f01f748b",
             "amount": 1
         }
     ]
 }
 
 ###
-DELETE http://localhost:3001/api/orders/cart/62b78733603a26a050eab5b2 HTTP/1.1
+DELETE http://localhost:3001/api/orders/cart/big-makko HTTP/1.1

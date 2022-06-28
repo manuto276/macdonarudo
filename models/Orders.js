@@ -13,22 +13,22 @@ const Users = require('./Users')
 const orderSchema = new mongoose.Schema(
     {
         date: {
-            type: String,
+            type: Date,
             required: true
         },
         totalAmount: {
             type: Number,
             required: true
         },
-        clientId: {
+        userId: {
             type: mongoose.Types.ObjectId,
             required: true,
             ref: 'Users'
         },
         status: {
-            type: Number,
+            type: String,
             // sent, preparation, ready, canceled
-            enum: [0, 1, 2, 3],
+            enum: ['pending', 'accepted', 'completed', 'rejected'],
             required: true
         },
         products: [{

@@ -14,24 +14,19 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
     try{
         const userId = req.user.id
         const productsObjs = req.user.cart;
-
+        if(productsObjs.length === 0){
+            res.status(400).send('Empty cart');
+            return;
+        }
         let products = [];
-        let valid = true;
         // check if products exists and if they do add the retrieved data to array and use it
         // to calculate the total amount
         for(i=0; i<productsObjs.length; i++){
             const product = await Product.findById(productsObjs[i]._id)
-            if(product === null){
-                valid = false
-                break
-            }
             products.push(product)
         }
 
-        if(!valid){
-            res.status(409).send(`Invalid product(s)`)
-            return
-        }
+
 
         let totalAmount = 0
         for(i=0; i<products.length; i++){
@@ -40,10 +35,10 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
 
         const order = new Orders({
                 totalAmount: totalAmount, 
-                clientId: userId,
+                userId: userId,
                 products: productsObjs,
                 date: Date.now(),
-                status: 0
+                status: 'pending'
             })
 
         await order.save(async (error, order) => {
@@ -73,9 +68,9 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
     try{
         const newStatus = req.body.status
         const oldStatus = await Orders.findById(req.params.orderid)
-        if(newStatus <= oldStatus){
-            res.status(304).send('Status not changed')
-            return
+        if(newStatus === 'rejected' && oldStatus === 'completed'){
+            res.status(400).send(`Can't reject completed order.`);
+            return;
         }
         await Orders.findByIdAndUpdate(req.params.orderid, {status: newStatus})
         
@@ -87,6 +82,7 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
                 });
             }
         }
+        res.status(200).send('Ok')
         
     }catch(error){
         res.send(error)
@@ -123,14 +119,16 @@ router.get('/updates/', passport.authenticate('jwt', {session: false}), async (r
 });
 
 router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
-    if(req.user.role === 'admin' || req.user.role === 'cook'){
-        const orders = await Orders.find();
-        res.send(orders); 
-        return;
+    if(req.user.role === 'cook'){
+        const orders = await Orders.find({$and: [{status: {$not: {$eq: 'completed'}}}, {status: {$not: {$eq: 'rejected'}}}]})
+        res.setHeader('Cache-Control', 'no-store').send(orders)
+    }else if(req.user.role === 'admin'){
+        const orders = await Orders.find()
+        res.setHeader('Cache-Control', 'no-store').send(orders)
+    }else{
+        const orders = await Orders.find({clientId: req.user.id});
+        res.setHeader('Cache-Control', 'no-store').send(orders);
     }
-
-    const orders = await Orders.find({clientId: req.user.id});
-    res.send(orders);
 })
 
 router.delete('/deleteall/', async (req, res) => {
@@ -141,13 +139,17 @@ router.delete('/deleteall/', async (req, res) => {
 
 router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
-        const products = req.body;
+        const products = req.body.products;
+        if(products.length === 0){
+            res.status(400).send('Empty products');
+            return;
+        }
         const userObj = req.user;
         for(i=0; i<products.length; i++){
             const product = products[i];
             const productId = product._id;
             let isProductInMenu = await Products.findById(productId);
-            if(!isProductInMenu){
+            if(isProductInMenu == null){
                 res.status(400).send('Bad product id');
                 return;
             }
@@ -181,8 +183,9 @@ router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req,
     try{
         const id = req.user._id;
         const role = req.user.role;
-        if(role === 'cook'){
+        if(role === 'cook' || role === 'admin'){
             res.status(401).send("Cooks can't have a cart");
+            return;
         }
         const cart = req.user.cart;
         if(cart){
@@ -191,7 +194,7 @@ router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req,
             res.status(404).send('no_cart');
         }
     }catch(error){
-        res.status(400).send(error);
+        res.setHeader('Cache-Control', 'no-store').status(400).send(error);
     }
 });
 
