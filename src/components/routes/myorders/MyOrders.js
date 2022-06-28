@@ -51,9 +51,8 @@ function MyOrders(props) {
 }
 
 function MyOrdersList(props) {
-    const [showPopupMenu, setShowPopupMenu] = useState(false);
-
-    const [orders, setOrders] = useState(props.orders ?? [  ])
+    const [showPopupMenus, setShowPopupMenus] = useState(props.orders != undefined ? props.orders.map(() => false) : []);
+    const [orders, setOrders] = useState(props.orders ?? []);
 
     const moreItems = [
         {'name': 'Delete Order', 'onClick': null}
@@ -71,25 +70,14 @@ function MyOrdersList(props) {
                         <td>Status</td>
                     </thead>
                     <tbody>
-                        {orders.map((order) => {
+                        {orders.map((order, i) => {
                             return (
                                 <tr>
                                     <td>{order._id}</td>
-                                    <td>{order._userId}</td>
-                                    <td>{order.date}</td>
-                                    <td>{order.price}</td>
+                                    <td>{String(new Date(order.date))}</td>
+                                    <td>{order.totalAmount + ' €'}</td>
                                     <td>
                                         <StatusChip status={order.status} />
-                                    </td>
-                                    <td className='actions'>
-                                        {order.status === 'pending' ? 
-                                            <Link onClick={() => setShowPopupMenu(true)}>
-                                                <SlideEffect height='1.5rem'>
-                                                    <MoreVert />
-                                                </SlideEffect>
-                                            </Link> : null}
-                                        {order.status === 'pending' ? 
-                                            <PopupMenu isVisible={showPopupMenu} onDismiss={() => setShowPopupMenu(false)} menuItems={moreItems} /> : null}
                                     </td>
                                 </tr>
                             );
