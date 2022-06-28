@@ -89,6 +89,7 @@ function OrderCart(props) {
     const onClickPlaceOrder = () => {
         const host = process.env.REACT_APP_API_HOST
         axios.post(`http://${host}/api/orders/`, {}, {withCredentials: true}).then((response) => {
+            authContextHook.getCart();
             props.onDismiss();
         }).catch((error) => {
             alert(error);
