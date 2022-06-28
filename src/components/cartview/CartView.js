@@ -15,7 +15,7 @@ function CartView(props) {
     
 
     useEffect(() => {
-        if(authContextHook.cart.length === 0){
+        if(authContextHook.cart.length === 0 && authContextHook.role === 'customer'){
             authContextHook.getCart();
         }
     }, []);
@@ -86,6 +86,15 @@ function OrderCart(props) {
         setTotal(total);
     }
 
+    const onClickPlaceOrder = () => {
+        const host = process.env.REACT_APP_API_HOST
+        axios.post(`http://${host}/api/orders/`, {}, {withCredentials: true}).then((response) => {
+            props.onDismiss();
+        }).catch((error) => {
+            alert(error);
+        });
+    }
+
     // calculate the total amount if the menu is ready of as soon as it is ready, or when the cart changes
     useEffect(() => {
         calcTotal();
@@ -101,7 +110,7 @@ function OrderCart(props) {
                 <p>Total</p>
                 <h4>{total.toFixed(2)} €</h4>
             </div>
-            <button onClick={props.onDismiss}>
+            <button onClick={onClickPlaceOrder}>
                 <SlideEffect height='1rem'>Place order</SlideEffect>
             </button>
         </div>

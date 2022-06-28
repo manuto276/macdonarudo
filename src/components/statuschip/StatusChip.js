@@ -5,8 +5,8 @@ function StatusChip(props) {
         <div className={'caption StatusChip ' + props.status}>
             {props.status === 'rejected' ? 
                 'Rejected' : props.status === 'complete' ?
-                    'Complete' : props.status === 'active' ?
-                        'Active' : 'Pending'}
+                    'Complete' : props.status === 'accepted' ?
+                        'Accepted' : 'Pending'}
         </div>
     );
 }

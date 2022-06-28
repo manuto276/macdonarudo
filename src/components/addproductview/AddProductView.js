@@ -10,7 +10,6 @@ import AddImageState from '../../resources/add-photo.svg';
 
 function AddProductView(props) {
     const [image, setImage] = useState(props.icon ?? '');
-    const [isEditMode, setisEditMode] = useState(false);
 
     const authContextHook = useContext(AuthContext);
 
@@ -21,10 +20,23 @@ function AddProductView(props) {
         const type = formData.get('type');
         const price = formData.get('price');
         if(name.length === 0 || type.length === 0 || price <= 0 || image.length === 0){
+            console.log('Returning');
             return;
         }
         const host = process.env.REACT_APP_API_HOST;
-        if(!isEditMode){
+        if(props.edit){
+            axios.put(`http://${host}/api/products/${props.id}`, {
+                name: name,
+                type: type,
+                price: price,
+                image: image
+            }, {withCredentials: true}).then(async (response) => {
+                authContextHook.getMenu();
+                props.onDismiss();
+            }).catch((error) => {
+                alert(error);
+            });
+        }else{
             axios.post(`http://${host}/api/products/`, {
                 name: name,
                 type: type,
@@ -36,19 +48,8 @@ function AddProductView(props) {
             }).catch((error) => {
                 alert(error);
             });
-        }else{
-            axios.put(`http://${host}/api/products/${props.id}`, {
-            name: name,
-            type: type,
-            price: price,
-            image: image
-            }, {withCredentials: true}).then((response) => {
-                authContextHook.getMenu();
-                props.onDismiss();
-            }).catch((error) => {
-                alert(error);
-            });
         }
+        
     }
 
     const showImage = async (event) => {
@@ -72,12 +73,6 @@ function AddProductView(props) {
         });
     };
 
-    useEffect(() => {
-        if(props.name != null){
-            setisEditMode(true);
-        }
-    }, []);
-
     return (
         <div id='addProductView'>
             <button className='Tertiary CloseButton' onClick={props.onDismiss}>
@@ -95,7 +90,7 @@ function AddProductView(props) {
                 <p>Tap to add a photo</p>
             </div>
             <form id='newProductForm' onSubmit={uploadProduct}>
-                <input style={{display: 'none'}} id='icon-input' onChange={(event) => showImage(event)} type='file' accept='image/png' required />
+                <input style={{display: 'none'}} id='icon-input' value={null} onChange={(event) => showImage(event)} type='file' accept='image/png' />
                 <input id='name' type='text' name='name' defaultValue={props.name ?? null} placeholder='Product Name' required />
                 <select id='category' type='text' name='type' defaultValue={props.category ?? null} required>
                         {FOOD_TYPES.map((item, i) => <option>{item}</option>)}

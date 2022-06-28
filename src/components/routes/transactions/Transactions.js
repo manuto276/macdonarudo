@@ -4,11 +4,23 @@ import { NoTasks } from '../../states/notasks/NoTasks';
 import { StatusChip } from '../../statuschip/StatusChip';
 import { SpilledCupError } from '../../states/spilledcuperror/SpilledCupError';
 import { AuthContext } from '../../../App';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UnauthorizedPage } from '../../unauthorizedpage/UnauthorizedPage';
+import axios from 'axios';
 
 function Transactions(props) {
     const authContextHook = useContext(AuthContext);
+
+    const [transactions, setTransactions] = useState([])
+
+    useEffect(() => {
+        const host = process.env.REACT_APP_API_HOST
+        axios.get(`http://${host}/api/orders/`, {withCredentials: true}).then((response) => {
+            setTransactions(response.data);
+        }).catch((error) =>{
+            alert(error);
+        });
+    }, [])
 
     return (
         <section id='transactions'>
@@ -18,7 +30,7 @@ function Transactions(props) {
                         <h1>Transactions</h1>
                         <p>This is a list of all the orders that ever existed.</p>
                     </hgroup>
-                    <TransactionsList />
+                    <TransactionsList transactions={transactions}/>
                 </div> : 
                 <UnauthorizedPage />
             }
@@ -26,12 +38,17 @@ function Transactions(props) {
     );
 }
 
-function TransactionsList() {
-    const orders = [];
+function TransactionsList(props) {
+    console.log((props.transactions));
+
+    const [date, setDate] = useState('')
+
+    useEffect(() => {
+    }, [])
 
     return (
         <div className='OrdersList'>
-            {orders.length === 0 ? 
+            {props.transactions.length === 0 ? 
                 <NoTasks /> : 
                 <table>
                     <thead>
@@ -42,13 +59,13 @@ function TransactionsList() {
                         <td>Status</td>
                     </thead>
                     <tbody>
-                        {orders.map((order) => {
+                        {props.transactions.map((order) => {
                             return (
                                 <tr>
                                     <td>{order._id}</td>
-                                    <td>{order._userId}</td>
-                                    <td>{order.date}</td>
-                                    <td>{order.price}</td>
+                                    <td>{order.userId}</td>
+                                    <td>{String(new Date(order.date))}</td>
+                                    <td>{order.totalAmount + ' €'}</td>
                                     <td>
                                         <StatusChip status={order.status} />
                                     </td>

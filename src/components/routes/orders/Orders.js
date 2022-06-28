@@ -5,14 +5,36 @@ import { MoreVert } from '../../icon/Icon';
 
 import { NoTasks } from '../../states/notasks/NoTasks';
 import { PopupMenu } from '../../popupmenu/PopupMenu';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { StatusChip } from '../../statuschip/StatusChip';
 import { AuthContext } from '../../../App';
 import { SpilledCupError } from '../../states/spilledcuperror/SpilledCupError';
 import { UnauthorizedPage } from '../../unauthorizedpage/UnauthorizedPage';
+import axios from 'axios';
 
 function Orders(props) {
     const authContextHook = useContext(AuthContext);
+
+    const [orders, setOrders] = useState([]);
+
+    const getOrders = async () => {
+        const host = process.env.REACT_APP_API_HOST
+        let result;
+        await axios.get(`http://${host}/api/orders/`, {withCredentials: true}).then((response) => {
+            result = response.data;
+        }).catch((error) => {
+            alert(error);
+        });
+        return result;
+    }
+
+    useEffect(() => {
+        getOrders().then((result) => {
+            setOrders(result);
+        })
+    }, [])
+
+    console.log(orders);
 
     return (
         <section id='orders'>
@@ -22,7 +44,7 @@ function Orders(props) {
                         <h1>Orders List</h1>
                         <p>This is a list of all the created orders.<br/>You can accept an order, reject it or complete it.</p>
                     </hgroup>
-                    <OrdersList />
+                    <OrdersList refreshCallback={getOrders} orders={orders}/>
                 </div> : 
                 <UnauthorizedPage />
             }
@@ -30,27 +52,32 @@ function Orders(props) {
     );
 }
 
-const acceptedMenuItems = [
-    { 'title': 'Complete order', 'onClick': null },
-    { 'title': 'Reject order', 'onClick': null },
-];
+function OrdersList(props) {
+    
+    const [showPopupMenus, setShowPopupMenus] = useState(props.orders != undefined ? props.orders.map(() => false) : []);
+    const [orders, setOrders] = useState(props.orders ?? []);
 
-const pendingMenuItems = [
-    { 'title': 'Accept order', 'onClick': null },
-    { 'title': 'Reject order', 'onClick': null },
-];
+    const upgradeOrderStatus = (newStatus, orderId, updateUiCallback) => {
+        const host = process.env.REACT_APP_API_HOST
+        axios.put(`http://${host}/api/orders/${orderId}`, {
+            status: newStatus
+        }, {withCredentials: true}).then((response) => {
+            updateUiCallback().then((result) => {
+                setOrders(result);
+            });
+        }).catch((error) => {
+            alert(error);
+        });
+    }
 
-function OrdersList() {
-    const [showPopupMenu, setShowPopupMenu] = useState(false);
-
-    const orders = [];
-    orders[0] = {_id: 'asdsanvajfsd', _userId: 'sadcfvsdbmgdfakemanuele', date: 'Today', status: 'active'}
+    
+    
 
     // The possible order states are:
-    // 1. Pending
-    // 2. Accepted
-    // 3. Completed
-    // 4. Rejected
+    // 1. pending
+    // 2. accepted
+    // 3. completed
+    // 4. rejected
 
     return (
         <div className='OrdersList'>
@@ -64,24 +91,48 @@ function OrdersList() {
                         <td>Status</td>
                     </thead>
                     <tbody>
-                        {orders.map((order) => {
+                        {orders.map((order, i) => {
+
+                            const acceptedMenuItems = [
+                                { 'title': 'Complete order', 'onClick': () => upgradeOrderStatus('completed', order._id, props.refreshCallback)},
+                                { 'title': 'Reject order', 'onClick': () => upgradeOrderStatus('rejected', order._id, props.refreshCallback) },
+                            ];
+
+                            const pendingMenuItems = [
+                                { 'title': 'Accept order', 'onClick': () => upgradeOrderStatus('accepted', order._id, props.refreshCallback) },
+                                { 'title': 'Reject order', 'onClick': () => upgradeOrderStatus('rejected', order._id, props.refreshCallback) },
+                            ];
+
+
                             return (
                                 <tr>
                                     <td>{order._id}</td>
-                                    <td>{order._userId}</td>
-                                    <td>{order.date}</td>
+                                    <td>{order.userId}</td>
+                                    <td>{String(new Date(order.date))}</td>
                                     <td>
                                         <StatusChip status={order.status} />
                                     </td>
                                     <td className='actions'>
                                         {order.status !== 'rejected' && order.status !== 'complete' ? 
-                                            <Link onClick={() => setShowPopupMenu(true)}>
+                                            <Link onClick={() => setShowPopupMenus((oldShowMenus) => {
+                                                return oldShowMenus.map((value, index) => {
+                                                    if(index === i){
+                                                        return true;
+                                                    }else{
+                                                        return false;
+                                                    }
+                                                });
+                                            })}>
                                                 <SlideEffect height='1.5rem'>
                                                     <MoreVert />
                                                 </SlideEffect>
                                             </Link> : null}
                                         {order.status !== 'rejected' && order.status !== 'complete' ? 
-                                            <PopupMenu isVisible={showPopupMenu} onDismiss={() => setShowPopupMenu(false)} menuItems={order.status === 'pending' ? pendingMenuItems : acceptedMenuItems} /> : null}
+                                            <PopupMenu isVisible={showPopupMenus[i]} onDismiss={() => setShowPopupMenus((oldShowMenus) => {
+                                                return oldShowMenus.map((value, index) => {
+                                                    return false;
+                                                });
+                                            })} menuItems={order.status === 'pending' ? pendingMenuItems : acceptedMenuItems} /> : null}
                                     </td>
                                 </tr>
                             );
