@@ -118,16 +118,20 @@ router.get('/updates/', passport.authenticate('jwt', {session: false}), async (r
 });
 
 router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
-    if(req.user.role === 'cook'){
-        const orders = await Orders.find({$and: [{status: {$not: {$eq: 'completed'}}}, {status: {$not: {$eq: 'rejected'}}}]})
-        .sort({date: 'desc'});
-        res.setHeader('Cache-Control', 'no-store').send(orders);
-    }else if(req.user.role === 'admin'){
-        const orders = await Orders.find().sort({date: 'desc'});
-        res.setHeader('Cache-Control', 'no-store').send(orders);
-    }else{
-        const orders = await Orders.find({userId: req.user._id}).sort({date: 'desc'});
-        res.setHeader('Cache-Control', 'no-store').send(orders);
+    try{
+        if(req.user.role === 'cook'){
+            const orders = await Orders.find({$and: [{status: {$not: {$eq: 'completed'}}}, {status: {$not: {$eq: 'rejected'}}}]})
+            .sort({date: 'desc'});
+            res.setHeader('Cache-Control', 'no-store').send(orders);
+        }else if(req.user.role === 'admin'){
+            const orders = await Orders.find().sort({date: 'desc'});
+            res.setHeader('Cache-Control', 'no-store').send(orders);
+        }else{
+            const orders = await Orders.find({userId: req.user._id}).sort({date: 'desc'});
+            res.setHeader('Cache-Control', 'no-store').send(orders);
+        }
+    }catch(error){
+        res.status(400).send(error);
     }
 })
 
