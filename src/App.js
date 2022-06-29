@@ -55,13 +55,11 @@ function App() {
     const host = process.env.REACT_APP_API_HOST;
     await axios.get(`http://${host}/api/products/`)
     .then((response) => {
-        console.log("After then");
         setMenu(response.data);            
     })
     .catch((error) => {
       alert(error);
     });
-    console.log("After await");
   }
 
   const getCart = () => {
@@ -86,7 +84,7 @@ function App() {
   }
 
   // check if the user is authenticated at first rendering
-  useEffect(checkAuthentication, [isUserLogged]);
+  useEffect(checkAuthentication, []);
   /*useEffect(() => {
     if(menu.length === 0){
       getMenu();
@@ -106,7 +104,7 @@ function App() {
     <div className='App'>
       <AuthContext.Provider value={{
         isUserLogged, setIsUserLogged, role, setRole, menu, setMenu, getMenu,
-        cart, getCart
+        cart, getCart, checkAuthentication
         }}>
         <BrowserRouter>
           {shouldShowNavBars() ?

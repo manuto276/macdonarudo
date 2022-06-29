@@ -73,3 +73,16 @@ input[type='file']::file-selector-button {
 input[type='file']::file-selector-button:hover {
   background: rgba(255, 255, 255, 0.04);
 }
+
+ ::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}

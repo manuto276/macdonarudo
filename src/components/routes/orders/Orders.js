@@ -110,7 +110,7 @@ function OrdersList(props) {
                                 { 'title': 'Reject order', 'onClick': () => upgradeOrderStatus('rejected', order._id, props.refreshCallback) },
                             ];
 
-                            const orderDetails = [];
+                            const orderDetails = order.products
 
                             return (
                                 <tr>
@@ -118,7 +118,7 @@ function OrdersList(props) {
                                     <td>{order.userId}</td>
                                     <td>{String(new Date(order.date))}</td>
                                     <td>
-                                        <ul>
+                                        <ul class='DetailsList'>
                                         {
                                             orderDetails.map((item, i) => <li className='button'>{item.amount} × {item.name}</li>)
                                         }

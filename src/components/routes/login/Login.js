@@ -47,7 +47,7 @@ function Login(props) {
         }, {withCredentials: true}).then((response) => {
 
             // if the login was successful, navigate to '/'
-            authContextHook.setIsUserLogged(true);
+            authContextHook.checkAuthentication();
             console.log(response);
             navigate('/', {replace: true});
         }).catch((error) => {

@@ -75,15 +75,24 @@ function MyOrdersList(props) {
                         <td>Order ID</td>
                         <td>Date</td>
                         <td>Price</td>
+                        <td>Details</td>
                         <td>Status</td>
                     </thead>
                     <tbody>
                         {props.orders.map((order, i) => {
+                            const orderDetails = order.products
                             return (
                                 <tr>
                                     <td>{order._id}</td>
                                     <td>{String(new Date(order.date))}</td>
                                     <td>{order.totalAmount + ' €'}</td>
+                                    <td>
+                                        <ul class='DetailsList'>
+                                        {
+                                            orderDetails.map((item, i) => <li className='button'>{item.amount} × {item.name}</li>)
+                                        }
+                                        </ul>
+                                    </td>
                                     <td>
                                         <StatusChip status={order.status} />
                                     </td>

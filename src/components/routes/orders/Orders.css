@@ -19,6 +19,15 @@
     }
 }
 
+.DetailsList{
+    list-style: none;
+    padding-left: 0px;
+}
+
+.DetailsList li:not(:last-child){
+    margin-bottom: 10px;
+}
+
 #orders .OrdersList {
     display: flex;
     flex-direction: column;
