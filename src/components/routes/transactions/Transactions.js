@@ -11,16 +11,35 @@ import axios from 'axios';
 function Transactions(props) {
     const authContextHook = useContext(AuthContext);
 
-    const [transactions, setTransactions] = useState([])
+    const [transactions, setTransactions] = useState([]);
+
+    const getTransactions = async () => {
+        const host = process.env.REACT_APP_API_HOST
+        let result;
+        await axios.get(`http://${host}/api/orders/`, {withCredentials: true}).then((response) => {
+            result = response.data;
+        }).catch((error) => {
+            alert(error);
+        });
+        return result;
+    }
+
+    const [refreshInterval, setRefreshInterval] = useState(null)
 
     useEffect(() => {
         const host = process.env.REACT_APP_API_HOST
-        axios.get(`http://${host}/api/orders/`, {withCredentials: true}).then((response) => {
-            setTransactions(response.data);
-        }).catch((error) =>{
-            alert(error);
+        getTransactions().then((result) => {
+            setTransactions(result);
         });
-    }, [])
+        // check orders every minute
+        const interval = setInterval(() => {getTransactions().then((result) => {
+            setTransactions((oldTransactions) => result);
+        })}, 30000);
+        return () => {
+            clearInterval(interval);
+        }
+    }, []);
+
 
     return (
         <section id='transactions'>
@@ -39,15 +58,9 @@ function Transactions(props) {
 }
 
 function TransactionsList(props) {
-    console.log((props.transactions));
-
-    const [date, setDate] = useState('')
-
-    useEffect(() => {
-    }, [])
 
     return (
-        <div className='OrdersList'>
+        <div className='TransactionsList'>
             {props.transactions.length === 0 ? 
                 <NoTasks /> : 
                 <table>

@@ -28,13 +28,22 @@ function Orders(props) {
         return result;
     }
 
-    useEffect(() => {
-        getOrders().then((result) => {
-            setOrders(result);
-        })
-    }, [])
+    const [refreshInterval, setRefreshInterval] = useState(null)
 
-    console.log(orders);
+    const updateOrdersUI = () => getOrders().then((result) => {
+        setOrders((oldOrders) => result);
+    });
+
+    useEffect(() => {
+        const host = process.env.REACT_APP_API_HOST
+        updateOrdersUI();
+        // check orders every minute
+        const interval = setInterval(() => updateOrdersUI(), 30000);
+        return () => {
+            clearInterval(interval);
+        }
+    }, []);
+
 
     return (
         <section id='orders'>
@@ -44,7 +53,7 @@ function Orders(props) {
                         <h1>Orders List</h1>
                         <p>This is a list of all the created orders.<br/>You can accept an order, reject it or complete it.</p>
                     </hgroup>
-                    <OrdersList refreshCallback={getOrders} orders={orders}/>
+                    <OrdersList refreshCallback={updateOrdersUI} orders={orders}/>
                 </div> : 
                 <UnauthorizedPage />
             }
@@ -55,16 +64,13 @@ function Orders(props) {
 function OrdersList(props) {
     
     const [showPopupMenus, setShowPopupMenus] = useState(props.orders != undefined ? props.orders.map(() => false) : []);
-    const [orders, setOrders] = useState(props.orders ?? []);
 
     const upgradeOrderStatus = (newStatus, orderId, updateUiCallback) => {
         const host = process.env.REACT_APP_API_HOST
         axios.put(`http://${host}/api/orders/${orderId}`, {
             status: newStatus
         }, {withCredentials: true}).then((response) => {
-            updateUiCallback().then((result) => {
-                setOrders(result);
-            });
+            updateUiCallback();
         }).catch((error) => {
             alert(error);
         });
@@ -81,7 +87,7 @@ function OrdersList(props) {
 
     return (
         <div className='OrdersList'>
-            {orders.length === 0 ? 
+            {props.orders.length === 0 ? 
                 <NoTasks /> : 
                 <table>
                     <thead>
@@ -91,7 +97,7 @@ function OrdersList(props) {
                         <td>Status</td>
                     </thead>
                     <tbody>
-                        {orders.map((order, i) => {
+                        {props.orders.map((order, i) => {
 
                             const acceptedMenuItems = [
                                 { 'title': 'Complete order', 'onClick': () => upgradeOrderStatus('completed', order._id, props.refreshCallback)},

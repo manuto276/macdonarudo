@@ -28,11 +28,21 @@ function MyOrders(props) {
         return result;
     }
 
+    const [refreshInterval, setRefreshInterval] = useState(null)
+
     useEffect(() => {
+        const host = process.env.REACT_APP_API_HOST
+        // check orders every minute
         getOrders().then((result) => {
             setOrders(result);
-        })
-    }, [])
+        });
+        const interval = setInterval(() => {getOrders().then((result) => {
+            setOrders((oldOrders) => result);
+        })}, 30000);
+        return () => {
+            clearInterval(interval);
+        }
+    }, []);
 
     return (
         <section id='my-orders'>
@@ -52,7 +62,6 @@ function MyOrders(props) {
 
 function MyOrdersList(props) {
     const [showPopupMenus, setShowPopupMenus] = useState(props.orders != undefined ? props.orders.map(() => false) : []);
-    const [orders, setOrders] = useState(props.orders ?? []);
 
     const moreItems = [
         {'name': 'Delete Order', 'onClick': null}
@@ -60,7 +69,7 @@ function MyOrdersList(props) {
 
     return (
         <div className='MyOrdersList'>
-            {orders.length === 0 ? 
+            {props.orders.length === 0 ? 
                 <NoTasks /> : 
                 <table>
                     <thead>
@@ -70,7 +79,7 @@ function MyOrdersList(props) {
                         <td>Status</td>
                     </thead>
                     <tbody>
-                        {orders.map((order, i) => {
+                        {props.orders.map((order, i) => {
                             return (
                                 <tr>
                                     <td>{order._id}</td>

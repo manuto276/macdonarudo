@@ -111,6 +111,7 @@ function App() {
         <BrowserRouter>
           {shouldShowNavBars() ?
             <Header onCartClick={() => {
+              getCart();
               setShoppingCartVisible(true); 
             }} /> : null}
           <Routes>
