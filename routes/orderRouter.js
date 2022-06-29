@@ -139,7 +139,7 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res)
             res.setHeader('Cache-Control', 'no-store').send(orders);
         }else{
             const orders = await Orders.find({userId: req.user._id}).sort({date: 'desc'});
-            res.setHeader('Cache-Control', 'no-store').send(orders);
+            res.send(orders);
         }
     }catch(error){
         console.log(error);
