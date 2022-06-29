@@ -133,10 +133,10 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res)
         if(req.user.role === 'cook'){
             const orders = await Orders.find({$and: [{status: {$not: {$eq: 'completed'}}}, {status: {$not: {$eq: 'rejected'}}}]})
             .sort({date: 'desc'});
-            res.setHeader('Cache-Control', 'no-store').send(orders);
+            res.send(orders);
         }else if(req.user.role === 'admin'){
             const orders = await Orders.find().sort({date: 'desc'});
-            res.setHeader('Cache-Control', 'no-store').send(orders);
+            res.send(orders);
         }else{
             const orders = await Orders.find({userId: req.user._id}).sort({date: 'desc'});
             res.send(orders);
