@@ -9,7 +9,6 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const expressSession = require('express-session');
 const passport = require('passport');
-const expressFlash = require('express-flash');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const userRouter = require('./routes/userRouter');
@@ -17,10 +16,7 @@ const orderRouter = require('./routes/orderRouter');
 const productRouter = require('./routes/productRouter');
 const fs = require('fs');
 const Users = require('./models/Users');
-const Products = require('./models/Products');
 
-
-// this function is from passport-config.js
 
 async function main() {
     
@@ -29,34 +25,33 @@ async function main() {
     console.log(`Connection to database successful.`);
 
     //
-    if(!(fs.existsSync('first_run/first_run_check.txt'))){
-        console.log("First run, creating admin user...");
-        fs.writeFileSync('first_run/first_run_check.txt', 'Just a random file to know if this is the first time running the app.',
-        (error) => {if(error){console.log(error);}});
-        const adminCredentials = JSON.parse(fs.readFileSync('first_run/admin.json', 'utf-8'));
-        const admin = Users({
-            email: adminCredentials.email,
-            password: adminCredentials.password,
+    const admin = await Users.findOne({email: 'admin@macdonarudo'});
+    if(admin == null){
+        const newAdmin = new Users({
             firstName: 'Admin',
             lastName: 'Admin',
-            bdate: new Date('2000-07-31'),
             city: 'Admin city',
-            role: 'admin'
+            bdate: '0033-12-25',
+            email: 'admin@macdonarudo',
+            password: process.env.ADMIN_PASSWORD
         });
-        await admin.save((error, admin) => {
+        await newAdmin.save((error, admin) => {
             if(error){
                 console.log(error);
+            }else{
+                console.log('CREATED ADMIN USER');
             }
         });
-        console.log("DONE");
     }
-
+    
     const app = express();
 
-    const port = 3001
-    const host = 'localhost'
+    const port = process.env.PORT
+    const host = process.env.HOST
     // http://localhost:3000 from the react debug client,
     // http://localhost:3001 from the express-serverd client
+    // http://172.104.250.206:3001 from the server where the app is
+    // deployed
     const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001', 'http://172.104.250.206:3001']
 
     app.use(cors({origin: allowedOrigins, credentials: true}))

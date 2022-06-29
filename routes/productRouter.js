@@ -6,6 +6,7 @@ const Jwt = require('jsonwebtoken')
 const router = Router()
 
 router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
         if(req.user.role !== 'admin'){
             res.status(401).send();
@@ -40,6 +41,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
 });
 
 router.put('/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
         if(req.user.role !== 'admin'){
             res.status(401).send();
@@ -70,16 +72,19 @@ router.put('/:id', passport.authenticate('jwt', {session: false}), async (req, r
 })
 
 router.get('/', async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     const products = await Product.find();
     res.send(products);
 });
 
 router.delete('/deleteall', async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     await Product.deleteMany()
     res.send('Ok')
 })
 
 router.delete('/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     if(req.user.role !== 'admin'){
         res.status(401).send();
         return;

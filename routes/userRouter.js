@@ -8,7 +8,7 @@ const localStrategyConfig = require('../auth/strategies')
 const router = Router()
 
 router.post('/', async (req,res) => {
-    console.log(req.ip);
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
         const body = req.body
         const firstName = body.firstName
@@ -56,17 +56,19 @@ router.post('/', async (req,res) => {
 }) 
 
 router.get('/', async (req,res) => {
-    console.log(`GET from ${req.ip}`);
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     const users = await Users.find();
     res.send(users);
 })
 
 router.delete('/deleteall/', passport.authenticate('jwt', {session: false}), async (req,res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     await Users.deleteMany();
     res.send('Ok');
 })
 
 router.delete('/:email/', passport.authenticate('jwt', {session: false}), async (req,res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
   try{
         const email = req.params.email;
         await Users.deleteOne({email: email});
@@ -88,7 +90,7 @@ const signToken = (userId) => {
 
 router.post('/login/', passport.authenticate('local', {session: false}),
     (req, res) => {
-        console.log(`POST from ${req.ip}`);
+        console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
         const { _id, email, role } = req.user
         const token = signToken(_id)
         res.cookie('access_token', token, {httpOnly: true, sameSite: 'strict'})
@@ -101,12 +103,13 @@ router.post('/login/', passport.authenticate('local', {session: false}),
 )
 
 router.get('/logout/', passport.authenticate('jwt', {session: false}), (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     res.clearCookie('access_token')
     res.send('Bye')
 })
 
 router.get('/authenticated/', passport.authenticate('jwt', {session: false}), async (req ,res) => {
-    console.log(`GET from ${req.ip}`);
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     const user = {
         role: req.user.role
     }
@@ -114,6 +117,7 @@ router.get('/authenticated/', passport.authenticate('jwt', {session: false}), as
 });
 
 router.put('/changerole/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
         if(req.user.role !== 'admin'){
             res.status(401).send('Admin privileges required');

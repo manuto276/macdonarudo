@@ -10,6 +10,7 @@ const router = Router()
 let sseConnections = [];
 
 router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
         const userId = req.user.id
         let products = req.user.cart;
@@ -67,6 +68,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
 })
 
 router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     if(req.user.role !== 'cook'){
         res.status(401).send('Unauthorized')
         return
@@ -96,6 +98,7 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
 })
 
 router.get('/updates/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     res.set({
         'Cache-Control': 'no-cache',
         'Content-Type': 'text/event-stream',
@@ -125,6 +128,7 @@ router.get('/updates/', passport.authenticate('jwt', {session: false}), async (r
 });
 
 router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
         if(req.user.role === 'cook'){
             const orders = await Orders.find({$and: [{status: {$not: {$eq: 'completed'}}}, {status: {$not: {$eq: 'rejected'}}}]})
@@ -149,6 +153,7 @@ router.delete('/deleteall/', async (req, res) => {
 
 
 router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
         console.log(req.body);
         const products = req.body;
@@ -192,6 +197,7 @@ router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req
 });
 
 router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     let wasCartModified = false;
     let user = req.user;
     try{
@@ -231,6 +237,7 @@ router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req,
 });
 
 router.delete('/cart/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
         const productId = req.params.id;
         const user = req.user;
