@@ -8,7 +8,6 @@ const Products = require('../models/Products')
 const router = Router()
 
 let sseConnections = [];
-let mutex = false;
 
 router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
@@ -121,12 +120,13 @@ router.get('/updates/', passport.authenticate('jwt', {session: false}), async (r
 router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     if(req.user.role === 'cook'){
         const orders = await Orders.find({$and: [{status: {$not: {$eq: 'completed'}}}, {status: {$not: {$eq: 'rejected'}}}]})
-        res.setHeader('Cache-Control', 'no-store').send(orders)
+        .sort({date: 'desc'});
+        res.setHeader('Cache-Control', 'no-store').send(orders);
     }else if(req.user.role === 'admin'){
-        const orders = await Orders.find()
-        res.setHeader('Cache-Control', 'no-store').send(orders)
+        const orders = await Orders.find().sort({date: 'desc'});
+        res.setHeader('Cache-Control', 'no-store').send(orders);
     }else{
-        const orders = await Orders.find({clientId: req.user.id});
+        const orders = await Orders.find({userId: req.user._id}).sort({date: 'desc'});
         res.setHeader('Cache-Control', 'no-store').send(orders);
     }
 })
