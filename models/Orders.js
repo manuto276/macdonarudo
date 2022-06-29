@@ -37,7 +37,11 @@ const orderSchema = new mongoose.Schema(
                     type: mongoose.Types.ObjectId,
                     required: true,
                     ref: 'Products'
-                }, 
+                },
+                name: {
+                    type: String,
+                    required: true
+                },
                 amount: {
                     type: Number,
                     required: true

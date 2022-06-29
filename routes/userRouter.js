@@ -91,7 +91,7 @@ router.post('/login/', passport.authenticate('local', {session: false}),
         console.log(`POST from ${req.ip}`);
         const { _id, email, role } = req.user
         const token = signToken(_id)
-        res.cookie('access_token', token, {httpOnly: true})
+        res.cookie('access_token', token, {httpOnly: true, sameSite: 'strict'})
         const user = {
             role: req.user.role
         }

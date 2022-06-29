@@ -12,30 +12,37 @@ let sseConnections = [];
 router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try{
         const userId = req.user.id
-        const productsObjs = req.user.cart;
-        if(productsObjs.length === 0){
+        let products = req.user.cart;
+        if(products.length === 0){
             res.status(400).send('Empty cart');
             return;
         }
-        let products = [];
+        let productsFromMenu = [];
         // check if products exists and if they do add the retrieved data to array and use it
         // to calculate the total amount
-        for(i=0; i<productsObjs.length; i++){
-            const product = await Product.findById(productsObjs[i]._id)
-            products.push(product)
-        }
-
-
-
         let totalAmount = 0
+        let productsWithNames = [];
         for(i=0; i<products.length; i++){
-            totalAmount += products[i].price * productsObjs[i].amount
+            let product = products[i];
+            const productId = product._id;
+            let productFromMenu = await Products.findById(productId);
+            if(productFromMenu != null){
+                productsFromMenu.push(productFromMenu);
+                // set product original name in order!
+                productsWithNames.push({
+                    _id: products[i]._id,
+                    amount: products[i].amount,
+                    name: productFromMenu.name
+                });
+                totalAmount += productsFromMenu[i].price * products[i].amount
+            }else{
+                products.splice(i, 1);
+            }
         }
-
         const order = new Orders({
                 totalAmount: totalAmount, 
                 userId: userId,
-                products: productsObjs,
+                products: productsWithNames,
                 date: Date.now(),
                 status: 'pending'
             })
@@ -185,6 +192,8 @@ router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req
 });
 
 router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    let wasCartModified = false;
+    let user = req.user;
     try{
         const id = req.user._id;
         const role = req.user.role;
@@ -192,7 +201,20 @@ router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req,
             res.status(401).send("Cooks can't have a cart");
             return;
         }
-        const cart = req.user.cart;
+        let cart = req.user.cart;
+        console.log(req.user.cart);
+        
+        for(let i=0; i<cart.length; i++){
+            let product = cart[i];
+            const productFromMenu = await Products.findById(product._id);
+            if(productFromMenu == null){
+                console.log('slicing');
+                // remove non-existing product from cart
+                user.cart.splice(i,1);
+                wasCartModified = true;
+                console.log(user.cart);
+            }
+        }
         if(cart){
             res.status(200).send(cart);
         }else{
@@ -200,6 +222,11 @@ router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req,
         }
     }catch(error){
         res.setHeader('Cache-Control', 'no-store').status(400).send(error);
+    }
+    if(wasCartModified){
+        await user.save((error, user) => {
+
+        });
     }
 });
 
