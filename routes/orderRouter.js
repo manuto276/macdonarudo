@@ -142,6 +142,7 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res)
             res.setHeader('Cache-Control', 'no-store').send(orders);
         }
     }catch(error){
+        console.log(error);
         res.status(400).send(error);
     }
 })
