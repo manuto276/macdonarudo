@@ -28,7 +28,6 @@ function MyOrders(props) {
         return result;
     }
 
-    const [refreshInterval, setRefreshInterval] = useState(null)
 
     useEffect(() => {
         const host = process.env.REACT_APP_API_HOST
@@ -69,7 +68,7 @@ function MyOrdersList(props) {
 
     return (
         <div className='MyOrdersList'>
-            {props.orders.length === 0 ? 
+            {props.orders == null || props.orders.length === 0 ? 
                 <NoTasks /> : 
                 <table>
                     <thead>
