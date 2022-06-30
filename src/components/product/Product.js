@@ -15,7 +15,7 @@ function Product(props) {
             _id: props.id,
             amount: quantity
         }],{withCredentials: true}).then((response) => {
-            authContextHook.getCart();
+            setQuantity(1);
             alert(`${quantity} ${props.name} added to cart.`)
         });
     }
