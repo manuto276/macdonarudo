@@ -64,10 +64,11 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
 
                 for(let i=0; i<sseConnections.length; i++){
                     connection = sseConnections[i];
-                    console.log(connection);
                     const update = {type: 'new', order: order, read: false};
                     if(connection.role === 'customer'){
-                        if(connection.userId === orderDoc.userId){
+                        // it has to be == not ===
+                        if(connection.userId == orderDoc.userId){
+                            console.log('Pushed update to ' + req.user.email);
                             connection.updates.push(update);
                         }
                     }else if(connection.role === 'cook'){
@@ -92,8 +93,10 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
         return
     }
     try{
+        console.log(`------\n${sseConnections}\n------`);
         const newStatus = req.body.status
-        const oldStatus = await Orders.findById(req.params.orderid)
+        const order = await Orders.findById(req.params.orderid)
+        const oldStatus = order.status;
         if(newStatus === 'rejected' && oldStatus === 'completed'){
             res.status(400).send(`Can't reject completed order.`);
             return;
@@ -102,10 +105,13 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
         
         for(let i=0; i<sseConnections.length; i++){
             const connection = sseConnections[i];
-            console.log(connection);
             const update = {type: 'update', orderId: req.params.orderid, status: newStatus, read: false};
             if(connection.role === 'customer'){
-                if(connection.userId === req.user._id){
+                // it has to be == not ===
+                console.log(connection);
+                console.log((`${order.userid} == ${connection.userId}`));
+                if(connection.userId == order.userId){
+                    console.log(`Pushed to ${connection.userId}`);
                     connection.updates.push(update);
 
                 }
@@ -149,7 +155,6 @@ router.get('/updates/', passport.authenticate('jwt', {session: false}), async (r
             return update.read === false;
         })
         if(updatesToSend.length > 0){
-            console.log(JSON.stringify(updatesToSend).replace(/\r?\n|\r/gm, ''));
             res.write(`data: ${JSON.stringify(updatesToSend).replace(/\r?\n|\r/gm, '')}\n\n`);
         }
     }, 1000)
@@ -190,7 +195,6 @@ router.delete('/deleteall/', async (req, res) => {
 router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
-        console.log(req.body);
         const products = req.body;
         if(products.length === 0){
             res.status(400).send('Empty products');
@@ -243,17 +247,14 @@ router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req,
             return;
         }
         let cart = req.user.cart;
-        console.log(req.user.cart);
         
         for(let i=0; i<cart.length; i++){
             let product = cart[i];
             const productFromMenu = await Products.findById(product._id);
             if(productFromMenu == null){
-                console.log('slicing');
                 // remove non-existing product from cart
                 user.cart.splice(i,1);
                 wasCartModified = true;
-                console.log(user.cart);
             }
         }
         if(cart){
