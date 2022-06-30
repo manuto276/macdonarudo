@@ -88,7 +88,7 @@ function Orders(props) {
         }
         eventSource.onerror = (event) => {
             if(event.eventPhase === EventSource.CLOSED){
-                that.eventSource.close();
+                eventSource.close();
                 alert('Connection lost.')
             }
         }
