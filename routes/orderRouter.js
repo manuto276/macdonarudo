@@ -111,7 +111,7 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
                 console.log(connection);
                 console.log((`${order.userId} == ${connection.userId}`));
                 console.log(String(connection.userId) == String(order.userId));
-                if(connection.userId == order.userId){
+                if(String(connection.userId) == String(order.userId)){
                     console.log(`Pushed new status update to ${connection.userId}`);
                     connection.updates.push(update);
 
