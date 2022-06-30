@@ -58,7 +58,7 @@ function Menu(props) {
                     </div> : <NoProductsError />
                 }
                 {isAdmin ? 
-                    <FloatingActionButton id='addFoodButton' onClick={props.onAddClick(category)}>
+                    <FloatingActionButton id='addFoodButton' onClick={() => props.onAddClick(category)}>
                         <SlideEffect height='1.5rem'>
                             <Add />
                         </SlideEffect>
