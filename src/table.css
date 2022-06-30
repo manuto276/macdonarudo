@@ -25,10 +25,3 @@ td {
 tbody td {
     border-top: 1px solid var(--black-olive);
 }
-
-@media screen and (max-width: 799px) {
-    table {
-        width: 100%;
-        overflow-x: scroll;
-    }
-}
