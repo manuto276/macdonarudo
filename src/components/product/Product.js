@@ -37,7 +37,6 @@ function Product(props) {
                         <SlideEffect className='button' height='1rem'>{quantity}</SlideEffect>
                     </button>
                     <button className='Tertiary' onClick={() => {
-                        if (quantity === 20)
                         setQuantity(quantity + 1);
                     }}>
                         <SlideEffect height='1.5rem'><Add /></SlideEffect>
