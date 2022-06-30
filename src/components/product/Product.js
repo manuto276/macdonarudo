@@ -42,11 +42,11 @@ function Product(props) {
                     <SlideEffect height='1.5rem'><Add /></SlideEffect>
                 </button>
             </div>
-            authContextHook.role === 'customer' || authContextHook.role == null ?
+            {authContextHook.role === 'customer' || authContextHook.role == null ?
             <button id='addToCartButton' onClick={addToCart}>
                 <SlideEffect className='button' height='1rem'>Add to cart</SlideEffect>
             </button>
-            : null
+            : null}
         </div>
     );
 }
