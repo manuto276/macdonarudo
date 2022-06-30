@@ -211,6 +211,7 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res)
 router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
+        const role = req.user.role;
         if(role === 'cook' || role === 'admin'){
             res.status(401).send("Cooks can't have a cart");
             return;
