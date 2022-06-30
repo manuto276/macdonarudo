@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, Fragment } from 'react';
 import { Add, Delete, Edit, Remove } from '../icon/Icon';
 import { SlideEffect } from '../link/Link';
 import './Product.css';
@@ -24,7 +24,7 @@ function Product(props) {
         <div className='Product'>
             <ProductHead icon={props.icon} name={props.name} price={props.price} />
             {authContextHook.role === 'customer' || authContextHook.role == null ?
-            <React.Fragment>
+            <Fragment>
                 <div className='QuantitySelector'>
                     <button className='Tertiary' onClick={() => {
                         if (quantity === 1)
@@ -47,7 +47,7 @@ function Product(props) {
                 <button id='addToCartButton' onClick={addToCart}>
                     <SlideEffect className='button' height='1rem'>Add to cart</SlideEffect>
                 </button>
-            </React.Fragment>
+            </Fragment>
             : null}
         </div>
     );
