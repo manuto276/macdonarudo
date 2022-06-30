@@ -87,6 +87,12 @@ function Transactions(props) {
                     }
                 }catch(error){}
             }
+            eventSource.onerror = (event) => {
+                if(event.eventPhase === EventSource.CLOSED){
+                    that.eventSource.close();
+                    alert('Connection lost.')
+                }
+            }
         }
     }, [transactions]);
 

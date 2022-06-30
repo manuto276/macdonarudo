@@ -42,7 +42,6 @@ function Orders(props) {
     }, []);
 
     useEffect(() => {
-        
         if(eventSource !== null){
             eventSource.onmessage = (event) => {
                 try{
@@ -85,6 +84,12 @@ function Orders(props) {
                         }
                     }
                 }catch(error){}
+            }
+        }
+        eventSource.onerror = (event) => {
+            if(event.eventPhase === EventSource.CLOSED){
+                that.eventSource.close();
+                alert('Connection lost.')
             }
         }
     }, [orders]);
