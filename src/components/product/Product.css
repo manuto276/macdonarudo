@@ -5,7 +5,8 @@
     text-align: center;
     gap: 2rem;
 
-    border-radius: 0.5rem;
+    box-sizing: border-box;
+    border-radius: 1rem;
     padding: 2rem;
 
     transition: all 350ms ease;
