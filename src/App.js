@@ -84,7 +84,9 @@ function App() {
   }
 
   // check if the user is authenticated at first rendering
-  useEffect(checkAuthentication, []);
+  useEffect(() => {
+    checkAuthentication();
+  }, []);
   /*useEffect(() => {
     if(menu.length === 0){
       getMenu();

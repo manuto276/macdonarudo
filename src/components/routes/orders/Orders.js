@@ -39,6 +39,9 @@ function Orders(props) {
         const host = process.env.REACT_APP_API_HOST
         updateOrdersUI();
         setEventSource(new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true}));
+        return () => {
+            eventSource.close();
+        }
     }, []);
 
     useEffect(() => {

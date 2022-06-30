@@ -32,21 +32,16 @@ function MyOrders(props) {
 
     useEffect(() => {
         const host = process.env.REACT_APP_API_HOST
-        // check orders every minute
         getOrders().then((result) => {
             setOrders(result);
         });
         setEventSource(new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true}));
-        /*const interval = setInterval(() => {getOrders().then((result) => {
-            setOrders((oldOrders) => result);
-        })}, 30000);*/
         return () => {
-            //clearInterval(interval);
+            eventSource.close();
         }
     }, []);
 
-    useEffect(() => {
-        
+    useEffect(() => { 
         if(eventSource !== null){
             eventSource.onmessage = (event) => {
                 try{

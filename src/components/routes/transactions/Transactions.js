@@ -32,13 +32,8 @@ function Transactions(props) {
             setTransactions(result);
         });
         setEventSource(new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true}));
-        // check orders every minute
-        /*const interval = setInterval(() => {getTransactions().then((result) => {
-            setTransactions((oldTransactions) => result);
-        })}, 30000);*/
-        
         return () => {
-            //clearInterval(interval);
+            eventSource.close();
         }
     }, []);
 
