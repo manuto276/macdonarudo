@@ -68,7 +68,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
                     if(connection.role === 'customer'){
                         // it has to be == not ===
                         if(connection.userId == orderDoc.userId){
-                            console.log('Pushed update to ' + req.user.email);
+                            console.log('Pushed new order update to ' + req.user.email);
                             connection.updates.push(update);
                         }
                     }else if(connection.role === 'cook'){
@@ -112,7 +112,7 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
                 console.log((`${order.userId} == ${connection.userId}`));
                 console.log(connection.userId == order.userId);
                 if(connection.userId == order.userId){
-                    console.log(`Pushed to ${connection.userId}`);
+                    console.log(`Pushed new status update to ${connection.userId}`);
                     connection.updates.push(update);
 
                 }
