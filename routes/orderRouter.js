@@ -12,6 +12,7 @@ let sseConnections = [];
 router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
+        console.log(`------\nActive SSE connections:\n${JSON.stringify(sseConnections)}\n------`);
         const userId = req.user.id
         let products = req.user.cart;
         if(products.length === 0){
@@ -93,7 +94,7 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
         return
     }
     try{
-        console.log(`------\n${sseConnections}\n------`);
+        console.log(`------\nActive SSE connections:\n${JSON.stringify(sseConnections)}\n------`);
         const newStatus = req.body.status
         let order = await Orders.findById(req.params.orderid)
         const oldStatus = order.status;
@@ -132,12 +133,12 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
 
 router.get('/updates/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
+    console.log(`------\nActive SSE connections:\n${JSON.stringify(sseConnections)}\n------`);
     res.set({
         'Cache-Control': 'no-cache',
         'Content-Type': 'text/event-stream',
         'Connection': 'keep-alive'
       });
-    console.log('Set SSE.');
         
     const sseConnection = {userId: req.user._id, role: req.user.role, updates: []}
     sseConnections.push(sseConnection);
@@ -160,6 +161,7 @@ router.get('/updates/', passport.authenticate('jwt', {session: false}), async (r
     res.on('close', () => {
         clearInterval(interval);
         sseConnections.splice(sseConnections.indexOf(sseConnection), 1);
+        console.log(`------\nActive SSE connections:\n${JSON.stringify(sseConnections)}\n------`);
     })
 
 });
