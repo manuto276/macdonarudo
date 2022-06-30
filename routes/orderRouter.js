@@ -67,7 +67,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
                     const update = {type: 'new', order: order, read: false};
                     if(connection.role === 'customer'){
                         // it has to be == not ===
-                        if(connection.userId == orderDoc.userId){
+                        if(String(connection.userId) === String(orderDoc.userId)){
                             console.log('Pushed new order update to ' + req.user.email);
                             connection.updates.push(update);
                         }
@@ -107,11 +107,8 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
             let connection = sseConnections[i];
             const update = {type: 'update', orderId: req.params.orderid, status: newStatus, read: false};
             if(connection.role == 'customer'){
-                // it has to be == not ===
-                console.log(connection);
-                console.log((`${order.userId} == ${connection.userId}`));
-                console.log(String(connection.userId) == String(order.userId));
-                if(String(connection.userId) == String(order.userId)){
+                // it has to be == not ===, also String casting is required due to weird typing...
+                if(String(connection.userId) === String(order.userId)){
                     console.log(`Pushed new status update to ${connection.userId}`);
                     connection.updates.push(update);
 
