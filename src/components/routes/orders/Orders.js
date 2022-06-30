@@ -127,6 +127,7 @@ function OrdersList(props) {
         });
     }
     
+    console.log(showPopupMenus);
     
 
     // The possible order states are:
