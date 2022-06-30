@@ -9,6 +9,9 @@
     padding: 2rem;
 
     transition: all 350ms ease;
+
+    animation-fill-mode: both;
+    animation: product-animation 350ms ease;
 }
 
 .Product
@@ -73,6 +76,15 @@
     .Icon img {
         height: 96px;
     }
+
+    @keyframes product-animation {
+        0% {
+            transform: translateX(-2rem);
+        }
+        100% {
+            transform: translate(0, 0);
+        }
+    }
 }
 
 @media screen and (min-width: 800px) {
@@ -93,5 +105,14 @@
     .Product
     .Description {
         row-gap: 0.5rem;
+    }
+
+    @keyframes product-animation {
+        0% {
+            transform: translateY(-2rem);
+        }
+        100% {
+            transform: translate(0, 0);
+        }
     }
 }
