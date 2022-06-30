@@ -32,13 +32,38 @@ function Transactions(props) {
             setTransactions(result);
         });
         // check orders every minute
-        const interval = setInterval(() => {getTransactions().then((result) => {
+        /*const interval = setInterval(() => {getTransactions().then((result) => {
             setTransactions((oldTransactions) => result);
-        })}, 30000);
-        return () => {
-            clearInterval(interval);
+        })}, 30000);*/
+        const eventSource = new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true});
+        eventSource.onmessage = (event) => {
+            try{
+                const updates = JSON.parse(event.data);
+                for(let i=0; i<updates.length; i++){
+                    let update = updates[i];
+                    
+                    if(update.type === 'new'){
+                        let order = {
+                            _id: update.order._id,
+                            date: update.order.date,
+                            totalAmount: update.order.totalAmount,
+                            userId: update.order.userId,
+                            status: update.order.status,
+                            products: update.order.products.map((product, i) => {
+                                return {
+                                    _id: product._id,
+                                    name: product.name,
+                                    amount: product.amount
+                                }})};
+                        setTransactions([order,...transactions]);
+                    }
+                }
+            }catch(error){}
         }
-    }, []);
+        return () => {
+            //clearInterval(interval);
+        }
+    }, [transactions]);
 
 
     return (
