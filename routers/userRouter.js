@@ -7,6 +7,9 @@ const localStrategyConfig = require('../auth/strategies')
 
 const router = Router()
 
+
+// Create a user. For testing purposes, a user can decide to register as a cook.
+// The admin user can only be created automatically by the server
 router.post('/', async (req,res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
@@ -55,29 +58,8 @@ router.post('/', async (req,res) => {
     }
 }) 
 
-router.get('/', async (req,res) => {
-    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
-    const users = await Users.find();
-    res.send(users);
-})
 
-router.delete('/deleteall/', passport.authenticate('jwt', {session: false}), async (req,res) => {
-    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
-    await Users.deleteMany();
-    res.send('Ok');
-})
-
-router.delete('/:email/', passport.authenticate('jwt', {session: false}), async (req,res) => {
-    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
-  try{
-        const email = req.params.email;
-        await Users.deleteOne({email: email});
-        res.send(`Deleted ${email}`);
-  }catch(error){
-        res.send(error)
-  }
-}) 
-
+// Sign the access token that will be sent to the user
 const signToken = (userId) => {
     return Jwt.sign(
         {
@@ -88,6 +70,8 @@ const signToken = (userId) => {
     )
 }
 
+
+// Login
 router.post('/login/', passport.authenticate('local', {session: false}),
     (req, res) => {
         console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
@@ -102,12 +86,16 @@ router.post('/login/', passport.authenticate('local', {session: false}),
     }
 )
 
+
+// Logout
 router.get('/logout/', passport.authenticate('jwt', {session: false}), (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     res.clearCookie('access_token')
     res.send('Bye')
 })
 
+
+// Check if the current user is authenticated, and get their role
 router.get('/authenticated/', passport.authenticate('jwt', {session: false}), async (req ,res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     const user = {
@@ -116,6 +104,8 @@ router.get('/authenticated/', passport.authenticate('jwt', {session: false}), as
     res.status(200).send(user)
 });
 
+
+// not implemented in GUI, can still be used by ad admin user
 router.put('/changerole/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{

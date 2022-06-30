@@ -4,7 +4,7 @@ const Users = require('../models/Users')
 const JwtStrategy = require('passport-jwt').Strategy
 
 // function to extract access_token cookie from the incoming request
-const extractCookie = (req) => {
+const getCookie = (req) => {
     let token = null
     if(req && req.cookies){
         token = req.cookies['access_token']
@@ -15,7 +15,7 @@ const extractCookie = (req) => {
 // this strategy is used if the user already has an access_token cookie, for auth reasonss
 passport.use(new JwtStrategy(
     {
-        jwtFromRequest: extractCookie,
+        jwtFromRequest: getCookie,
         secretOrKey: process.env.JWT_SECRET,
     },
     // this callback verifies if the JWT contains the correct credentials
@@ -50,7 +50,7 @@ passport.use(new LocalStrategy(
             if(user){
                 // this function is in Users.js
                 // if the password is correct it will return done(null, user)
-                return user.comparePassword(password, done)
+                return user.verifyPassword(password, done)
             }
             return done(null, false)
         })

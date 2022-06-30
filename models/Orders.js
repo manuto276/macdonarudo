@@ -45,10 +45,6 @@ const orderSchema = new mongoose.Schema(
                 amount: {
                     type: Number,
                     required: true
-                },
-                discountCode: {
-                    type: String,
-                    required: false
                 }
             },
             required: true

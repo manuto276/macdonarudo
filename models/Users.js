@@ -125,7 +125,7 @@ userSchema.pre('save', function(next){
 })
 
 // function to compare the received plain password and saved hashed password
-userSchema.methods.comparePassword = function(password, callback) {
+userSchema.methods.verifyPassword = function(password, callback) {
     // password is plain, this.password is already encrypted
     bcrypt.compare(password, this.password, (error, isMatch) => {
         if(error){

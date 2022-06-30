@@ -11,9 +11,9 @@ const expressSession = require('express-session');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const userRouter = require('./routes/userRouter');
-const orderRouter = require('./routes/orderRouter');
-const productRouter = require('./routes/productRouter');
+const userRouter = require('./routers/userRouter');
+const orderRouter = require('./routers/orderRouter');
+const productRouter = require('./routers/productRouter');
 const fs = require('fs');
 const Users = require('./models/Users');
 
@@ -32,7 +32,7 @@ async function main() {
             lastName: 'Admin',
             city: 'Admin city',
             bdate: '0033-12-25',
-            email: 'admin@macdonarudo',
+            email: process.env.ADMIN_EMAIL,
             password: process.env.ADMIN_PASS,
             role: 'admin'
         });
@@ -77,7 +77,7 @@ async function main() {
 
     // get * must be at the bottom, otherwise every url will be served the website
     app.get('*',(req, res, next) => {
-        res.sendFile(path.join(__dirname, '../react/build/')); 
+        res.sendFile(path.join(__dirname, process.env.FRONTEND_DIR)); 
     }) 
 
     app.listen(port, host, () => {

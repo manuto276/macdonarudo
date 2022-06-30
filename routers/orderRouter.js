@@ -9,6 +9,8 @@ const router = Router()
 
 let sseConnections = [];
 
+
+// make an order with the current cart's products
 router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
@@ -89,6 +91,8 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
     }
 })
 
+
+// update the order status
 router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     if(req.user.role !== 'cook'){
@@ -132,6 +136,9 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
     }
 })
 
+
+// subscribe to this endpoint to receive SSE updates about incoming orders and order status updates.
+// Works for customers, cooks and admins.
 router.get('/updates/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     res.set({
@@ -166,6 +173,8 @@ router.get('/updates/', passport.authenticate('jwt', {session: false}), async (r
 
 });
 
+
+// Get the orders available for the role making the request
 router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
@@ -186,15 +195,15 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res)
     }
 })
 
-router.delete('/deleteall/', async (req, res) => {
-    await Orders.deleteMany();
-    res.send('Ok');
-})
 
-
+// add some items to the user's cart
 router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
+        if(role === 'cook' || role === 'admin'){
+            res.status(401).send("Cooks can't have a cart");
+            return;
+        }
         const products = req.body;
         if(products.length === 0){
             res.status(400).send('Empty products');
@@ -235,6 +244,8 @@ router.post('/cart/', passport.authenticate('jwt', {session: false}), async (req
     }
 });
 
+
+// Get the customer's cart
 router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     let wasCartModified = false;
@@ -272,6 +283,8 @@ router.get('/cart/', passport.authenticate('jwt', {session: false}), async (req,
     }
 });
 
+
+// Delete the entire stock of an item from the cart
 router.delete('/cart/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
@@ -295,24 +308,6 @@ router.delete('/cart/:id', passport.authenticate('jwt', {session: false}), async
         res.status(400).send(error);
     }
 });
-
-/*router.get('/status/', passport.authenticate('jwt', {session: false}), async function(req, res) {
-    res.header({
-      'Cache-Control': 'no-cache',
-      'Content-Type': 'text/event-stream',
-      'Connection': 'keep-alive'
-    });
-    res.flushHeaders();
-
-    res.write('retry: 5000\n\n');
-    const userId = req.user._id;
-    let userOrders = await Orders.find({clientId: userId, status: {$ne: 3}}, {_id: 1, status: 1});
-    while (true) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        let newUserOrders = await Orders.find({clientId: userId, status: {$ne: 3}}, {_id: 1, status: 1});
-        if()
-    }
-  });*/
 
 
 module.exports = router

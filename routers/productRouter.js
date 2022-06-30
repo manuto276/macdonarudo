@@ -5,6 +5,8 @@ const Jwt = require('jsonwebtoken')
 
 const router = Router()
 
+
+// Create a new product (admin only)
 router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
@@ -40,6 +42,8 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
     }
 });
 
+
+// Edit a product (admin only)
 router.put('/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     try{
@@ -71,18 +75,16 @@ router.put('/:id', passport.authenticate('jwt', {session: false}), async (req, r
     }
 })
 
+
+// get all the products in the menu
 router.get('/', async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     const products = await Product.find();
     res.send(products);
 });
 
-router.delete('/deleteall', async (req, res) => {
-    console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
-    await Product.deleteMany()
-    res.send('Ok')
-})
 
+// Delete a specific product (admin only)
 router.delete('/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
     if(req.user.role !== 'admin'){
