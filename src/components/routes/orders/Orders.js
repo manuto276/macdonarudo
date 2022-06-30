@@ -5,7 +5,7 @@ import { MoreVert } from '../../icon/Icon';
 
 import { NoTasks } from '../../states/notasks/NoTasks';
 import { PopupMenu } from '../../popupmenu/PopupMenu';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useNavigate } from 'react';
 import { StatusChip } from '../../statuschip/StatusChip';
 import { AuthContext } from '../../../App';
 import { SpilledCupError } from '../../states/spilledcuperror/SpilledCupError';
@@ -16,6 +16,7 @@ function Orders(props) {
     const authContextHook = useContext(AuthContext);
 
     const [orders, setOrders] = useState([]);
+    const [isEventSourceActive, setIsEventSourceActive] = useState(false);
 
     const getOrders = async () => {
         const host = process.env.REACT_APP_API_HOST
@@ -39,8 +40,10 @@ function Orders(props) {
         const host = process.env.REACT_APP_API_HOST
         updateOrdersUI();
         setEventSource(new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true}));
+        setIsEventSourceActive(true)
         return () => {
             eventSource.close();
+            setIsEventSourceActive(false);
         }
     }, []);
 
@@ -91,6 +94,7 @@ function Orders(props) {
             eventSource.onerror = (event) => {
                 if(event.eventPhase === EventSource.CLOSED){
                     eventSource.close();
+                    setIsEventSourceActive(false);
                     alert('Connection lost.')
                 }
             }
@@ -107,7 +111,7 @@ function Orders(props) {
                         <h1>Orders List</h1>
                         <p>This is a list of all the created orders.<br/>You can accept an order, reject it or complete it.</p>
                     </hgroup>
-                    <OrdersList refreshCallback={updateOrdersUI} orders={orders}/>
+                    <OrdersList isEventSourceActive={isEventSourceActive} refreshCallback={updateOrdersUI} orders={orders}/>
                 </div> : 
                 <UnauthorizedPage />
             }
@@ -118,16 +122,21 @@ function Orders(props) {
 function OrdersList(props) {
     
     const [showPopupMenus, setShowPopupMenus] = useState([]);
+    const navigate = useNavigate();
 
     const upgradeOrderStatus = (newStatus, orderId, updateUiCallback) => {
-        const host = process.env.REACT_APP_API_HOST
-        axios.put(`http://${host}/api/orders/${orderId}`, {
-            status: newStatus
-        }, {withCredentials: true}).then((response) => {
-            //updateUiCallback();
-        }).catch((error) => {
-            alert(error);
-        });
+        if(props.isEventSourceActive){
+            const host = process.env.REACT_APP_API_HOST
+            axios.put(`http://${host}/api/orders/${orderId}`, {
+                status: newStatus
+            }, {withCredentials: true}).then((response) => {
+                //updateUiCallback();
+            }).catch((error) => {
+                alert(error);
+            });
+        }else{
+            navigate('/orders/');
+        }
     }
     
     useEffect(() => {
