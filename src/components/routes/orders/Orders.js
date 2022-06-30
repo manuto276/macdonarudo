@@ -28,7 +28,6 @@ function Orders(props) {
         return result;
     }
 
-    const [refreshInterval, setRefreshInterval] = useState(null);
     const host = process.env.REACT_APP_API_HOST;
     const [eventSource, setEventSource] = useState(null);
 
@@ -39,12 +38,7 @@ function Orders(props) {
     useEffect(() => {
         const host = process.env.REACT_APP_API_HOST
         updateOrdersUI();
-        setEventSource(new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true}))
-        // check orders every minute
-        /*const interval = setInterval(() => updateOrdersUI(), 30000);
-        return () => {
-            clearInterval(interval);
-        }*/
+        setEventSource(new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true}));
     }, []);
 
     useEffect(() => {
@@ -86,7 +80,7 @@ function Orders(props) {
                                         break;
                                     }
                                 }
-                                setOrders(ordersCopy)
+                                setOrders(ordersCopy);
                             }
                         }
                     }
@@ -129,7 +123,7 @@ function OrdersList(props) {
     
     useEffect(() => {
         setShowPopupMenus(props.orders != undefined ? props.orders.map(() => false) : [])
-    }, [])
+    }, [props.orders]);
 
     console.log(showPopupMenus);
     
