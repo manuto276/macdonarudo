@@ -106,10 +106,10 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
         for(let i=0; i<sseConnections.length; i++){
             const connection = sseConnections[i];
             const update = {type: 'update', orderId: req.params.orderid, status: newStatus, read: false};
-            if(connection.role === 'customer'){
+            if(connection.role == 'customer'){
                 // it has to be == not ===
                 console.log(connection);
-                console.log((`${order.userid} == ${connection.userId}`));
+                console.log((`${order.userId} == ${connection.userId}`));
                 if(connection.userId == order.userId){
                     console.log(`Pushed to ${connection.userId}`);
                     connection.updates.push(update);
