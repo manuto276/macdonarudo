@@ -2,13 +2,6 @@ const mongoose = require('mongoose')
 const Product = require('./Products')
 const Users = require('./Users')
 
-/*
-    ID
-    Data
-    Prezzo tot
-    Array prodotti
-    _idCliente
-*/
 
 const orderSchema = new mongoose.Schema(
     {

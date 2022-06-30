@@ -1,19 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.4a505f8d.css",
-    "main.js": "/static/js/main.83999ddd.js",
+    "main.css": "/static/css/main.aee32d69.css",
+    "main.js": "/static/js/main.f4b74f77.js",
     "static/media/bread-top.png": "/static/media/bread-top.c660ac87e0473668e761.png",
     "static/media/salad.png": "/static/media/salad.17008fff20e084545323.png",
     "static/media/bread-bottom.png": "/static/media/bread-bottom.a49ee2e4f8622fbc394d.png",
     "static/media/burger.png": "/static/media/burger.1a760da58462367fddd1.png",
     "static/media/egg.png": "/static/media/egg.c13e350e8240be7011f3.png",
     "static/media/logo.svg": "/static/media/logo.5f6ea2f74ee22418b9bcdcbccf48a3a2.svg",
+    "static/media/no-tasks.svg": "/static/media/no-tasks.7cf6928d8ee6e863129eaa60212816d9.svg",
+    "static/media/empty-cart.svg": "/static/media/empty-cart.5623372b83aa24cb9ae2bd84af151045.svg",
+    "static/media/add-user.svg": "/static/media/add-user.12efe23e18cb336e57c8be195e7b8790.svg",
+    "static/media/spilled-cup-error.svg": "/static/media/spilled-cup-error.df21483e9c5d5079887110be1d89b3f8.svg",
+    "static/media/add-photo.svg": "/static/media/add-photo.1dda12ec74b7c57dbaede43e4e6322d8.svg",
+    "static/media/no-products.svg": "/static/media/no-products.3ff5b0e2fddd32b4398abc2602220e46.svg",
     "index.html": "/index.html",
-    "main.4a505f8d.css.map": "/static/css/main.4a505f8d.css.map",
-    "main.83999ddd.js.map": "/static/js/main.83999ddd.js.map"
+    "main.aee32d69.css.map": "/static/css/main.aee32d69.css.map",
+    "main.f4b74f77.js.map": "/static/js/main.f4b74f77.js.map"
   },
   "entrypoints": [
-    "static/css/main.4a505f8d.css",
-    "static/js/main.83999ddd.js"
+    "static/css/main.aee32d69.css",
+    "static/js/main.f4b74f77.js"
   ]
 }

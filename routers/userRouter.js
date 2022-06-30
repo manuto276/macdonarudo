@@ -39,8 +39,12 @@ router.post('/', async (req,res) => {
         await user.save((error, user) => {
             if (error){
                 try{
-                    if(error.errors.email.message === 'email_used'){
+                    if(error.errors.email != undefined
+                        && error.errors.email.message === 'email_used'){
                         res.status(400).send('email_used');
+                        return;
+                    }else if(error.errors.bdate != undefined && error.errors.bdate.message === 'underage'){
+                        res.status(400).send('underage');
                         return;
                     }
                 }catch(error){

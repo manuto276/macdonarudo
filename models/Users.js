@@ -2,13 +2,6 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const Orders = require('./Orders')
 
-/*
-    ID
-	Dati autenticazione passport.js
-	Data di nascita
-	Ruolo
-	Array ID ordini (se sei cuoco sono gli ordini presi in carico, se sei cliente sono gli ordini effettuati, se sei admin null)
-*/
 
 const userSchema = new mongoose.Schema(
     {
@@ -59,7 +52,7 @@ const userSchema = new mongoose.Schema(
                         // you're adult nice
                         return true
                     },
-                message: () => 'Underage'
+                message: () => 'underage'
             }
         },
         creationDate: {
