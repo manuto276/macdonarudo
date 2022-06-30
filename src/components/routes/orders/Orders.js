@@ -114,7 +114,7 @@ function Orders(props) {
 
 function OrdersList(props) {
     
-    const [showPopupMenus, setShowPopupMenus] = useState(props.orders != undefined ? props.orders.map(() => false) : []);
+    const [showPopupMenus, setShowPopupMenus] = useState([]);
 
     const upgradeOrderStatus = (newStatus, orderId, updateUiCallback) => {
         const host = process.env.REACT_APP_API_HOST
@@ -127,6 +127,10 @@ function OrdersList(props) {
         });
     }
     
+    useEffect(() => {
+        setShowPopupMenus(props.orders != undefined ? props.orders.map(() => false) : [])
+    }, [])
+
     console.log(showPopupMenus);
     
 
