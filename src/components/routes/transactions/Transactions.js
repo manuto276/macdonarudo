@@ -37,7 +37,7 @@ function Transactions(props) {
         }
     }, []);
 
-    // listening for updated about transactions
+    // listening for updates about transactions
     useEffect(() => {
         if(eventSource !== null){
             eventSource.onmessage = (event) => {
