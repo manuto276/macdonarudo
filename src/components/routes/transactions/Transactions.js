@@ -12,9 +12,10 @@ function Transactions(props) {
     const authContextHook = useContext(AuthContext);
 
     const [transactions, setTransactions] = useState([]);
+    const [eventSource, setEventSource] = useState(null);
 
     const getTransactions = async () => {
-        const host = process.env.REACT_APP_API_HOST
+        const host = process.env.REACT_APP_API_HOST;
         let result;
         await axios.get(`http://${host}/api/orders/`, {withCredentials: true}).then((response) => {
             result = response.data;
@@ -24,44 +25,68 @@ function Transactions(props) {
         return result;
     }
 
-    const [refreshInterval, setRefreshInterval] = useState(null)
-
+    // initial fetch of transactions
     useEffect(() => {
         const host = process.env.REACT_APP_API_HOST
         getTransactions().then((result) => {
             setTransactions(result);
         });
+        setEventSource(new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true}));
         // check orders every minute
         /*const interval = setInterval(() => {getTransactions().then((result) => {
             setTransactions((oldTransactions) => result);
         })}, 30000);*/
-        const eventSource = new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true});
-        eventSource.onmessage = (event) => {
-            try{
-                const updates = JSON.parse(event.data);
-                for(let i=0; i<updates.length; i++){
-                    let update = updates[i];
-                    
-                    if(update.type === 'new'){
-                        let order = {
-                            _id: update.order._id,
-                            date: update.order.date,
-                            totalAmount: update.order.totalAmount,
-                            userId: update.order.userId,
-                            status: update.order.status,
-                            products: update.order.products.map((product, i) => {
-                                return {
-                                    _id: product._id,
-                                    name: product.name,
-                                    amount: product.amount
-                                }})};
-                        setTransactions([order,...transactions]);
-                    }
-                }
-            }catch(error){}
-        }
+        
         return () => {
             //clearInterval(interval);
+        }
+    }, []);
+
+    // listening for updated about transactions
+    useEffect(() => {
+        if(eventSource !== null){
+            eventSource.onmessage = (event) => {
+                try{
+                    const updates = JSON.parse(event.data);
+                    for(let i=0; i<updates.length; i++){
+                        let update = updates[i];
+                        
+                        if(update.type === 'new'){
+                            let order = {
+                                _id: update.order._id,
+                                date: update.order.date,
+                                totalAmount: update.order.totalAmount,
+                                userId: update.order.userId,
+                                status: update.order.status,
+                                products: update.order.products.map((product, i) => {
+                                    return {
+                                        _id: product._id,
+                                        name: product.name,
+                                        amount: product.amount
+                                    }})};
+                            setTransactions([order,...transactions]);
+                        }else if(update.type === 'update'){
+                            const updates = JSON.parse(event.data);
+                            for(let i=0; i<updates.length; i++){
+                                let update = updates[i];
+                                let newOrderData = {
+                                    orderId: update.orderId,
+                                    status: update.status
+                                };
+                                let transactionsCopy = [...transactions];
+                                for(let j=0; j<transactionsCopy.length; j++){
+                                    let transaction = transactionsCopy[j];
+                                    if(transaction._id === newOrderData.orderId){
+                                        transaction.status = newOrderData.status;
+                                        break;
+                                    }
+                                }
+                                setTransactions(transactionsCopy);
+                            }
+                        }
+                    }
+                }catch(error){}
+            }
         }
     }, [transactions]);
 

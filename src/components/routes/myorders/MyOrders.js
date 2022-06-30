@@ -16,6 +16,7 @@ function MyOrders(props) {
     const authContextHook = useContext(AuthContext);
 
     const [orders, setOrders] = useState([]);
+    const [eventSource, setEventSource] = useState(null);
 
     const getOrders = async () => {
         const host = process.env.REACT_APP_API_HOST
@@ -35,13 +36,62 @@ function MyOrders(props) {
         getOrders().then((result) => {
             setOrders(result);
         });
-        const interval = setInterval(() => {getOrders().then((result) => {
+        setEventSource(new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true}));
+        /*const interval = setInterval(() => {getOrders().then((result) => {
             setOrders((oldOrders) => result);
-        })}, 30000);
+        })}, 30000);*/
         return () => {
-            clearInterval(interval);
+            //clearInterval(interval);
         }
     }, []);
+
+    useEffect(() => {
+        
+        if(eventSource !== null){
+            eventSource.onmessage = (event) => {
+                try{
+                    const updates = JSON.parse(event.data);
+                    console.log(updates);
+                    for(let i=0; i<updates.length; i++){
+                        let update = updates[i];
+                        
+                        if(update.type === 'new'){
+                            let order = {
+                                _id: update.order._id,
+                                date: update.order.date,
+                                totalAmount: update.order.totalAmount,
+                                userId: update.order.userId,
+                                status: update.order.status,
+                                products: update.order.products.map((product, i) => {
+                                    return {
+                                        _id: product._id,
+                                        name: product.name,
+                                        amount: product.amount
+                                    }})};
+                            setOrders([order,...orders]);
+                        }else if(update.type === 'update'){
+                            for(let i=0; i<updates.length; i++){
+                                let update = updates[i];
+                                let newOrderData = {
+                                    orderId: update.orderId,
+                                    status: update.status
+                                };
+                                let ordersCopy = [...orders];
+                                for(let j=0; j<ordersCopy.length; j++){
+                                    let order = ordersCopy[j];
+                                    if(order._id === newOrderData.orderId){
+                                        order.status = newOrderData.status;
+                                        break;
+                                    }
+                                }
+                                setOrders(ordersCopy)
+                            }
+                        }
+                    }
+                }catch(error){}
+            }
+        }
+    }, [orders]);
 
     return (
         <section id='my-orders'>
@@ -60,11 +110,6 @@ function MyOrders(props) {
 }
 
 function MyOrdersList(props) {
-    const [showPopupMenus, setShowPopupMenus] = useState(props.orders != undefined ? props.orders.map(() => false) : []);
-
-    const moreItems = [
-        {'name': 'Delete Order', 'onClick': null}
-    ];
 
     return (
         <div className='MyOrdersList'>
@@ -87,7 +132,7 @@ function MyOrdersList(props) {
                                     <td>{String(new Date(order.date))}</td>
                                     <td>{order.totalAmount + ' €'}</td>
                                     <td>
-                                        <ul class='DetailsList'>
+                                        <ul className='DetailsList'>
                                         {
                                             orderDetails.map((item, i) => <li className='button'>{item.amount} × {item.name}</li>)
                                         }

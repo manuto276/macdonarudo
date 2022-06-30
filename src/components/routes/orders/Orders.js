@@ -28,7 +28,9 @@ function Orders(props) {
         return result;
     }
 
-    const [refreshInterval, setRefreshInterval] = useState(null)
+    const [refreshInterval, setRefreshInterval] = useState(null);
+    const host = process.env.REACT_APP_API_HOST;
+    const [eventSource, setEventSource] = useState(null);
 
     const updateOrdersUI = () => getOrders().then((result) => {
         setOrders((oldOrders) => result);
@@ -37,12 +39,61 @@ function Orders(props) {
     useEffect(() => {
         const host = process.env.REACT_APP_API_HOST
         updateOrdersUI();
+        setEventSource(new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true}))
         // check orders every minute
-        const interval = setInterval(() => updateOrdersUI(), 30000);
+        /*const interval = setInterval(() => updateOrdersUI(), 30000);
         return () => {
             clearInterval(interval);
-        }
+        }*/
     }, []);
+
+    useEffect(() => {
+        
+        if(eventSource !== null){
+            eventSource.onmessage = (event) => {
+                try{
+                    const updates = JSON.parse(event.data);
+                    for(let i=0; i<updates.length; i++){
+                        let update = updates[i];
+                        
+                        if(update.type === 'new'){
+                            let order = {
+                                _id: update.order._id,
+                                date: update.order.date,
+                                totalAmount: update.order.totalAmount,
+                                userId: update.order.userId,
+                                status: update.order.status,
+                                products: update.order.products.map((product, i) => {
+                                    return {
+                                        _id: product._id,
+                                        name: product.name,
+                                        amount: product.amount
+                                    }})};
+                            setOrders([order,...orders]);
+                        }else if(update.type === 'update'){
+                            const updates = JSON.parse(event.data);
+                            for(let i=0; i<updates.length; i++){
+                                let update = updates[i];
+                                let newOrderData = {
+                                    orderId: update.orderId,
+                                    status: update.status
+                                };
+                                let ordersCopy = [...orders];
+                                for(let j=0; j<ordersCopy.length; j++){
+                                    let order = ordersCopy[j];
+                                    if(order._id === newOrderData.orderId){
+                                        order.status = newOrderData.status;
+                                        break;
+                                    }
+                                }
+                                setOrders(ordersCopy)
+                            }
+                        }
+                    }
+                }catch(error){}
+            }
+        }
+    }, [orders]);
 
 
     return (
@@ -70,12 +121,11 @@ function OrdersList(props) {
         axios.put(`http://${host}/api/orders/${orderId}`, {
             status: newStatus
         }, {withCredentials: true}).then((response) => {
-            updateUiCallback();
+            //updateUiCallback();
         }).catch((error) => {
             alert(error);
         });
     }
-
     
     
 
@@ -118,7 +168,7 @@ function OrdersList(props) {
                                     <td>{order.userId}</td>
                                     <td>{String(new Date(order.date))}</td>
                                     <td>
-                                        <ul class='DetailsList'>
+                                        <ul className='DetailsList'>
                                         {
                                             orderDetails.map((item, i) => <li className='button'>{item.amount} × {item.name}</li>)
                                         }
