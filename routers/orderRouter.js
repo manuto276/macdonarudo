@@ -7,7 +7,15 @@ const StrategyConfig = require('../auth/strategies.js')
 const Products = require('../models/Products')
 const router = Router()
 
-let sseConnections = [];
+
+// array that will contain all the SSE Connection objects
+/*
+SSE Connection object structure: 
+    {userId: req.user._id, role: req.user.role, updates: []}
+New order update structure:
+    {type: 'new' , order: (Order object), read: false}
+*/
+const sseConnections = [];
 
 
 // make an order with the current cart's products
@@ -17,6 +25,9 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
         console.log(`------\nActive SSE connections:\n${JSON.stringify(sseConnections)}\n------`);
         const userId = req.user.id
         let products = req.user.cart;
+        if(req.user.role === 'cook'){
+            res.status(401).send("Cooks can't make orders.");
+        }
         if(products.length === 0){
             res.status(400).send('Empty cart');
             return;
