@@ -32,7 +32,6 @@ function Transactions(props) {
         });
         setEventSource(new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true}));
         return () => {
-            eventSource.close();
         }
     }, []);
 

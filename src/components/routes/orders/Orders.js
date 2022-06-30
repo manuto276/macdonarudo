@@ -42,8 +42,6 @@ function Orders(props) {
         setEventSource(new EventSource(`http://${host}/api/orders/updates/`, {withCredentials: true}));
         setIsEventSourceActive(true)
         return () => {
-            eventSource.close();
-            setIsEventSourceActive(false);
         }
     }, []);
 
