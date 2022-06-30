@@ -63,7 +63,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
                 });
 
                 for(let i=0; i<sseConnections.length; i++){
-                    connection = sseConnections[i];
+                    let connection = sseConnections[i];
                     const update = {type: 'new', order: order, read: false};
                     if(connection.role === 'customer'){
                         // it has to be == not ===
@@ -104,7 +104,7 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
         await Orders.findByIdAndUpdate(req.params.orderid, {status: newStatus})
         
         for(let i=0; i<sseConnections.length; i++){
-            const connection = sseConnections[i];
+            let connection = sseConnections[i];
             const update = {type: 'update', orderId: req.params.orderid, status: newStatus, read: false};
             if(connection.role == 'customer'){
                 // it has to be == not ===
