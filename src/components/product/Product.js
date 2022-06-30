@@ -23,29 +23,31 @@ function Product(props) {
     return (
         <div className='Product'>
             <ProductHead icon={props.icon} name={props.name} price={props.price} />
-            <div className='QuantitySelector'>
-                <button className='Tertiary' onClick={() => {
-                    if (quantity === 1)
-                        return;
-                    setQuantity(quantity - 1);
-                }}>
-                    <SlideEffect height='1.5rem'><Remove /></SlideEffect>
-                </button>
-                <button className='Tertiary'>
-                    <SlideEffect className='button' height='1rem'>{quantity}</SlideEffect>
-                </button>
-                <button className='Tertiary' onClick={() => {
-                    if (quantity === 20)
-                        console.log('Man u fat');
-                    setQuantity(quantity + 1);
-                }}>
-                    <SlideEffect height='1.5rem'><Add /></SlideEffect>
-                </button>
-            </div>
             {authContextHook.role === 'customer' || authContextHook.role == null ?
-            <button id='addToCartButton' onClick={addToCart}>
-                <SlideEffect className='button' height='1rem'>Add to cart</SlideEffect>
-            </button>
+            <React.Fragment>
+                <div className='QuantitySelector'>
+                    <button className='Tertiary' onClick={() => {
+                        if (quantity === 1)
+                            return;
+                        setQuantity(quantity - 1);
+                    }}>
+                        <SlideEffect height='1.5rem'><Remove /></SlideEffect>
+                    </button>
+                    <button className='Tertiary'>
+                        <SlideEffect className='button' height='1rem'>{quantity}</SlideEffect>
+                    </button>
+                    <button className='Tertiary' onClick={() => {
+                        if (quantity === 20)
+                        setQuantity(quantity + 1);
+                    }}>
+                        <SlideEffect height='1.5rem'><Add /></SlideEffect>
+                    </button>
+                </div>
+                
+                <button id='addToCartButton' onClick={addToCart}>
+                    <SlideEffect className='button' height='1rem'>Add to cart</SlideEffect>
+                </button>
+            </React.Fragment>
             : null}
         </div>
     );
