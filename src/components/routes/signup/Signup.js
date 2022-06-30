@@ -71,7 +71,15 @@ function Signup(props) {
             // navigate to /user/login/ to allow the user to log in
             alert('Signup successful.');
             navigate('/user/login/');
-        }).catch((error) => alert('Error: ' + error));
+        }).catch((error) => {
+            if(error.response.data == 'underage'){
+                setErrorMessage('You must be at least 18 years old to register.');
+            }else if(error.response.data == 'email_used'){
+                setErrorMessage('Email already in use');
+            }else{
+                setErrorMessage(String(error));
+            }
+        });
     }
 
     return (
