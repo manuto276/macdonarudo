@@ -2,7 +2,6 @@ import './Transactions.css';
 
 import { NoTasks } from '../../states/notasks/NoTasks';
 import { StatusChip } from '../../statuschip/StatusChip';
-import { SpilledCupError } from '../../states/spilledcuperror/SpilledCupError';
 import { AuthContext } from '../../../App';
 import { useContext, useEffect, useState } from 'react';
 import { UnauthorizedPage } from '../../unauthorizedpage/UnauthorizedPage';

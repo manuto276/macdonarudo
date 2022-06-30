@@ -30,7 +30,6 @@ function Orders(props) {
         return result;
     }
 
-    const host = process.env.REACT_APP_API_HOST;
     const [eventSource, setEventSource] = useState(null);
 
     const updateOrdersUI = () => getOrders().then((result) => {
