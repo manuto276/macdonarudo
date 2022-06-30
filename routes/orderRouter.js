@@ -95,7 +95,7 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
     try{
         console.log(`------\n${sseConnections}\n------`);
         const newStatus = req.body.status
-        const order = await Orders.findById(req.params.orderid)
+        let order = await Orders.findById(req.params.orderid)
         const oldStatus = order.status;
         if(newStatus === 'rejected' && oldStatus === 'completed'){
             res.status(400).send(`Can't reject completed order.`);
