@@ -33,7 +33,8 @@ async function main() {
             city: 'Admin city',
             bdate: '0033-12-25',
             email: 'admin@macdonarudo',
-            password: process.env.ADMIN_PASSWORD
+            password: process.env.ADMIN_PASS,
+            role: 'admin'
         });
         await newAdmin.save((error, admin) => {
             if(error){

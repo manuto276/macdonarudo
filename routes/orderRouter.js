@@ -40,13 +40,14 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
                 products.splice(i, 1);
             }
         }
-        const order = new Orders({
-                totalAmount: totalAmount, 
-                userId: userId,
-                products: productsWithNames,
-                date: Date.now(),
-                status: 'pending'
-            })
+        let orderDoc = {
+            totalAmount: totalAmount.toFixed(2), 
+            userId: userId,
+            products: productsWithNames,
+            date: Date.now(),
+            status: 'pending'
+        }
+        const order = new Orders(orderDoc)
 
         await order.save(async (error, order) => {
             if(error){
@@ -60,6 +61,23 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
                     }
                     res.send(`Saved order ${order.id} for ${order.totalAmount}`);
                 });
+
+                for(let i=0; i<sseConnections.length; i++){
+                    connection = sseConnections[i];
+                    console.log(connection);
+                    const update = {type: 'new', order: order, read: false};
+                    if(connection.role === 'customer'){
+                        if(connection.userId === orderDoc.userId){
+                            connection.updates.push(update);
+                        }
+                    }else if(connection.role === 'cook'){
+                        if(update.status !== 'completed' || update.status !== 'rejected'){
+                            connection.updates.push(update);
+                        }
+                    }else{
+                        connection.updates.push(update);
+                    }
+                }
             }
         })
     }catch(error){
@@ -82,12 +100,23 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
         }
         await Orders.findByIdAndUpdate(req.params.orderid, {status: newStatus})
         
-        for(const connection in sseConnections){
-            if(connection.userId === req.user._id){
-                connection.updates.push({orderId: req.params.orderid, status: newStatus, read: false});
-                connection.updates = connection.updates.filter((update, i) => {
-                    return update.read === false;
-                });
+        for(let i=0; i<sseConnections.length; i++){
+            const connection = sseConnections[i];
+            console.log(connection);
+            const update = {type: 'update', orderId: req.params.orderid, status: newStatus, read: false};
+            if(connection.role === 'customer'){
+                if(connection.userId === req.user._id){
+                    connection.updates.push(update);
+
+                }
+            }else if(connection.role === 'cook'){
+                if(update.status !== 'completed' || update.status !== 'rejected'){
+                    connection.updates.push(update);
+
+                }
+            }else{
+                connection.updates.push(update);
+
             }
         }
         res.status(200).send('Ok')
@@ -106,17 +135,22 @@ router.get('/updates/', passport.authenticate('jwt', {session: false}), async (r
       });
     console.log('Set SSE.');
         
-    const sseConnection = {userId: req.user._id, updates: []}
+    const sseConnection = {userId: req.user._id, role: req.user.role, updates: []}
     sseConnections.push(sseConnection);
 
     const interval = setInterval(() => {
         const updatesToSend = [];
-        for(const update in sseConnection.updates){
+        for(let i=0; i<sseConnection.updates.length; i++){
+            const update = sseConnection.updates[i];
             update.read = true;
-            updatesToSend.push({orderId: update.orderId, status: update.status});
+            updatesToSend.push(update);
         }
+        sseConnection.updates = sseConnection.updates.filter((update, i) => {
+            return update.read === false;
+        })
         if(updatesToSend.length > 0){
-            res.write(`data: ${updatesToSend}\n\n`);
+            console.log(JSON.stringify(updatesToSend).replace(/\r?\n|\r/gm, ''));
+            res.write(`data: ${JSON.stringify(updatesToSend).replace(/\r?\n|\r/gm, '')}\n\n`);
         }
     }, 1000)
     
