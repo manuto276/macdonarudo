@@ -85,13 +85,14 @@ function Orders(props) {
                     }
                 }catch(error){}
             }
-        }
-        eventSource.onerror = (event) => {
-            if(event.eventPhase === EventSource.CLOSED){
-                eventSource.close();
-                alert('Connection lost.')
+            eventSource.onerror = (event) => {
+                if(event.eventPhase === EventSource.CLOSED){
+                    eventSource.close();
+                    alert('Connection lost.')
+                }
             }
         }
+        
     }, [orders]);
 
 
