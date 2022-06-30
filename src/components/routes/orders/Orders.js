@@ -5,7 +5,8 @@ import { MoreVert } from '../../icon/Icon';
 
 import { NoTasks } from '../../states/notasks/NoTasks';
 import { PopupMenu } from '../../popupmenu/PopupMenu';
-import { useContext, useEffect, useState, useNavigate } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { StatusChip } from '../../statuschip/StatusChip';
 import { AuthContext } from '../../../App';
 import { SpilledCupError } from '../../states/spilledcuperror/SpilledCupError';
