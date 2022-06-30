@@ -69,15 +69,17 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
                     if(connection.role === 'customer'){
                         // it has to be == not ===
                         if(String(connection.userId) === String(orderDoc.userId)){
-                            console.log('Pushed new order update to ' + req.user._id);
                             connection.updates.push(update);
+                            console.log(`Pushed new order update to ${connection.role} ${connection.userId}`);
                         }
                     }else if(connection.role === 'cook'){
                         if(update.status !== 'completed' || update.status !== 'rejected'){
                             connection.updates.push(update);
+                            console.log(`Pushed new order update to ${connection.role} ${connection.userId}`);
                         }
                     }else{
                         connection.updates.push(update);
+                        console.log(`Pushed new order update to ${connection.role} ${connection.userId}`);
                     }
                 }
             }
@@ -110,18 +112,17 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
             if(connection.role == 'customer'){
                 // it has to be == not ===, also String casting is required due to weird typing...
                 if(String(connection.userId) === String(order.userId)){
-                    console.log(`Pushed new status update to ${connection.userId}`);
                     connection.updates.push(update);
-
+                    console.log(`Pushed new status update to ${connection.role} ${connection.userId}`);
                 }
             }else if(connection.role === 'cook'){
                 if(update.status !== 'completed' || update.status !== 'rejected'){
                     connection.updates.push(update);
-
+                    console.log(`Pushed new status update to ${connection.role} ${connection.userId}`);
                 }
             }else{
                 connection.updates.push(update);
-
+                console.log(`Pushed new status update to ${connection.role} ${connection.userId}`);
             }
         }
         res.status(200).send('Ok')
