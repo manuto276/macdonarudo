@@ -30,7 +30,7 @@ function Menu(props) {
         <section id='menu'>
             <div className='Content'>
                 <hgroup>
-                    <h1>Explore<br/>Our Menu</h1>
+                    <h1 className='divideroo'>Explore<br/>Our Menu</h1>
                 </hgroup>
                 <ProductCategories activeIndex={category} onItemClick={(index) => setCategory(index)} />
                 {

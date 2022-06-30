@@ -39,6 +39,26 @@ h1 {
     font-weight: 300;
     letter-spacing: -1.5px;
 }
+
+h1.divideroo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+h1.divideroo::before {
+    flex: 1;
+    margin-right: 2rem;
+    content: '';
+    border-bottom: 1px solid var(--pale-silver);
+}
+
+h1.divideroo::after {
+    flex: 1;
+    margin-left: 2rem;
+    content: '';
+    border-bottom: 1px solid var(--pale-silver);
+}
   
 h2 {
     font-weight: 300;

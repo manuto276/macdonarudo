@@ -99,7 +99,7 @@ function MyOrders(props) {
             {authContextHook.role === 'customer' ?
                 <div className='Content'>
                     <hgroup>
-                        <h1>My Orders</h1>
+                        <h1 className='divideroo'>My Orders</h1>
                         <p>This is a list of all of your orders.</p>
                     </hgroup>
                     <MyOrdersList orders={orders}/>

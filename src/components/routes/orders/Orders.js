@@ -108,7 +108,7 @@ function Orders(props) {
             {authContextHook.role === 'cook' ?
                 <div className='Content'>
                     <hgroup>
-                        <h1>Orders List</h1>
+                        <h1 className='divideroo'>Orders List</h1>
                         <p>This is a list of all the created orders.<br/>You can accept an order, reject it or complete it.</p>
                     </hgroup>
                     <OrdersList isEventSourceActive={isEventSourceActive} refreshCallback={updateOrdersUI} orders={orders}/>

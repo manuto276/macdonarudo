@@ -96,7 +96,7 @@ function Transactions(props) {
             {authContextHook.role === 'admin' ?
                 <div className='Content'>
                     <hgroup>
-                        <h1>Transactions</h1>
+                        <h1 className='divideroo'>Transactions</h1>
                         <p>This is a list of all the orders that ever existed.</p>
                     </hgroup>
                     <TransactionsList transactions={transactions}/>
