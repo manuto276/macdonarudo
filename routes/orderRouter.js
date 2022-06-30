@@ -110,7 +110,7 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
                 // it has to be == not ===
                 console.log(connection);
                 console.log((`${order.userId} == ${connection.userId}`));
-                console.log(connection.userId == order.userId);
+                console.log(String(connection.userId) == String(order.userId));
                 if(connection.userId == order.userId){
                     console.log(`Pushed new status update to ${connection.userId}`);
                     connection.updates.push(update);
