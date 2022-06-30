@@ -69,7 +69,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
                     if(connection.role === 'customer'){
                         // it has to be == not ===
                         if(String(connection.userId) === String(orderDoc.userId)){
-                            console.log('Pushed new order update to ' + req.user.email);
+                            console.log('Pushed new order update to ' + req.user._id);
                             connection.updates.push(update);
                         }
                     }else if(connection.role === 'cook'){
@@ -133,7 +133,6 @@ router.put('/:orderid/', passport.authenticate('jwt', {session: false}), async (
 
 router.get('/updates/', passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log(`${req.method} ${req.originalUrl} from ${req.ip}`);
-    console.log(`------\nActive SSE connections:\n${JSON.stringify(sseConnections)}\n------`);
     res.set({
         'Cache-Control': 'no-cache',
         'Content-Type': 'text/event-stream',
@@ -142,7 +141,7 @@ router.get('/updates/', passport.authenticate('jwt', {session: false}), async (r
         
     const sseConnection = {userId: req.user._id, role: req.user.role, updates: []}
     sseConnections.push(sseConnection);
-
+    console.log(`------\nActive SSE connections:\n${JSON.stringify(sseConnections)}\n------`);
     const interval = setInterval(() => {
         const updatesToSend = [];
         for(let i=0; i<sseConnection.updates.length; i++){
