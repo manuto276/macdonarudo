@@ -136,7 +136,7 @@ function OrdersList(props) {
                 alert(error);
             });
         }else{
-            navigate('orders', {replace: true});
+            navigate('/orders', {replace: true});
         }
     }
     
