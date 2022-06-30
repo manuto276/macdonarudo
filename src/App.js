@@ -119,9 +119,9 @@ function App() {
               <Route path='/' element={ <Home /> } />
               <Route path='/menu' 
                 element={
-                <Menu onAddClick={() => {
+                <Menu onAddClick={(category) => {
                   setDialogVisible(true); 
-                  setDialogContent(<AddProductView onDismiss={dismissDialog} />)
+                  setDialogContent(<AddProductView category={category} onDismiss={dismissDialog} />)
                 }}
                 onEditClick={(id, name, category, price, icon) => {
                   setDialogVisible(true); 

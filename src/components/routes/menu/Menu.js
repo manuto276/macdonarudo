@@ -51,11 +51,6 @@ function Menu(props) {
                                         price={product.price} 
                                         onDelete={() => props.onDeleteClick(product._id, product.name)}
                                         onEdit={() => props.onEditClick(product._id, product.name, product.type, product.price, product.image)} />
-                                /*return <ProductItem 
-                                    product={product} 
-                                    isAdmin={isAdmin} 
-                                    refreshMenuCallback={authContextHook.getMenu}
-                                    onDelete={() => props.onDeleteClick(product._id, product.name)} />*/
                             }
                             return null;
                         }
@@ -63,7 +58,7 @@ function Menu(props) {
                     </div> : <NoProductsError />
                 }
                 {isAdmin ? 
-                    <FloatingActionButton id='addFoodButton' onClick={props.onAddClick}>
+                    <FloatingActionButton id='addFoodButton' onClick={props.onAddClick(category)}>
                         <SlideEffect height='1.5rem'>
                             <Add />
                         </SlideEffect>
