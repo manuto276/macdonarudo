@@ -8,11 +8,11 @@
     background-color: #263238;
 }
 
-.StatusChip.active {
+.StatusChip.accepted {
     background-color: #FFAB00;
 }
 
-.StatusChip.complete {
+.StatusChip.completed {
     background-color: #00C853;
 }
 
