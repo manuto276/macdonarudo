@@ -178,7 +178,7 @@ function OrdersList(props) {
                                         <StatusChip status={order.status} />
                                     </td>
                                     <td className='actions'>
-                                        {order.status !== 'rejected' && order.status !== 'complete' ? 
+                                        {order.status !== 'rejected' && order.status !== 'completed' ? 
                                             <Link onClick={() => setShowPopupMenus((oldShowMenus) => {
                                                 return oldShowMenus.map((value, index) => {
                                                     if(index === i){
@@ -192,7 +192,7 @@ function OrdersList(props) {
                                                     <MoreVert />
                                                 </SlideEffect>
                                             </Link> : null}
-                                        {order.status !== 'rejected' && order.status !== 'complete' ? 
+                                        {order.status !== 'rejected' && order.status !== 'completed' ? 
                                             <PopupMenu isVisible={showPopupMenus[i]} onDismiss={() => setShowPopupMenus((oldShowMenus) => {
                                                 return oldShowMenus.map((value, index) => {
                                                     return false;
